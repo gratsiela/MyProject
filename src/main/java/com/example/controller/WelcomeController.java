@@ -32,39 +32,57 @@ public class WelcomeController {
 	}
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
-	public String signUp(HttpServletRequest request, Model model) {
+	public String signUp(HttpServletRequest request,Model model) {
 		String firstName=request.getParameter("firstName");
 		String lastName=request.getParameter("lastName");
 		String nickname=request.getParameter("nickname");
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		if(signUpUser(firstName, lastName, nickname, email, password)){
+		User user= signUpUser(firstName, lastName, nickname, email, password);
+		if(user!=null){
+		model.addAttribute("loggedUser", user);
 		return "MainPage";}
 		return "SignUp";
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)
-	public String signIn() {
+	public String signIn(HttpServletRequest request) {
+		String email=request.getParameter("email");
+		String password=request.getParameter("password");
+		User user= signInUser(email, password);
+		if(user!=null){
+			return "MainPage";}
 		return "SignIn";
 	}
 	
-	public static boolean signUpUser(String firstName, String lastName,String nickname, String email, String password) {
+	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
 		DBUserDao dao = DBUserDao.getInstance();
 		List<User> users = null;
-
 		users = dao.getAllUsers();
 
+		User user=null;
+		
 		if (users != null) {
 			for (User u : users) {
 				if (u.getEmail().equals(email)) {
 					System.out.println("User with this email exists!");
-					return false;
+					return user;
 				}
 			}
 		}
 
-		User newUser = new User(firstName, lastName, nickname ,email, password);
-		dao.addUser(newUser);
-		return true;
+		user = new User(firstName, lastName, nickname ,email, password);
+		dao.addUser(user);
+		return user;
+	}
+	
+	private User signInUser(String email, String password){
+		User user=null;
+		for(User u:DBUserDao.getInstance().getAllUsers()){
+			if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
+				user=u;
+			}
+		}
+		return user;
 	}
 }

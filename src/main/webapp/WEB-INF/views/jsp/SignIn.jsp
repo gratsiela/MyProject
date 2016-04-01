@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form action="logIn" methodd="POST">
+	<form:form action="signIn" methodd="POST">
 		<div>
 			<label> email <span class="req">*</span>
 			</label> <input type="email" name="email" required autocomplete="off" />
