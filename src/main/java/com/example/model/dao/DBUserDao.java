@@ -24,26 +24,6 @@ public class DBUserDao{
 			instance = new DBUserDao();
 		return instance;
 	}
-	
-	public static boolean signUpUser(String firstName, String lastName,String nickname, String email, String password) {
-		DBUserDao dao = DBUserDao.getInstance();
-		List<User> users = null;
-
-		users = dao.getAllUsers();
-
-		if (users != null) {
-			for (User u : users) {
-				if (u.getEmail().equals(email)) {
-					System.out.println("User with this email exists!");
-					return false;
-				}
-			}
-		}
-
-		User newUser = new User(firstName, lastName, nickname ,email, password);
-		dao.addUser(newUser);
-		return true;
-	}
 
 	public boolean addUser(User x) {
 		boolean success = true;

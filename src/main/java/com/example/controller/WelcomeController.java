@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -36,13 +38,33 @@ public class WelcomeController {
 		String nickname=request.getParameter("nickname");
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		if(DBUserDao.signUpUser(firstName, lastName, nickname, email, password)){
+		if(signUpUser(firstName, lastName, nickname, email, password)){
 		return "MainPage";}
 		return "SignUp";
 	}
 	
-	@RequestMapping(value="/signIn",method = RequestMethod.GET)
+	@RequestMapping(value="/signIn",method = RequestMethod.POST)
 	public String signIn() {
 		return "SignIn";
+	}
+	
+	public static boolean signUpUser(String firstName, String lastName,String nickname, String email, String password) {
+		DBUserDao dao = DBUserDao.getInstance();
+		List<User> users = null;
+
+		users = dao.getAllUsers();
+
+		if (users != null) {
+			for (User u : users) {
+				if (u.getEmail().equals(email)) {
+					System.out.println("User with this email exists!");
+					return false;
+				}
+			}
+		}
+
+		User newUser = new User(firstName, lastName, nickname ,email, password);
+		dao.addUser(newUser);
+		return true;
 	}
 }
