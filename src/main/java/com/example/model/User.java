@@ -8,14 +8,14 @@ public class User {
 	private String email;
 	private String password;
 	private String selfDescription;
-	
-	
+
 	public User(String firstName, String lastName, String nickname, String email, String password) {// use this constructor to register
 		this.firstName=firstName;
 		this.lastName=lastName;
 		this.nickname=nickname;
 		this.email=email;
 		this.password=password;
+		
 	}
 	
 	public User(String firstName, String lastName, String nickname, String email, String password, String description){//use this constructor when want to visualize profile
@@ -43,6 +43,7 @@ public class User {
 		return password;
 	}
 	
+
 	public void setSelfDescription(String desc){
 		if(desc!=null)
 			this.selfDescription = desc;
