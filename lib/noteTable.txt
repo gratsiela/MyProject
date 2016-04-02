@@ -3,7 +3,7 @@ note_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 title VARCHAR(50) NOT NULL,
 content MEDIUMTEXT,
 date_time TIMESTAMP NOT NULL,
-status ENUM('private', 'public', 'friends'),
+status ENUM('Private', 'Public', 'Friends'),
 diary_id BIGINT,
 FOREIGN KEY(diary_id) REFERENCES diary.belejnik(diary_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
