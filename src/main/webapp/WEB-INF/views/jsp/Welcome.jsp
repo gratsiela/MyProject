@@ -10,15 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form:form action="goToSignIn" method="GET">
-		<div>
-			<input type="submit" value="sign in" />
-		</div>
-	</form:form>
-	<form:form action="goToSignUp" method="GET">
-		<div>
-			<input type="submit" value="sign up" />
-		</div>
-	</form:form>
+	<a href="signIn"><button>sign in</button></a>
+	<a href="signUp"><button>sign up</button></a>
 </body>
 </html>

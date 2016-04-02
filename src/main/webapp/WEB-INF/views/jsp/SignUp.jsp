@@ -39,7 +39,8 @@
 		</div>
 		<input type="submit" id="submit" value="sign up">
 	</form>
-	<script type="text/javascript"
+</body>
+<script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -54,5 +55,4 @@
 			});
 		});
 	</script>
-</body>
 </html>

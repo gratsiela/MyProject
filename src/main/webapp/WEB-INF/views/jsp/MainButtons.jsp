@@ -7,20 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="myProfile" method="GET">
-<input type="submit" value="My Profile">
-</form>
-<form action="myDiaries" method="GET">
-<input type="submit" value="My Diaries">
-</form>
-<form action="followed" method="GET">
-<input type="submit" value="FOLLOWED">
-</form>
-<form action="all" method="GET">
-<input type="submit" value="ALL">
-</form>
-<form action="logOut" method="GET">
-<input type="submit" value="log out">
-</form>
+	<a href="profile"><button>profile</button></a>
+	<a href="diaries"><button>diaries</button></a>
+	<a href="followed"><button>followed</button></a>
+	<a href="all"><button>all</button></a>
+	<a href="signOut"><button>sign out</button></a>
 </body>
 </html>

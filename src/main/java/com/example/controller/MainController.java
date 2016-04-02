@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-	@RequestMapping(value="/myProfile",method = RequestMethod.GET)
+	@RequestMapping(value="/profile",method = RequestMethod.GET)
 	public String myProfile() {
-		return "MyProfile";
+		return "Profile";
 	}
 	
-	@RequestMapping(value="/myDiaries",method = RequestMethod.GET)
+	@RequestMapping(value="/diaries",method = RequestMethod.GET)
 	public String myDiaries() {
-		return "MyDiaries";
+		return "Diaries";
 	}
 	
 	@RequestMapping(value="/followed",method = RequestMethod.GET)
@@ -23,7 +23,12 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/all",method = RequestMethod.GET)
-	public String wellcome() {
+	public String all() {
 		return "All";
+	}
+	
+	@RequestMapping(value="/signOut",method = RequestMethod.GET)
+	public String signOut() {
+		return "Welcome";
 	}
 }

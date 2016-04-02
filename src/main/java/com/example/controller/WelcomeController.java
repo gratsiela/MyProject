@@ -18,16 +18,16 @@ import com.example.model.dao.DBUserDao;
 public class WelcomeController {
 
 	@RequestMapping(value="/index",method = RequestMethod.GET)
-	public String wellcome() {
+	public String welcome() {
 		return "Welcome";
 	}	
 	
-	@RequestMapping(value="/goToSignUp",method = RequestMethod.GET)
+	@RequestMapping(value="/signUp",method = RequestMethod.GET)
 	public String goToSignUp() {
 		return "SignUp";
 	}
 	
-	@RequestMapping(value="/goToSignIn",method = RequestMethod.GET)
+	@RequestMapping(value="/signIn",method = RequestMethod.GET)
 	public String goToSignIn() {
 		return "SignIn";
 	}
