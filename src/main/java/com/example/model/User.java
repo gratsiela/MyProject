@@ -7,6 +7,7 @@ public class User {
 	private String nickname;
 	private String email;
 	private String password;
+	private String description;
 	
 	public User(String firstName, String lastName, String nickname, String email, String password) {
 		this.firstName=firstName;
@@ -14,6 +15,7 @@ public class User {
 		this.nickname=nickname;
 		this.email=email;
 		this.password=password;
+		this.description="";
 	}
 
 	public String getFirstName() {
@@ -34,5 +36,13 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	public String getDescription(){
+		return this.description;
+	}
+	
+	public void setDescription(String description){
+		this.description=description;
 	}
 }

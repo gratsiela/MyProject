@@ -8,16 +8,19 @@
 </head>
 <body>
 <form action="myProfile" method="GET">
-<input type="submit" name="My Profile">
+<input type="submit" value="My Profile">
 </form>
 <form action="myDiaries" method="GET">
 <input type="submit" value="My Diaries">
 </form>
 <form action="followed" method="GET">
-<input type="submit" name="FOLLOWED">
+<input type="submit" value="FOLLOWED">
 </form>
 <form action="all" method="GET">
 <input type="submit" value="ALL">
+</form>
+<form action="logOut" method="GET">
+<input type="submit" value="log out">
 </form>
 </body>
 </html>

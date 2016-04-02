@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,29 +41,36 @@ public class WelcomeController {
 		String password=request.getParameter("password");
 		User user= signUpUser(firstName, lastName, nickname, email, password);
 		if(user!=null){
-		model.addAttribute("loggedUser", user);
-		return "MainPage";}
+			System.out.println("NOT NULL");
+		model.addAttribute("signedUser", user);
+		return "Profile";}
 		return "SignUp";
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)
-	public String signIn(HttpServletRequest request) {
+	public String signIn(HttpServletRequest request,Model model) {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		User user= signInUser(email, password);
 		if(user!=null){
-			return "MainPage";}
+			model.addAttribute("signedUser", user);
+			return "Profile";}
 		return "SignIn";
 	}
 	
 	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
 		DBUserDao dao = DBUserDao.getInstance();
 		List<User> users = null;
-		users = dao.getAllUsers();
+		try {
+			users = dao.getAllUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		User user=null;
 		
-		if (users != null) {
+		if (!users.isEmpty()) {
 			for (User u : users) {
 				if (u.getEmail().equals(email)) {
 					System.out.println("User with this email exists!");
@@ -70,18 +78,24 @@ public class WelcomeController {
 				}
 			}
 		}
-
+		
 		user = new User(firstName, lastName, nickname ,email, password);
 		dao.addUser(user);
+
 		return user;
 	}
 	
 	private User signInUser(String email, String password){
 		User user=null;
-		for(User u:DBUserDao.getInstance().getAllUsers()){
-			if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
-				user=u;
+		try {
+			for(User u:DBUserDao.getInstance().getAllUsers()){
+				if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
+					user=u;
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return user;
 	}
