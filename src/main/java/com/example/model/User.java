@@ -7,13 +7,20 @@ public class User {
 	private String nickname;
 	private String email;
 	private String password;
+	private String selfDescription;
 	
-	public User(String firstName, String lastName, String nickname, String email, String password) {
+	
+	public User(String firstName, String lastName, String nickname, String email, String password) {// use this constructor to register
 		this.firstName=firstName;
 		this.lastName=lastName;
 		this.nickname=nickname;
 		this.email=email;
 		this.password=password;
+	}
+	
+	public User(String firstName, String lastName, String nickname, String email, String password, String description){//use this constructor when want to visualize profile
+		this(firstName, lastName, nickname, email, password);
+		setSelfDescription(description);
 	}
 
 	public String getFirstName() {
@@ -34,5 +41,16 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	public void setSelfDescription(String desc){
+		if(desc!=null)
+			this.selfDescription = desc;
+		else
+			this.selfDescription = "";
+	}
+	
+	public String getSelfDescription(){
+		return this.selfDescription;
 	}
 }
