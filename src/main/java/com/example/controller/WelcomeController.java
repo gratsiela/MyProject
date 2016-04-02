@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,30 +59,42 @@ public class WelcomeController {
 	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
 		DBUserDao dao = DBUserDao.getInstance();
 		List<User> users = null;
-		users = dao.getAllUsers();
+		try {
+			users = dao.getAllUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		User user=null;
 		
-		if (users != null) {
+		if (!users.isEmpty()) {
 			for (User u : users) {
 				if (u.getEmail().equals(email)) {
 					System.out.println("User with this email exists!");
-					return user;
+					
 				}
 			}
 		}
-
-		user = new User(firstName, lastName, nickname ,email, password);
-		dao.addUser(user);
+		else{
+			user = new User(firstName, lastName, nickname ,email, password);
+			dao.addUser(user);
+			
+		}
 		return user;
 	}
 	
 	private User signInUser(String email, String password){
 		User user=null;
-		for(User u:DBUserDao.getInstance().getAllUsers()){
-			if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
-				user=u;
+		try {
+			for(User u:DBUserDao.getInstance().getAllUsers()){
+				if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
+					user=u;
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return user;
 	}

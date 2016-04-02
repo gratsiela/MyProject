@@ -1,0 +1,7 @@
+CREATE TABLE diary.friends(
+email1 VARCHAR(50),
+email2 VARCHAR(50),
+PRIMARY KEY (email1, email2),
+FOREIGN KEY (email1) REFERENCES diary.user(user_email) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (email2) REFERENCES diary.user(user_email) ON DELETE CASCADE ON UPDATE CASCADE
+);
