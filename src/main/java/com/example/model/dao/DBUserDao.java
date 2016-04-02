@@ -32,7 +32,7 @@ public class DBUserDao{
 
 	public boolean addUser(User x){
 		boolean success = true;
-		String query = "INSERT INTO diary.user "
+		String query = "INSERT INTO diary.users "
 				+ "(user_email,first_name,last_name,nickname,pass)"
 				+ "VALUES (?, ?, ?, ?, ?);";
 	
@@ -41,7 +41,7 @@ public class DBUserDao{
 		try(PreparedStatement st = manager.getConnection().prepareStatement(query);){
 		//	con.setAutoCommit(false);
 			DatabaseMetaData dbm = con.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "user", null);
+			ResultSet tables = dbm.getTables(null, null, "users", null);
 			if (tables.next()) {
 			  // Table exists
 				System.out.println("table exists");
@@ -56,7 +56,7 @@ public class DBUserDao{
 			else {
 			  // Table does not exist
 				Statement stmt = con.createStatement();
-				String sql = "CREATE TABLE diary.user("+
+				String sql = "CREATE TABLE diary.users("+
 						"user_email VARCHAR(50) PRIMARY KEY,"+
 						"first_name VARCHAR(50) NOT NULL,"+
 						"last_name VARCHAR(50) NOT NULL,"+
@@ -80,6 +80,14 @@ public class DBUserDao{
 			System.out.println("Problem");
 			e.printStackTrace();
 		}
+		finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				System.out.println("The connection is already closed");
+				e.printStackTrace();
+			}
+		}
 
 		return success;
 	}
@@ -93,7 +101,7 @@ public class DBUserDao{
 		if (tables.next()) {
 		  // Table exists
 			try{
-				String query = "SELECT user_email,first_name,last_name,nickname,pass FROM diary.user;";
+				String query = "SELECT user_email,first_name,last_name,nickname,pass FROM diary.users;";
 				Statement st = con.createStatement();
 				ResultSet result = st.executeQuery(query);
 				
@@ -113,6 +121,98 @@ public class DBUserDao{
 				}	
 		}
 		return (ArrayList<User>) registeredUsers;
+	}
+	
+	//upload profilePicture method()
+	//update profilePicture method()
+	
+	//UPDATES METHODS
+	
+	//update firstName
+	boolean updateFirstName(User x, String newFirstName){
+		String query = "update diary.users set first_name = ? where user_email = ?;";
+		try{
+			Connection con = manager.getInstance().getConnection();
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, newFirstName);
+			stmt.setString(2, x.getEmail());
+			stmt.executeUpdate();
+			con.close();
+			return true;
+		}catch(SQLException e){
+			System.err.println("Problem with the firstName update");
+			// con.rollback();
+			return false;
+		}
+	}
+	
+	//update lastName
+	boolean updateLastName(User x, String newLastName){
+		String query = "update diary.users set last_name = ? where user_email = ?;";
+		try{
+			Connection con = manager.getInstance().getConnection();
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, newLastName);
+			stmt.setString(2, x.getEmail());
+			stmt.executeUpdate();
+			con.close();
+			return true;
+		}catch(SQLException e){
+			System.err.println("Problem with the lastName update");
+			// con.rollback();
+			return false;
+		}
+	}
+	
+	// update nickname
+	boolean updateNickname(User x, String newNickname){
+		String query = "update diary.users set nickname = ? where user_email = ?;";
+		
+		try(Connection con = manager.getInstance().getConnection()){
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, newNickname);
+			stmt.setString(2, x.getEmail());
+			stmt.executeUpdate();
+			return true;
+		}catch(SQLException e){
+			System.err.println("Problem with the nickname update");
+		// con.rollback();
+			return false;
+		}
+	}
+	
+	// update description
+	boolean updateSelfDescription(User x, String newDesc){
+		String query = "update diary.users set self_description = ? where user_email = ?;";
+		
+		try(Connection con = manager.getInstance().getConnection()){
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, newDesc);
+			stmt.setString(2, x.getEmail());
+			stmt.executeUpdate();
+			return true;
+		}catch(SQLException e){
+			System.err.println("Problem with the description update");
+		// con.rollback();
+			return false;
+		}
+	}
+	
+	//update password
+	boolean updatePassword(User x, String newPass){
+		String query = "update diary.users set pass = ? where user_email = ?;";
+		
+		try(Connection con = manager.getInstance().getConnection()){
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, newPass);
+			stmt.setString(2, x.getEmail());
+			stmt.executeUpdate();
+			return true;
+		}catch(SQLException e){
+			System.err.println("Problem with the password update");
+		// con.rollback();
+			return false;
+		}
 	}
 }
 
