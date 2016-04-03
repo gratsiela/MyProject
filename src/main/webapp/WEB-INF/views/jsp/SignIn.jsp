@@ -11,15 +11,10 @@
 </head>
 <body>
 	<form action="signIn" method="POST">
-		<div>
-			<label> email <span class="req">*</span>
-			</label> <input type="email" name="email" required autocomplete="off" />
-		</div>
-		<div>
-			<label> password <span class="req">*</span>
-			</label> <input type="password" name="password" required autocomplete="off"
-				id="password" />
-		</div>
+			email
+		<input type="email" name="email" required autocomplete="off" /><br>
+			password 
+		<input type="password" name="password" required autocomplete="off" /><br>
 		<input type="submit" value="sign in">
 	</form><br>
 	------------------------<br>

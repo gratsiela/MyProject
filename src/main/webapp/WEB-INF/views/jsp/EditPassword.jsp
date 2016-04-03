@@ -7,12 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="MainButtons.jsp" />
 <form action="savePassword" method="POST">
-			<label> Old Password <span class="req">*</span>
+ Old Password
  <input type="password" name="oldPassword" id="oldPassword" required autocomplete="off"><br>
- 			<label> New Password <span class="req">*</span>
+ New Password
  <input type="password" name="newPassword" id="newPassword" required autocomplete="off"><br>
- 			<label> Confirm New Password <span class="req">*</span>
+ Confirm New Password 
   <input type="password" name="confirmNewPassword" id="confirmNewPassword" required autocomplete="off"><br>
   <input type="submit" id="submit" value="save"><br>
 </form>

@@ -11,32 +11,20 @@
 </head>
 <body>
 	<form action="signUp" method="POST">
-		<div>
-			<label> first name <span class="req">*</span>
-			</label> <input type="text" name="firstName" required autocomplete="off" />
-		</div>
-		<div>
-			<label> last name <span class="req">*</span>
-			</label> <input type="text" name="lastName" required autocomplete="off" />
-		</div>
-		<div>
-			<label> nickname <span class="req">*</span>
-			</label> <input type="text" name="nickname" required autocomplete="off" />
-		</div>
-		<div>
-			<label> email <span class="req">*</span>
-			</label> <input type="email" name="email" required autocomplete="off" />
-		</div>
-		<div>
-			<label> password <span class="req">*</span>
-			</label> <input type="password" name="password" required autocomplete="off"
+		first name 
+		<input type="text" name="firstName" required autocomplete="off" />
+		last name 
+		<input type="text" name="lastName" required autocomplete="off" />
+		nickname 
+		<input type="text" name="nickname" required autocomplete="off" />
+		email  
+		<input type="email" name="email" required autocomplete="off" />
+		password 
+		<input type="password" name="password" required autocomplete="off"
 				id="password" />
-		</div>
-		<div>
-			<label> confirm password <span class="req">*</span>
-			</label> <input type="password" name="confirmPassword" required
+		confirm password 
+		<input type="password" name="confirmPassword" required
 				autocomplete="off" id="confirmPassword" />
-		</div>
 		<input type="submit" id="submit" value="sign up">
 	</form>
 </body>

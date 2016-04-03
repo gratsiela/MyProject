@@ -10,9 +10,9 @@
 	<jsp:include page="MainButtons.jsp" />
 	<br>
 	<form action="saveProfile" method="POST">
-		First Name <input type="text" value="${signedUser.firstName}" name="firstName"><br>
-		Last Name<input type="text" value="${signedUser.lastName}" name="lastName"><br>
-		Nickname<input type="text" value="${signedUser.nickname}" name="nickname"><br>
+		First Name <input type="text" value="${signedUser.firstName}" name="firstName" required autocomplete="off"><br>
+		Last Name<input type="text" value="${signedUser.lastName}" name="lastName" required autocomplete="off"><br>
+		Nickname<input type="text" value="${signedUser.nickname}" name="nickname" required autocomplete="off"><br>
 		Description <input type="text" value="${signedUser.selfDescription}" name="description"><br>
 		<input type="submit" value="save"><br>
 	</form>
@@ -21,6 +21,6 @@
 	<br>
 	<a href="editPassword"><button>edit password</button></a>
 	<br>
-	<a href="uploadPicture"><button>upload Picture</button></a>
+	<a href="changePicture"><button>change picture</button></a>
 </body>
 </html>

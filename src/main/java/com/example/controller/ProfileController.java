@@ -43,6 +43,17 @@ public class ProfileController {
 			return "EditPassword";
 		return "EditProfile";
 	}
+	
+	@RequestMapping(value = "/changePicture", method = RequestMethod.GET)
+	public String changePicture() {
+		return "ChangePicture";
+	}
+	
+	@RequestMapping(value = "/savePicture", method = RequestMethod.GET)
+	public String savePicture() {
+		// izvikvane na metod za zapazvane na snimkata
+		return "EditProfile";
+	}
 
 	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
 	// EditProfile
