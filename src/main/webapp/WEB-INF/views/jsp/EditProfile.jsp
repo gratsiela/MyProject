@@ -10,15 +10,17 @@
 	<jsp:include page="MainButtons.jsp" />
 	<br>
 	<form action="saveProfile" method="POST">
-		First Name <input type="text" value="" name="firstName"><br>
-		Last Name<input type="text" value="" name="lastName"><br>
-		Nickname<input type="text" value="" name="nickname"><br>
-		Description <input type="text" value="" name="description"><br>
+		First Name <input type="text" value="${signedUser.firstName}" name="firstName"><br>
+		Last Name<input type="text" value="${signedUser.lastName}" name="lastName"><br>
+		Nickname<input type="text" value="${signedUser.nickname}" name="nickname"><br>
+		Description <input type="text" value="${signedUser.selfDescription}" name="description"><br>
 		<input type="submit" value="save"><br>
 	</form>
 	<a href="profile"><button>cancel</button></a>
-	<br>
+	<br>-------------------------------
 	<br>
 	<a href="editPassword"><button>edit password</button></a>
+	<br>
+	<a href="uploadPicture"><button>upload Picture</button></a>
 </body>
 </html>

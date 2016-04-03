@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form action="signIn" methodd="POST">
+	<form action="signIn" method="POST">
 		<div>
 			<label> email <span class="req">*</span>
 			</label> <input type="email" name="email" required autocomplete="off" />
@@ -21,6 +21,9 @@
 				id="password" />
 		</div>
 		<input type="submit" value="sign in">
-	</form:form>
+	</form><br>
+	------------------------<br>
+	<a href="forgottenPassword">Forgotten password?</a>
+	
 </body>
 </html>

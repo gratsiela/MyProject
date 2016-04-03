@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,7 @@ public class WelcomeController {
 	}
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
-	public String signUp(HttpServletRequest request,Model model) {
+	public String signUp(HttpServletRequest request,HttpSession session,Model model) {
 		String firstName=request.getParameter("firstName");
 		String lastName=request.getParameter("lastName");
 		String nickname=request.getParameter("nickname");
@@ -42,17 +43,19 @@ public class WelcomeController {
 		User user= signUpUser(firstName, lastName, nickname, email, password);
 		if(user!=null){
 			System.out.println("NOT NULL");
+	session.setAttribute("signedUser", user);
 		model.addAttribute("signedUser", user);
 		return "Profile";}
 		return "SignUp";
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)
-	public String signIn(HttpServletRequest request,Model model) {
+	public String signIn(HttpServletRequest request,HttpSession session, Model model) {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		User user= signInUser(email, password);
 		if(user!=null){
+			session.setAttribute("signedUser", user);
 			model.addAttribute("signedUser", user);
 			return "Profile";}
 		return "SignIn";
@@ -79,7 +82,7 @@ public class WelcomeController {
 			}
 		}
 		
-		user = new User(firstName, lastName, nickname ,email, password);
+		user = new User(firstName, lastName, nickname ,email, password, "");
 		dao.addUser(user);
 
 		return user;
