@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.model.PasswordSender;
 import com.example.model.User;
 import com.example.model.dao.DBUserDao;
 
@@ -59,6 +60,20 @@ public class WelcomeController {
 			model.addAttribute("signedUser", user);
 			return "Profile";}
 		return "SignIn";
+	}
+	
+	@RequestMapping(value="/forgottenPassword",method = RequestMethod.GET)
+	public String forgottenPassword() {
+		return "ForgottenPassword";
+	}
+	
+	@RequestMapping(value="/sendForgottenPassword",method = RequestMethod.POST)
+	public String sendForgottenPassword(HttpServletRequest request) {
+		String email=request.getParameter("email");
+		if(PasswordSender.sendPassword(email)){
+			return "SignIn";
+		}
+		return "ForgottenPassword";
 	}
 	
 	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {

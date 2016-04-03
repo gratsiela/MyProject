@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.rowset.serial.SQLOutputImpl;
+
 import com.example.model.User;
 import com.example.model.db.DBManager;
 
@@ -137,7 +139,7 @@ public	boolean updateFirstName(User x, String newFirstName){
 			stmt.setString(1, newFirstName);
 			stmt.setString(2, x.getEmail());
 			stmt.executeUpdate();
-			//con.close(); // it breaks the code
+			stmt.close();
 			return true;
 		}catch(SQLException e){
 			System.err.println("Problem with the first name update");
@@ -155,7 +157,7 @@ public	boolean updateLastName(User x, String newLastName){
 		stmt.setString(1, newLastName);
 		stmt.setString(2, x.getEmail());
 		stmt.executeUpdate();
-		//con.close();
+		stmt.close();
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the last name update");
@@ -173,7 +175,7 @@ public	boolean updateNickname(User x, String newNickname){
 		stmt.setString(1, newNickname);
 		stmt.setString(2, x.getEmail());
 		stmt.executeUpdate();
-		//con.close();
+		stmt.close();
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the nickname update");
@@ -191,7 +193,7 @@ public	boolean updateSelfDescription(User x, String newSelfDescription){
 		stmt.setString(1, newSelfDescription);
 		stmt.setString(2, x.getEmail());
 		stmt.executeUpdate();
-		//con.close();
+		stmt.close();
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the self description update");
@@ -209,12 +211,32 @@ public	boolean updatePassword(User x, String newPassword){
 		stmt.setString(1, newPassword);
 		stmt.setString(2, x.getEmail());
 		stmt.executeUpdate();
-		//con.close();
+		stmt.close();
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the password update");
 		// con.rollback();
 		return false;
+	}
+}
+
+public String getPassword(String email){
+	String query="SELECT pass from diary.users where user_email = ?;";
+	try{
+	Connection con=manager.getConnection();
+	PreparedStatement stmt=con.prepareStatement(query);
+	stmt.setString(1, email);
+	ResultSet rs=stmt.executeQuery();
+	if(rs == null){
+		stmt.close();				
+		return null;
+	}
+	rs.next();
+	String password=rs.getString("pass");
+	return password;
+	}catch(SQLException e){
+		System.out.println("Problem with getting password");
+		return null;
 	}
 }
 }
