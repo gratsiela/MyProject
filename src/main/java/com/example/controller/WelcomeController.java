@@ -34,6 +34,7 @@ public class WelcomeController {
 		return "SignIn";
 	}
 	
+	// TODO DA KRIPTIRAME PAROLATA
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
 	public String signUp(HttpServletRequest request,HttpSession session,Model model) {
 		String firstName=request.getParameter("firstName");
@@ -43,7 +44,6 @@ public class WelcomeController {
 		String password=request.getParameter("password");
 		User user= signUpUser(firstName, lastName, nickname, email, password);
 		if(user!=null){
-			System.out.println("NOT NULL");
 	session.setAttribute("signedUser", user);
 		model.addAttribute("signedUser", user);
 		return "Profile";}

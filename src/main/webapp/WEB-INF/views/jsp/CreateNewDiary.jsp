@@ -8,10 +8,12 @@
 </head>
 <body>
 	<jsp:include page="MainButtons.jsp" />
-<form action="savePicture" method="POST" enctype="multipart/form-data">
-<input type="file" name="picture" required autocomplete="off"/><br>
-<input type="submit" value="save"><br>
-</form>
-<a href="editProfile"><button>cancel</button></a>
+	<br>
+	<form action="createNewDiary" method="POST">
+	Create new diary:<br>
+	name of the diary<input type="text" name="newDiaryName" required autocomplete="off"><br> 
+	<input type="submit" value="create diary"><br>
+	</form>
+	<a href="dieries"><button>cancel</button></button></a>
 </body>
 </html>

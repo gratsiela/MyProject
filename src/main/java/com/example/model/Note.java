@@ -8,7 +8,7 @@ public class Note {
 	private enum Status{Private, Public, Friends};//start with upper case because private and public are keywords
 	private Status status;
 	private LocalDateTime dateTime;
-	private long id;
+	private Long id;
 	
 	public Note(String title, String content, Status status) {// when create note
 		this.title = title;
@@ -17,7 +17,7 @@ public class Note {
 		this.dateTime = LocalDateTime.now();
 	}
 	
-	public Note(String title, String content, Status status, long id){// when take note from the database
+	public Note(String title, String content, Status status, Long id){// when take note from the database
 		this(title, content, status);
 		this.id = id;
 	}
@@ -49,6 +49,27 @@ public class Note {
 	public long getId() {
 		return id;
 	}
+
+	public void setTitle(String title) {
+		if(title!=null){
+		this.title = title;}
+	}
+
+	public void setStatus(Status status) {
+		if(status!=null){
+		this.status = status;}
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		if(dateTime!=null){
+		this.dateTime = dateTime;}
+	}
+
+	public void setId(Long id) {
+		if(id!=null){
+		this.id = id;}
+	}
+	
 	
 	
 }
