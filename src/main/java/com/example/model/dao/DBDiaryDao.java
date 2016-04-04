@@ -23,13 +23,17 @@ public class DBDiaryDao {
 	}
 	
 	public boolean addDiary(User x, String diaryName){
-		String query="INSERT INTO diaty.belejnik (name,user_email) VALUES (?,?);";
-		Connection con=manager.getInstance().getConnection();
+		String query="INSERT INTO diary.belejnik (name,user_email) VALUES (?,?);";
 		
-		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+		try{
+			PreparedStatement ps=manager.getConnection().prepareStatement(query);
+			System.out.println(1);
 		ps.setString(1, diaryName);
+		System.out.println(2);
 		ps.setString(2, x.getEmail());
+		System.out.println(3);
 		ps.execute();
+		System.out.println(4);
 		}catch(SQLException e){
 			System.out.println("Problem with addDiary()!");
 			return false;

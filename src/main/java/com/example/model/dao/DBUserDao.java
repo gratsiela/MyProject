@@ -99,7 +99,7 @@ public class DBUserDao{
 		Connection con = manager.getConnection();
 		DatabaseMetaData dbm = con.getMetaData();
 		// check if "user" table is there
-		ResultSet tables = dbm.getTables(null, null, "user", null);
+		ResultSet tables = dbm.getTables(null, null, "users", null);
 		if (tables.next()) {
 		  // Table exists
 			try{
