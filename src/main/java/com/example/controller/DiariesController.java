@@ -1,6 +1,9 @@
 package com.example.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.plaf.basic.BasicDesktopIconUI;
 
@@ -20,13 +23,11 @@ public class DiariesController {
 	}
 
 	@RequestMapping(value = "/createNewDiary", method = RequestMethod.POST)
-	public String createNewDiary(HttpServletRequest request, HttpSession session) {
+	public String createNewDiary(HttpServletRequest request,HttpServletResponse response, HttpSession session) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		String newDiaryName=request.getParameter("newDiaryName");
 		DBDiaryDao dao=DBDiaryDao.getInstance();
-		if(dao.addDiary(signedUser, newDiaryName)){
-			return "Diaries";
-		}
-		return "CreateNewDiary";
+		dao.addDiary(signedUser, newDiaryName);
+        return "redirect:/diaries";
 	}
 }

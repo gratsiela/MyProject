@@ -1,8 +1,17 @@
 package com.example.controller;
 
+import java.util.TreeSet;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.example.model.Diary;
+import com.example.model.User;
+import com.example.model.dao.DBDiaryDao;
 
 @Controller
 public class MainController {
@@ -13,7 +22,11 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/diaries",method = RequestMethod.GET)
-	public String myDiaries() {
+	public String myDiaries(HttpSession session,Model model) {
+		User signedUser=(User) session.getAttribute("signedUser");
+		DBDiaryDao dao=DBDiaryDao.getInstance();
+		TreeSet<Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+		model.addAttribute("signedUserDiaries", signedUserDiaries);
 		return "Diaries";
 	}
 	
