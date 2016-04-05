@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.TreeMap;
+
 public class User {
 
 	private String firstName;
@@ -8,6 +10,7 @@ public class User {
 	private String email;
 	private String password;
 	private String selfDescription;
+	private TreeMap <String, Diary> diaries;
 
 //	public User(String firstName, String lastName, String nickname, String email, String password) {// use this constructor to register
 //		this.firstName=firstName;
@@ -24,6 +27,7 @@ setNickname(nickname);
 setEmail(email);
 setPassword(password);		
 setSelfDescription(description);
+this.diaries=new TreeMap<String,Diary>();
 	}
 
 	public String getFirstName() {
@@ -79,6 +83,15 @@ setSelfDescription(description);
 	public void setPassword(String password) {
 		if(firstName!=null){
 		this.password = password;}
+	}
+
+	public TreeMap<String, Diary> getDiaries() {
+		return diaries;
+	}
+
+	public void setDiaries(TreeMap<String, Diary> diaries) {
+		if(diaries!=null){
+		this.diaries = diaries;}
 	}
 	
 	

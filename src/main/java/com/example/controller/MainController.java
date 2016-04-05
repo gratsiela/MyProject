@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
@@ -25,8 +26,9 @@ public class MainController {
 	public String myDiaries(HttpSession session,Model model) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBDiaryDao dao=DBDiaryDao.getInstance();
-		TreeSet<Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
-		model.addAttribute("signedUserDiaries", signedUserDiaries);
+		TreeMap<String,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+		signedUser.setDiaries(signedUserDiaries);
+		model.addAttribute("signedUser", signedUser);
 		return "Diaries";
 	}
 	

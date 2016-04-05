@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
+import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.neo4j.cypher.internal.compiler.v2_1.perty.docbuilders.simpleDocBuilder;
 
 import com.example.model.Diary;
 import com.example.model.User;
@@ -26,15 +29,8 @@ public class DBDiaryDao {
 		return instance;
 	}
 	
-	public TreeSet<Diary> getAllDiaries(User x){
-		TreeSet<Diary> diaries=new TreeSet<Diary>(new Comparator<Diary>() {
-			
-			@Override
-			public int compare(Diary d1, Diary d2) {
-				return d1.getName().compareTo(d2.getName());
-			}
-
-		});
+	public TreeMap<String,Diary> getAllDiaries(User x){
+		TreeMap<String,Diary> diaries=new TreeMap<String,Diary>();
 		String query="SELECT name, diary_id FROM diary.belejnik where user_email = ?;";
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, x.getEmail());
@@ -46,7 +42,7 @@ public class DBDiaryDao {
 			
 			while(rs.next()){
 				Diary diary= new Diary(rs.getString("name"), x, rs.getLong("diary_id"));
-				diaries.add(diary);
+				diaries.put(diary.getName(),diary);
 			}
 		}
 		catch(SQLException e){
@@ -59,17 +55,26 @@ public class DBDiaryDao {
 		String query="INSERT INTO diary.belejnik (name,user_email) VALUES (?,?);";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
-			System.out.println(1);
 		ps.setString(1, diaryName);
-		System.out.println(2);
 		ps.setString(2, x.getEmail());
-		System.out.println(3);
-		ps.execute();
-		System.out.println(4);
+		ps.executeUpdate();
 		}catch(SQLException e){
 			System.out.println("Problem with addDiary()!");
 			return false;
 		}
 		return true;	
+	}
+	
+	public boolean deleteDiary(Long diaryID){
+		String query="DELETE FROM diary.belejnik WHERE diary_id = ?;";
+		
+		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+			ps.setLong(1, diaryID);
+			ps.executeUpdate();
+		}catch(SQLException e){
+			System.out.println("Problem with deleteDiary()!");
+			return false;
+		}
+		return true;
 	}
 }
