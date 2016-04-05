@@ -9,6 +9,7 @@ public class Note {
 	private String status;
 	private Date dateTime;
 	private Long id;
+	private User author;
 	
 	public Note(String title, String content, String status) {// when create note
 setTitle(title);		
@@ -17,10 +18,11 @@ setContent(content);
 		this.dateTime = new Date();
 	}
 	
-	public Note(String title, String content, String status,  Date dateTime,Long id){// when take note from the database
+	public Note(String title, String content, String status,  Date dateTime,Long id,User author){// when take note from the database
 		this(title, content, status);
 		this.dateTime=dateTime;
 		this.id = id;
+		this.author=author;
 	}
 	
 	void setContent(String content){

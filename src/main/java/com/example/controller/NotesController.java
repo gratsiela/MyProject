@@ -59,10 +59,6 @@ public class NotesController {
 		Note currentNote=(Note) session.getAttribute("currentNote");
 		DBNoteDao dao= DBNoteDao.getInstance();
 		dao.deleteNote(currentNote);
-		
-		//Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-		
-	//	request.setAttribute("currentDiaryName", currentDiary.getName());
 		return "forward:diary";
 	}
 	

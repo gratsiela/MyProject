@@ -24,7 +24,7 @@
 		${entry.key}
 		<input type="submit" value="read">
 		<input type="hidden" value="${entry.key}" name="currentNoteTitle">
-		<br>___
+		<br>______________________________
 		</form>
 </c:forEach>
 </form>

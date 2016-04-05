@@ -10,7 +10,7 @@
 	<a href="profile"><button>profile</button></a>
 	<a href="diaries"><button>diaries</button></a>
 	<a href="followed"><button>followed</button></a>
-	<a href="all"><button>all</button></a>
+	<a href="allPublicNotes"><button>all</button></a>
 	<a href="signOut"><button>sign out</button></a>
 </body>
 </html>

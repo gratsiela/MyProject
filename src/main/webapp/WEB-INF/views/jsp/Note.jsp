@@ -8,7 +8,7 @@
 </head>
 <body>
 <jsp:include page="MainButtons.jsp" />
-<br>---------------------------------
+<br>---------------------------------<br>
 <a href="deleteNote"><button>delete note</button></a>
 <br>
 <br>

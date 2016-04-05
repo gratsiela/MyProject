@@ -45,22 +45,14 @@ public class DiariesController {
 		String currentDiaryName=request.getParameter("currentDiaryName");
 		User signedUser=(User) session.getAttribute("signedUser");
 		Diary currentDiary=signedUser.getDiaries().get(currentDiaryName);
-		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(currentDiary);
-		currentDiary.setNotes(currentDiaryNotes);
-		model.addAttribute("currentDiary", currentDiary);
-		session.setAttribute("currentDiary",currentDiary);
+		fillCurrentDiary(currentDiary,model,session);
 		return "Diary";
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
 	public String diaryPOST(HttpServletRequest request,Model model, HttpSession session) {
 		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(currentDiary);
-		currentDiary.setNotes(currentDiaryNotes);
-		model.addAttribute("currentDiary", currentDiary);
-		session.setAttribute("currentDiary",currentDiary);
+		fillCurrentDiary(currentDiary,model,session);
 		return "Diary";
 	}
 	
@@ -83,5 +75,14 @@ public class DiariesController {
 			return true;
 		}
 		return false;
+	}
+	
+	private void fillCurrentDiary(Diary currentDiary, Model model,HttpSession session){
+		User signedUser=(User) session.getAttribute("signedUser");
+		DBNoteDao dao=DBNoteDao.getInstance();
+		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(signedUser,currentDiary);
+		currentDiary.setNotes(currentDiaryNotes);
+		model.addAttribute("currentDiary", currentDiary);
+		session.setAttribute("currentDiary",currentDiary);
 	}
 }

@@ -4,12 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import com.example.model.Diary;
 import com.example.model.Note;
+import com.example.model.User;
 import com.example.model.db.DBManager;
 
 public class DBNoteDao {
@@ -27,7 +30,7 @@ public class DBNoteDao {
 		return instance;
 	}
 	
-	public TreeMap<String,Note> getAllNotes(Diary diary){
+	public TreeMap<String,Note> getAllNotes(User user,Diary diary){
 		TreeMap<String,Note> notes= new TreeMap<String,Note>();
 		String query="SELECT note_id, title, content, date_time, status FROM diary.note WHERE diary_id = ?;";
 		
@@ -36,12 +39,11 @@ public class DBNoteDao {
 			ResultSet rs=ps.executeQuery();
 			
 			if(rs==null){
-				System.out.println("NULL");
 				return notes;
 			}
 			
 			while(rs.next()){
-				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"),rs.getLong("note_id"));
+				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"),rs.getLong("note_id"), user);
 				notes.put(note.getTitle(), note);
 			}
 		}catch(SQLException e){
@@ -78,5 +80,41 @@ public class DBNoteDao {
 			return false;
 		}
 		return true;
+	}
+	
+	public TreeSet<Note> getAllPublicNotes(User user){
+		TreeSet<Note> allPublicNotes=new TreeSet<Note>(new Comparator<Note>() {
+
+			@Override
+			public int compare(Note o1, Note o2) {
+				if(o1.getDateTime().compareTo(o2.getDateTime())==0){
+					return o1.getTitle().compareTo(o2.getTitle());
+				}
+				return o1.getDateTime().compareTo(o2.getDateTime());
+			}
+		});
+		String query="SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.user_email, users.first_name, users.last_name,users.nickname,users.self_description FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE users.user_email != ?;";
+	
+		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+			System.out.println(1);
+			ps.setString(1, user.getEmail());
+			System.out.println(2);
+			ResultSet rs=ps.executeQuery();
+			System.out.println(3);
+			if(rs==null){
+				return allPublicNotes;
+			}
+			System.out.println(4);
+			while(rs.next()){
+				System.out.println(5);
+				User author=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), "", rs.getString("self_description"));
+				System.out.println(6);
+				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), author);
+				allPublicNotes.add(note);
+			}
+		}catch(SQLException e){
+			System.out.println("Problem with getAllPublicNotes()!");
+		}
+		return allPublicNotes;
 	}
 }

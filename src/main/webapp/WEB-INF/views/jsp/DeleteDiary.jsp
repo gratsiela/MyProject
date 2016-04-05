@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="MainButtons.jsp" />
+<br>
 Are you sure you want to delete this diary?<br>
 <form action="deleteDiary" method="POST">
 <input type="submit" value="yes">
