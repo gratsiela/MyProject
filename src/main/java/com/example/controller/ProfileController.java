@@ -1,11 +1,30 @@
 package com.example.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.model.User;
 import com.example.model.dao.DBUserDao;
@@ -13,6 +32,11 @@ import com.example.model.dao.DBUserDao;
 @Controller
 public class ProfileController {
 
+	static int numForFilename = 1;
+	private static final String DATA_DIRECTORY = "profilePictures";
+    private static final int MAX_MEMORY_SIZE = 1024 * 1024 * 2;
+    private static final int MAX_REQUEST_SIZE = 1024 * 1024;
+    
 	@RequestMapping(value = "/editProfile", method = RequestMethod.GET)
 	public String editProfile() {
 		return "EditProfile";
@@ -49,12 +73,10 @@ public class ProfileController {
 		return "ChangePicture";
 	}
 	
-	@RequestMapping(value = "/savePicture", method = RequestMethod.GET)
-	public String savePicture() {
-		// izvikvane na metod za zapazvane na snimkata
-		return "EditProfile";
-	}
-
+	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	public @ResponseBody String savePicture(){  
+		return "SavedPicture";
+	}  
 	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
 	// EditProfile
 	// userat se preprashta na stranica Profile i tam shte se vizualizirat
@@ -62,21 +84,11 @@ public class ProfileController {
 	private void updateUserProfile(User signedUser, String newFirstName, String newLastName, String newNickname,
 			String newDescription) {
 		DBUserDao dao = DBUserDao.getInstance();
-		if (!signedUser.getFirstName().equals(newFirstName)) {
-			if (dao.updateFirstName(signedUser, newFirstName))
-				signedUser.setFirstName(newFirstName);
-		}
-		if (!signedUser.getLastName().equals(newLastName)) {
-			if (dao.updateLastName(signedUser, newLastName))
-				signedUser.setLastName(newLastName);
-		}
-		if (!signedUser.getNickname().equals(newNickname)) {
-			if (dao.updateNickname(signedUser, newNickname))
-				signedUser.setNickname(newNickname);
-		}
-		if (!signedUser.getSelfDescription().equals(newDescription)) {
-			if (dao.updateSelfDescription(signedUser, newDescription))
-				signedUser.setSelfDescription(newDescription);
+		if(dao.updateProfile(signedUser, newFirstName, newLastName, newNickname, newDescription)){
+			signedUser.setFirstName(newFirstName);
+			signedUser.setLastName(newLastName);
+			signedUser.setNickname(newNickname);
+			signedUser.setSelfDescription(newDescription);
 		}
 	}
 

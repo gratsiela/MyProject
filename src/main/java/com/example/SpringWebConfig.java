@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.example")
+@ComponentScan("com.example")//ako preimenuvame paketa, trqbva i tova da smenim
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	
     @Override
