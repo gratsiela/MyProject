@@ -7,10 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="profile"><button>profile</button></a>
-	<a href="diaries"><button>diaries</button></a>
-	<a href="followed"><button>followed</button></a>
-	<a href="allPublicNotes"><button>all</button></a>
-	<a href="signOut"><button>sign out</button></a>
+<jsp:include page="MainButtons.jsp" />
+<br>
+Are you sure you want to delete this note?<br>
+<form action="deleteNote" method="POST">
+<input type="submit" value="yes">
+</form>
+<form action="note" method="GET">
+<input type="submit" value="no">
+<input type="hidden" value="${currentNote.title}" name="currentNoteTitle">
+</form>
 </body>
 </html>

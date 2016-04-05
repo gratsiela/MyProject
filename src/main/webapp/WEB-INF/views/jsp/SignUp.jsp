@@ -12,19 +12,19 @@
 <body>
 	<form action="signUp" method="POST">
 		first name 
-		<input type="text" name="firstName" required autocomplete="off" />
+		<input type="text" name="firstName" required autocomplete="off" /><br>
 		last name 
-		<input type="text" name="lastName" required autocomplete="off" />
+		<input type="text" name="lastName" required autocomplete="off" /><br>
 		nickname 
-		<input type="text" name="nickname" required autocomplete="off" />
+		<input type="text" name="nickname" required autocomplete="off" /><br>
 		email  
-		<input type="email" name="email" required autocomplete="off" />
+		<input type="email" name="email" required autocomplete="off" /><br>
 		password 
 		<input type="password" name="password" required autocomplete="off"
-				id="password" />
+				id="password" /><br>
 		confirm password 
 		<input type="password" name="confirmPassword" required
-				autocomplete="off" id="confirmPassword" />
+				autocomplete="off" id="confirmPassword" /><br>
 		<input type="submit" id="submit" value="sign up">
 	</form>
 </body>

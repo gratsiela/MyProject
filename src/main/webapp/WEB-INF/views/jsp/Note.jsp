@@ -7,10 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="profile"><button>profile</button></a>
-	<a href="diaries"><button>diaries</button></a>
-	<a href="followed"><button>followed</button></a>
-	<a href="allPublicNotes"><button>all</button></a>
-	<a href="signOut"><button>sign out</button></a>
+<jsp:include page="MainButtons.jsp" />
+<br>---------------------------------<br>
+<a href="deleteNote"><button>delete note</button></a>
+<br>
+<br>
+<h2>${currentNote.title}</h2>
+${currentNote.dateTime}
+<p>${currentNote.content}</p>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.model.PasswordSender;
 import com.example.model.User;
 import com.example.model.dao.DBUserDao;
 
@@ -33,6 +34,7 @@ public class WelcomeController {
 		return "SignIn";
 	}
 	
+	// TODO DA KRIPTIRAME PAROLATA
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
 	public String signUp(HttpServletRequest request,HttpSession session,Model model) {
 		String firstName=request.getParameter("firstName");
@@ -42,7 +44,6 @@ public class WelcomeController {
 		String password=request.getParameter("password");
 		User user= signUpUser(firstName, lastName, nickname, email, password);
 		if(user!=null){
-			System.out.println("NOT NULL");
 	session.setAttribute("signedUser", user);
 		model.addAttribute("signedUser", user);
 		return "Profile";}
@@ -59,6 +60,20 @@ public class WelcomeController {
 			model.addAttribute("signedUser", user);
 			return "Profile";}
 		return "SignIn";
+	}
+	
+	@RequestMapping(value="/forgottenPassword",method = RequestMethod.GET)
+	public String forgottenPassword() {
+		return "ForgottenPassword";
+	}
+	
+	@RequestMapping(value="/sendForgottenPassword",method = RequestMethod.POST)
+	public String sendForgottenPassword(HttpServletRequest request) {
+		String email=request.getParameter("email");
+		if(PasswordSender.sendPassword(email)){
+			return "SignIn";
+		}
+		return "ForgottenPassword";
 	}
 	
 	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
@@ -97,7 +112,6 @@ public class WelcomeController {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return user;

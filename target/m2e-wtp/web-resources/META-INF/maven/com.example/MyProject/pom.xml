@@ -52,6 +52,7 @@
 		<artifactId>mysql-connector-java</artifactId>
 		<version>5.1.9</version>
 	</dependency>
+
 	
 	<dependency>
 		<groupId>commons-fileupload</groupId>
@@ -65,6 +66,34 @@
 	<version>2.4</version>
 </dependency>
 	
+
+	    <!-- Java Mail API -->
+    <dependency>
+	    <groupId>javax.mail</groupId>
+	    <artifactId>mail</artifactId>
+	    <version>1.4.3</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.scala-lang</groupId>
+    	<artifactId>scala-library</artifactId>
+    	<version>2.11.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.scala-lang</groupId>
+    	<artifactId>scala-library</artifactId>
+    	<version>2.11.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.neo4j</groupId>
+    	<artifactId>neo4j-cypher-compiler-2.1</artifactId>
+    	<version>2.1.8</version>
+    </dependency>
+    <dependency>
+    	<groupId>ca.juliusdavies</groupId>
+    	<artifactId>not-yet-commons-ssl</artifactId>
+    	<version>0.3.9</version>
+    </dependency>
+
 	</dependencies>
 
 	<build>

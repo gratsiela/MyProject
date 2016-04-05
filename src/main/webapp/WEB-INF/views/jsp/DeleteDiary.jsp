@@ -7,10 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="profile"><button>profile</button></a>
-	<a href="diaries"><button>diaries</button></a>
-	<a href="followed"><button>followed</button></a>
-	<a href="allPublicNotes"><button>all</button></a>
-	<a href="signOut"><button>sign out</button></a>
+<jsp:include page="MainButtons.jsp" />
+<br>
+Are you sure you want to delete this diary?<br>
+<form action="deleteDiary" method="POST">
+<input type="submit" value="yes">
+</form>
+<form action="diary" method="GET">
+<input type="submit" value="no">
+<input type="hidden" value="${currentDiary.name}" name="currentDiaryName">
+</form>
 </body>
 </html>

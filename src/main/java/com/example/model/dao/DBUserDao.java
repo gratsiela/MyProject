@@ -12,9 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.Part;
-
+import javax.sql.rowset.serial.SQLOutputImpl;
 import com.example.model.User;
 import com.example.model.db.DBManager;
 
@@ -100,7 +99,7 @@ public class DBUserDao{
 		Connection con = manager.getConnection();
 		DatabaseMetaData dbm = con.getMetaData();
 		// check if "user" table is there
-		ResultSet tables = dbm.getTables(null, null, "user", null);
+		ResultSet tables = dbm.getTables(null, null, "users", null);
 		if (tables.next()) {
 		  // Table exists
 			try{
@@ -171,7 +170,7 @@ public	boolean updateProfile(User x, String newFirstName,String newLastName, Str
 			stmt.setString(4, newSelfDescription);
 			stmt.setString(5, x.getEmail());
 			stmt.executeUpdate();
-			//con.close(); // it breaks the code
+			stmt.close();
 			return true;
 		}catch(SQLException e){
 			System.err.println("Problem with the first name update");
@@ -179,8 +178,7 @@ public	boolean updateProfile(User x, String newFirstName,String newLastName, Str
 			return false;
 		}
 	}
-	
-	//update password
+//update password
 public	boolean updatePassword(User x, String newPassword){
 	String query = "update diary.users set pass = ? where user_email = ?;";
 	try{
@@ -189,12 +187,32 @@ public	boolean updatePassword(User x, String newPassword){
 		stmt.setString(1, newPassword);
 		stmt.setString(2, x.getEmail());
 		stmt.executeUpdate();
-		//con.close();
+		stmt.close();
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the password update");
 		// con.rollback();
 		return false;
+	}
+}
+
+public String getPassword(String email){
+	String query="SELECT pass from diary.users where user_email = ?;";
+	try{
+	Connection con=manager.getConnection();
+	PreparedStatement stmt=con.prepareStatement(query);
+	stmt.setString(1, email);
+	ResultSet rs=stmt.executeQuery();
+	if(rs == null){
+		stmt.close();				
+		return null;
+	}
+	rs.next();
+	String password=rs.getString("pass");
+	return password;
+	}catch(SQLException e){
+		System.out.println("Problem with getting password");
+		return null;
 	}
 }
 }

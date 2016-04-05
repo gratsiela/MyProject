@@ -7,10 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="profile"><button>profile</button></a>
-	<a href="diaries"><button>diaries</button></a>
-	<a href="followed"><button>followed</button></a>
-	<a href="allPublicNotes"><button>all</button></a>
-	<a href="signOut"><button>sign out</button></a>
+	<jsp:include page="MainButtons.jsp" />
+	<br>
+	<form action="createNewDiary" method="POST">
+	Create new diary:<br>
+	name of the diary<input type="text" name="newDiaryName" required autocomplete="off"><br> 
+	<input type="submit" value="create diary"><br>
+	</form>
+	<a href="dieries"><button>cancel</button></button></a>
 </body>
 </html>

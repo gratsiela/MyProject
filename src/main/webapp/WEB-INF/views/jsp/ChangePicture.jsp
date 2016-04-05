@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="MainButtons.jsp" />
 <form action="savePicture" method="POST" enctype="multipart/form-data">
 <input type="file" name="picture" required autocomplete="off"/><br>
 <input type="submit" value="save"><br>
