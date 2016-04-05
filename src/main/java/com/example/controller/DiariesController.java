@@ -55,9 +55,7 @@ public class DiariesController {
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
 	public String diaryPOST(HttpServletRequest request,Model model, HttpSession session) {
-		String currentDiaryName=(String) request.getAttribute("currentDiaryName");
-		User signedUser=(User) session.getAttribute("signedUser");
-		Diary currentDiary=signedUser.getDiaries().get(currentDiaryName);
+		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 		DBNoteDao dao=DBNoteDao.getInstance();
 		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(currentDiary);
 		currentDiary.setNotes(currentDiaryNotes);

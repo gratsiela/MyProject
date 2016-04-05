@@ -36,7 +36,7 @@ public class NotesController {
 			DBNoteDao dao=DBNoteDao.getInstance();
 			dao.addNote(currentDiary, newNote);
 		}
-		return "Diary";
+		return "forward:diary";
 	}
 	
 	@RequestMapping(value = "/note", method = RequestMethod.GET)
@@ -60,9 +60,9 @@ public class NotesController {
 		DBNoteDao dao= DBNoteDao.getInstance();
 		dao.deleteNote(currentNote);
 		
-		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
+		//Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 		
-		request.setAttribute("currentDiaryName", currentDiary.getName());
+	//	request.setAttribute("currentDiaryName", currentDiary.getName());
 		return "forward:diary";
 	}
 	
