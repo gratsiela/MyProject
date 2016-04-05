@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.model.Diary;
+import com.example.model.Note;
 import com.example.model.User;
 import com.example.model.dao.DBDiaryDao;
+import com.example.model.dao.DBNoteDao;
 
 import scala.annotation.meta.setter;
 
@@ -39,10 +41,26 @@ public class DiariesController {
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.GET)
-	public String diary(HttpServletRequest request,Model model, HttpSession session) {
+	public String diaryGET(HttpServletRequest request,Model model, HttpSession session) {
 		String currentDiaryName=request.getParameter("currentDiaryName");
 		User signedUser=(User) session.getAttribute("signedUser");
 		Diary currentDiary=signedUser.getDiaries().get(currentDiaryName);
+		DBNoteDao dao=DBNoteDao.getInstance();
+		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(currentDiary);
+		currentDiary.setNotes(currentDiaryNotes);
+		model.addAttribute("currentDiary", currentDiary);
+		session.setAttribute("currentDiary",currentDiary);
+		return "Diary";
+	}
+	
+	@RequestMapping(value = "/diary", method = RequestMethod.POST)
+	public String diaryPOST(HttpServletRequest request,Model model, HttpSession session) {
+		String currentDiaryName=(String) request.getAttribute("currentDiaryName");
+		User signedUser=(User) session.getAttribute("signedUser");
+		Diary currentDiary=signedUser.getDiaries().get(currentDiaryName);
+		DBNoteDao dao=DBNoteDao.getInstance();
+		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(currentDiary);
+		currentDiary.setNotes(currentDiaryNotes);
 		model.addAttribute("currentDiary", currentDiary);
 		session.setAttribute("currentDiary",currentDiary);
 		return "Diary";

@@ -1,24 +1,25 @@
 package com.example.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Note {
 	private String title;
 	private String content;
 	private enum Status{Private, Public, Friends};//start with upper case because private and public are keywords
-	private Status status;
-	private LocalDateTime dateTime;
+	private String status;
+	private Date dateTime;
 	private Long id;
 	
-	public Note(String title, String content, Status status) {// when create note
-		this.title = title;
-		setContent(content);
+	public Note(String title, String content, String status) {// when create note
+setTitle(title);		
+setContent(content);
 		this.status = status;
-		this.dateTime = LocalDateTime.now();
+		this.dateTime = new Date();
 	}
 	
-	public Note(String title, String content, Status status, Long id){// when take note from the database
+	public Note(String title, String content, String status,  Date dateTime,Long id){// when take note from the database
 		this(title, content, status);
+		this.dateTime=dateTime;
 		this.id = id;
 	}
 	
@@ -38,11 +39,11 @@ public class Note {
 		return content;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public LocalDateTime getDateTime() {
+	public Date getDateTime() {
 		return dateTime;
 	}
 
@@ -53,21 +54,22 @@ public class Note {
 	public void setTitle(String title) {
 		if(title!=null){
 		this.title = title;}
+		else this.title="";
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		if(status!=null){
 		this.status = status;}
+		else this.status="private";
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(Date dateTime) {
 		if(dateTime!=null){
 		this.dateTime = dateTime;}
 	}
 
 	public void setId(Long id) {
-		if(id!=null){
-		this.id = id;}
+		this.id = id;
 	}
 	
 	

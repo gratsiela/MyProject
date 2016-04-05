@@ -1,18 +1,18 @@
 package com.example.model;
 
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 public class Diary {
 
 	private String name;
 	private User author;
-	private TreeSet<Note> notes;
+	private TreeMap<String,Note> notes;
 	private Long id;
 	
 	public Diary(String name, User author, long id) {
 		this.name=name;
 		this.author=author;
-		notes=new TreeSet<>();
+		notes=new TreeMap<String,Note>();
 		this.id=id;
 	}
 
@@ -33,9 +33,15 @@ public class Diary {
 		if(author!=null){
 		this.author = author;}
 	}
-
-	public TreeSet<Note> getNotes() {
+	
+	public TreeMap<String,Note> getNotes() {
 		return notes;
+	}
+	
+	public void setNotes(TreeMap<String,Note> notes){
+		if(notes!=null){
+			this.notes=notes;
+		}
 	}
 
 	public Long getId() {

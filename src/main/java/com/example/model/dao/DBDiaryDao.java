@@ -31,7 +31,8 @@ public class DBDiaryDao {
 	
 	public TreeMap<String,Diary> getAllDiaries(User x){
 		TreeMap<String,Diary> diaries=new TreeMap<String,Diary>();
-		String query="SELECT name, diary_id FROM diary.belejnik where user_email = ?;";
+		String query="SELECT diary_id, name FROM diary.belejnik where user_email = ?;";
+		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, x.getEmail());
 			ResultSet rs=ps.executeQuery();
