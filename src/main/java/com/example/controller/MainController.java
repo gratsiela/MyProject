@@ -34,16 +34,19 @@ public class MainController {
 		return "Diaries";
 	}
 	
-	@RequestMapping(value="/followed",method = RequestMethod.GET)
-	public String followed() {
-		return "Followed";
+	@RequestMapping(value="/followedUsersPublicNotes",method = RequestMethod.GET)
+	public String goToFollowedUsersPublicNotes(Model model,HttpSession session) {
+		User signedUser=(User) session.getAttribute("signedUser");
+		DBNoteDao dao= DBNoteDao.getInstance();
+		TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+		return "FollowedUsersPublicNotes";
 	}
 	
 	@RequestMapping(value = "/allPublicNotes", method = RequestMethod.GET)
-	public String goToCreateNewDiary(Model model, HttpSession session) {
+	public String goToAllPublicNotes(Model model, HttpSession session) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeSet<Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
+		TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
 		model.addAttribute("allPublicNotes",allPublicNotes);
 		return "AllPublicNotes";
 	}

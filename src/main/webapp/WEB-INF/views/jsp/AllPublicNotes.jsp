@@ -10,13 +10,18 @@
 <body>
 <jsp:include page="MainButtons.jsp" />
 <br>---------------------------------<br>
-<c:forEach items="${allPublicNotes}" var="note">
-		<form action="publicNote" method="GET">
-		${note.title}
-		<input type="submit" value="read">
-		<input type="hidden" value="${note.id}" name="currentNoteID">
-		<br>______________________________
+<table border="1">
+<c:forEach items="${allPublicNotes}" var="entry">
+<tr>
+		<form action="readPublicNote" method="GET">
+		<td>${entry.value.dateTime}</td>
+		<td>${entry.value.author}</td>
+		<td>${entry.value.title}</td>
+		<td><input type="submit" value="read"><td>
+		<input type="hidden" value="${entry.key}" name="currentPublicNoteID">
 		</form>
+</tr>
 </c:forEach>
+</table>
 </body>
 </html>

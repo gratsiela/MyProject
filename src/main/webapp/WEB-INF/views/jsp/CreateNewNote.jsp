@@ -21,6 +21,8 @@
 	</select><br>
 	<input type="submit" value="create note">
 	</form>
-	<a href="diary"><button>cancel</button></a>
+	<form action="diary" method="POST">
+	<input type="submit" value="cancel";>
+	</form>
 </body>
 </html>

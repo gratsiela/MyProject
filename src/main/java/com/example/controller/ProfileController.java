@@ -24,6 +24,7 @@ public class ProfileController {
 		String lastName = request.getParameter("lastName");
 		String nickname = request.getParameter("nickname");
 		String description = request.getParameter("description");
+		System.out.println(description);
 		User signedUser = (User) session.getAttribute("signedUser");
 		updateUserProfile(signedUser, firstName, lastName, nickname, description);
 		return "Profile";
@@ -75,6 +76,8 @@ public class ProfileController {
 				signedUser.setNickname(newNickname);
 		}
 		if (!signedUser.getSelfDescription().equals(newDescription)) {
+			System.out.println(newDescription);
+			System.out.println(signedUser.getEmail());
 			if (dao.updateSelfDescription(signedUser, newDescription))
 				signedUser.setSelfDescription(newDescription);
 		}

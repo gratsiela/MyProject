@@ -19,6 +19,9 @@
 	</form><br>
 	------------------------<br>
 	<a href="forgottenPassword">Forgotten password?</a>
+	<br>
+	------------------------<br>
+	<a href="index"><button>cancel</button></a>
 	
 </body>
 </html>

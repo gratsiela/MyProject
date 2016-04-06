@@ -19,6 +19,7 @@
 <form action="createNewNote" method="get">
 <input type="submit" value="create new note">
 <br>---------------------------------<br>
+</form>
 <c:forEach items="${currentDiary.notes}" var="entry">
 		<form action="note" method="GET">
 		${entry.key}
@@ -27,6 +28,5 @@
 		<br>______________________________
 		</form>
 </c:forEach>
-</form>
 </body>
 </html>
