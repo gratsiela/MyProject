@@ -57,6 +57,7 @@ public class WelcomeController {
 		User user= signInUser(email, password);
 		if(user!=null){
 			session.setAttribute("signedUser", user);
+			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
 			model.addAttribute("signedUser", user);
 			return "Profile";}
 		return "SignIn";
@@ -97,7 +98,7 @@ public class WelcomeController {
 			}
 		}
 		
-		user = new User(firstName, lastName, nickname ,email, password, "");
+		user = new User(firstName, lastName, nickname ,email, password);
 		dao.addUser(user);
 
 		return user;

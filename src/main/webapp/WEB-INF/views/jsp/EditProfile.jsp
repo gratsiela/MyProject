@@ -21,6 +21,8 @@
 	<br>
 	<a href="editPassword"><button>edit password</button></a>
 	<br>
-	<a href="changePicture"><button>change picture</button></a>
+	<form action="singleUpload" method="GET">
+		<input type="submit" name="button" value="Change photo" >
+	</form>
 </body>
 </html>

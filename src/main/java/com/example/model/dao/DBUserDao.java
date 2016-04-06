@@ -65,7 +65,7 @@ public class DBUserDao{
 						"nickname VARCHAR(50) NOT NULL,"+
 						"pass VARCHAR(30) NOT NULL,"+
 						"self_description TEXT,"+
-						"photo LONGBLOB);";
+						"photo TEXT);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created table user in given database...");
 				st.setString(1, x.getEmail());
@@ -103,7 +103,7 @@ public class DBUserDao{
 		if (tables.next()) {
 		  // Table exists
 			try{
-				String query = "SELECT user_email,first_name,last_name,nickname,pass, self_description FROM diary.users;";
+				String query = "SELECT user_email,first_name,last_name,nickname,pass, self_description, photo FROM diary.users;";
 				Statement st = con.createStatement();
 				ResultSet result = st.executeQuery(query);
 				
@@ -113,7 +113,7 @@ public class DBUserDao{
 				}
 				while(result.next()){
 					User u = new User(result.getString("first_name"), result.getString("last_name"),result.getString("nickname"),				
-							result.getString("user_email"), result.getString("pass"), result.getString("pass"));
+							result.getString("user_email"), result.getString("pass"), result.getString("pass"), result.getString("photo"));
 						registeredUsers.add(u);
 					}
 				
@@ -128,22 +128,21 @@ public class DBUserDao{
 	//upload profilePicture method()
 	
 	//update profilePicture method()
-	public	boolean updateProfilePicture(User x, Part picture){
+	public	boolean updateProfilePicture(String userEmail, String location){
 		String query = "update diary.users set photo = ? where user_email = ?;";
 		Connection con = null;
 		try{
 			
 			con = manager.getConnection();
-			InputStream inputStream = picture.getInputStream();
 			PreparedStatement stmt = con.prepareStatement(query);
-			stmt.setBlob(1, inputStream);
-			stmt.setString(2, x.getEmail());
+			stmt.setString(1, location);
+			stmt.setString(2, userEmail);
 			stmt.executeUpdate();
 		
 			stmt.close();
 		
 			return true;	
-		}catch(SQLException | IOException e) {
+		}catch(SQLException e) {
 			System.out.println("Picture uploading failed!");
 
 			try {
@@ -155,6 +154,26 @@ public class DBUserDao{
 			return false;
 		}
 		
+	}
+	
+	public String getProfilePicture(User x){
+		String query = "SELECT photo FROM diary.users WHERE user_email = ?;";
+		try{
+			Connection con=manager.getConnection();
+			PreparedStatement stmt=con.prepareStatement(query);
+			stmt.setString(1, x.getEmail());
+			ResultSet rs=stmt.executeQuery();
+			if(rs == null){
+				stmt.close();				
+				return null;
+			}
+			rs.next();
+			String photoURL=rs.getString("photo");
+			return photoURL;
+			}catch(SQLException e){
+				System.out.println("Problem with getting photo");
+				return null;
+			}
 	}
 	//UPDATES METHODS
 	

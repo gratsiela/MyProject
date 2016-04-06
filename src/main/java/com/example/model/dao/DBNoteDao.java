@@ -93,7 +93,7 @@ public class DBNoteDao {
 				return o1.getDateTime().compareTo(o2.getDateTime());
 			}
 		});
-		String query="SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.user_email, users.first_name, users.last_name,users.nickname,users.self_description FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE users.user_email != ?;";
+		String query="SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.user_email, users.first_name, users.last_name,users.nickname,users.self_description, users.photo FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE users.user_email != ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			System.out.println(1);
@@ -107,7 +107,7 @@ public class DBNoteDao {
 			System.out.println(4);
 			while(rs.next()){
 				System.out.println(5);
-				User author=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), "", rs.getString("self_description"));
+				User author=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), "", rs.getString("self_description"), rs.getString("photo"));
 				System.out.println(6);
 				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), author);
 				allPublicNotes.add(note);
