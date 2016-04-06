@@ -15,7 +15,7 @@
 	<br>----------------------
 	<br>photo:
 	<h2>PHOTO HERE</h2>
-	<img src="${signedUser.photoURL}" width="100" height="100">
+	<img alt = "image" src="${signedUser.photoURL}"> 
 	<br>----------------------
 	<br>description:
 	<h2>${signedUser.selfDescription}</h2>

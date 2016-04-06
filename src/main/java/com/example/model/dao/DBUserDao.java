@@ -41,12 +41,6 @@ public class DBUserDao{
 		Connection con = manager.getInstance().getConnection();
 		
 		try(PreparedStatement st = manager.getConnection().prepareStatement(query);){
-		//	con.setAutoCommit(false);
-			DatabaseMetaData dbm = con.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "users", null);
-			if (tables.next()) {
-			  // Table exists
-				System.out.println("table exists");
 				st.setString(1, x.getEmail());
 				st.setString(2, x.getFirstName());
 				st.setString(3, x.getLastName());
@@ -54,41 +48,11 @@ public class DBUserDao{
 				st.setString(5, x.getPassword());
 				st.execute();
 				System.out.println("Successfully added!");
-			}
-			else {
-			  // Table does not exist
-				Statement stmt = con.createStatement();
-				String sql = "CREATE TABLE diary.users("+
-						"user_email VARCHAR(50) PRIMARY KEY,"+
-						"first_name VARCHAR(50) NOT NULL,"+
-						"last_name VARCHAR(50) NOT NULL,"+
-						"nickname VARCHAR(50) NOT NULL,"+
-						"pass VARCHAR(30) NOT NULL,"+
-						"self_description TEXT,"+
-						"photo TEXT);";
-				stmt.executeUpdate(sql);
-				System.out.println("Created table user in given database...");
-				st.setString(1, x.getEmail());
-				st.setString(2, x.getFirstName());
-				st.setString(3, x.getLastName());
-				st.setString(4, x.getNickname());
-				st.setString(5, x.getPassword());
-				st.execute();
-				System.out.println("Successfully added");
-			}
 		
 		} catch (SQLException e) {
 			success = false;
 			System.out.println("Problem");
 			e.printStackTrace();
-		}
-		finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				System.out.println("The connection is already closed");
-				e.printStackTrace();
-			}
 		}
 
 		return success;

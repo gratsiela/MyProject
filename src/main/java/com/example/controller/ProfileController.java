@@ -95,7 +95,6 @@ public class ProfileController {
 	
 	 @RequestMapping(value = "/singleUpload", method = RequestMethod.GET)
 	    public String getSingleUploadPage(ModelMap model) {
-		 System.out.println("aaaaaaaaaaaaaaaaaaaaa");
 	        FileBucket fileModel = new FileBucket();
 	        model.addAttribute("fileBucket", fileModel);
 	        return "ChangePicture";
@@ -117,9 +116,8 @@ public class ProfileController {
 	            System.out.println(UPLOAD_LOCATION );
 	            
 	            String file = (String) request.getSession().getAttribute("email");
-	            String location = UPLOAD_LOCATION +"/"+file+".png"; 
-	            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File( location));
-	            DBUserDao.getInstance().updateProfilePicture(file, location);
+	            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File(UPLOAD_LOCATION+File.separator +file+".png"));
+	            DBUserDao.getInstance().updateProfilePicture(file, UPLOAD_LOCATION+File.separator +file+".png");
 	            String fileName = multipartFile.getOriginalFilename();
 	            model.addAttribute("fileName", fileName);
 	            return "success";
