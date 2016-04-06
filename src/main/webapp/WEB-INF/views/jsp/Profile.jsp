@@ -15,7 +15,7 @@
 	<br>----------------------
 	<br>photo:
 	<h2>PHOTO HERE</h2>
-	<img alt = "image" src="${signedUser.photoURL}"> 
+	<img alt = "image" src="<c:url value = ${signedUser.photoURL}/>"/>
 	<br>----------------------
 	<br>description:
 	<h2>${signedUser.selfDescription}</h2>
