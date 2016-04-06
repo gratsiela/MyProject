@@ -10,23 +10,25 @@ public class User {
 	private String email;
 	private String password;
 	private String selfDescription;
+	private String photoURL;
 	private TreeMap <String, Diary> diaries;
 
-//	public User(String firstName, String lastName, String nickname, String email, String password) {// use this constructor to register
-//		this.firstName=firstName;
-//		this.lastName=lastName;
-//		this.nickname=nickname;
-//		this.email=email;
-//		this.password=password;
-//	}
+	public User(String firstName, String lastName, String nickname, String email, String password) {// use this constructor to register
+		this.firstName=firstName;
+		this.lastName=lastName;
+		this.nickname=nickname;
+		this.email=email;
+		this.password=password;
+	}
 	
-	public User(String firstName, String lastName, String nickname, String email, String password, String description){//use this constructor when want to visualize profile
+	public User(String firstName, String lastName, String nickname, String email, String password, String description, String photo){//use this constructor when want to visualize profile
 setFirstName(firstName);
 setLastName(lastName);
 setNickname(nickname);
 setEmail(email);
 setPassword(password);		
 setSelfDescription(description);
+setPhotoURL(photo);
 this.diaries=new TreeMap<String,Diary>();
 	}
 
@@ -60,6 +62,14 @@ this.diaries=new TreeMap<String,Diary>();
 		return this.selfDescription;
 	}
 
+	public void setPhotoURL(String photo){
+		if(photo!=null){
+			this.photoURL = photo;}
+	}
+	
+	public String getPhotoURL(){
+		return this.photoURL;
+	}
 	public void setFirstName(String firstName) {
 		if(firstName!=null){
 		this.firstName = firstName;}

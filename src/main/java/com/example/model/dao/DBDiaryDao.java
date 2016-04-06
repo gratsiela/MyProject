@@ -31,7 +31,7 @@ public class DBDiaryDao {
 	
 	public TreeMap<String,Diary> getAllDiaries(User x){
 		TreeMap<String,Diary> diaries=new TreeMap<String,Diary>();
-		String query="SELECT diary_id, name FROM diary.belejnik where user_email = ?;";
+		String query="SELECT diary_id, name FROM diary.diaries where user_email = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, x.getEmail());
@@ -53,7 +53,7 @@ public class DBDiaryDao {
 	}
 	
 	public boolean addDiary(User x, String diaryName){
-		String query="INSERT INTO diary.belejnik (name,user_email) VALUES (?,?);";
+		String query="INSERT INTO diary.diaries (name,user_email) VALUES (?,?);";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 		ps.setString(1, diaryName);
@@ -67,7 +67,7 @@ public class DBDiaryDao {
 	}
 	
 	public boolean deleteDiary(Long diaryID){
-		String query="DELETE FROM diary.belejnik WHERE diary_id = ?;";
+		String query="DELETE FROM diary.diaries WHERE diary_id = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setLong(1, diaryID);

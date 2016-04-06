@@ -36,7 +36,7 @@ public class DBNoteDao {
 	
 	public TreeMap<String,Note> getAllNotes(User user,Diary diary){
 		TreeMap<String,Note> notes= new TreeMap<String,Note>();
-		String query="SELECT note_id, title, content, date_time, status FROM diary.note WHERE diary_id = ?;";
+		String query="SELECT note_id, title, content, date_time, status FROM diary.notes WHERE diary_id = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setLong(1, diary.getId());
@@ -57,7 +57,7 @@ public class DBNoteDao {
 	}
 	
 	public boolean addNote(Diary diary, Note note){
-		String query="INSERT INTO diary.note (title, content, date_time, status, diary_id) VALUES (?,?,?,?,?);";
+		String query="INSERT INTO diary.notes (title, content, date_time, status, diary_id) VALUES (?,?,?,?,?);";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, note.getTitle());
@@ -74,7 +74,7 @@ public class DBNoteDao {
 	}
 	
 	public boolean deleteNote(Note note){
-		String query="DELETE FROM diary.note WHERE note_id = ?;";
+		String query="DELETE FROM diary.notes WHERE note_id = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setLong(1, note.getId());
@@ -94,7 +94,7 @@ public class DBNoteDao {
 				return (arg1.compareTo(arg0));
 			}});
 		
-		String query="SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.nickname FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE note.status = ? AND users.user_email != ?;";
+		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.status = ? AND users.user_email != ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, "public");
@@ -114,7 +114,7 @@ public class DBNoteDao {
 	}
 	
 	public Note getPublicNote(Long noteID){
-		String query =" SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.nickname FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE note.note_id = ?;";
+		String query =" SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.note_id = ?;";
 		Note note=null;
 		try(PreparedStatement ps= manager.getConnection().prepareStatement(query)){
 			ps.setLong(1,noteID);
@@ -142,7 +142,7 @@ public class DBNoteDao {
 				return (arg1.compareTo(arg0));
 			}});
 		
-		String query="SELECT note.note_id, note.title, note.content, note.date_time, note.status, users.nickname FROM diary.note JOIN  diary.belejnik ON (note.diary_id=belejnik.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE note.status = ? AND users.user_email != ?;";
+		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.note JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE note.status = ? AND users.user_email != ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, "public");
