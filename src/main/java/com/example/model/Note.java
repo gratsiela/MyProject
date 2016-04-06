@@ -9,7 +9,7 @@ public class Note {
 	private String status;
 	private Date dateTime;
 	private Long id;
-	private User author;
+	private String authorNickname;
 	
 	public Note(String title, String content, String status) {// when create note
 setTitle(title);		
@@ -18,11 +18,11 @@ setContent(content);
 		this.dateTime = new Date();
 	}
 	
-	public Note(String title, String content, String status,  Date dateTime,Long id,User author){// when take note from the database
+	public Note(String title, String content, String status,  Date dateTime,Long id,String authorNickname){// when take note from the database
 		this(title, content, status);
 		this.dateTime=dateTime;
 		this.id = id;
-		this.author=author;
+		this.authorNickname=authorNickname;
 	}
 	
 	void setContent(String content){
@@ -73,6 +73,11 @@ setContent(content);
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getAuthor() {
+		return authorNickname;
+	}
+
 	
 	
 	

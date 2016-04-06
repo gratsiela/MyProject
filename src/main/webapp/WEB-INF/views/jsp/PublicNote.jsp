@@ -7,13 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-Forgotten Password?<br><br>
-Enter your email address and your password will be send to it:<br>
-<form action="sendForgottenPassword" method="POST">
-email<input type="email" name="email"><br>
-<input type="submit" value="send password">
+<jsp:include page="MainButtons.jsp" />
+<br>---------------------------------<br>
+<h2>${currentPublicNote.title}</h2>
+${currentPublicNote.dateTime}
+<p>${currentPublicNote.content}</p>
+<br><br>
+Author: ${currentPublicNote.author}
+<br>---------------------------------<br>
+<form action="authorProfile" method="GET">
+<input type="submit" value="see author profile">
 </form>
-<br>------------------------<br>
-<a href="signIn"><button>cancel</button></a>
 </body>
 </html>

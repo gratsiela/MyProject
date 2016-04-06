@@ -7,10 +7,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="profile"><button>profile</button></a>
-	<a href="diaries"><button>diaries</button></a>
-	<a href="followed"><button>followed</button></a>
-	<a href="allPublicNotes"><button>all</button></a>
-	<a href="signOut"><button>sign out</button></a>
+
+	
+	<nav class="navbar navbar-default">
+  <div class="container-fluid navbarColor ">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="profile">profile</a></li>
+      <li><a href="diaries">diaries</a></li>
+      <li><a href="followed">followed</a></li>
+       <li><a href="allPublicNotes">all</a></li>
+        <li><a href="signOut">sign out</a></li>
+    </ul>
+  </div>
+</nav>
 </body>
+<style>
+.navbarColor{
+background-color:black;
+}
+</style>
 </html>

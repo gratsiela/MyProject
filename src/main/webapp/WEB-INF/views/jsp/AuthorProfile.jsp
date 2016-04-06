@@ -8,12 +8,20 @@
 </head>
 <body>
 	<jsp:include page="MainButtons.jsp" />
+	<br>----------------------
+	<br> nickname:
+	<h2>${signedUser.nickname}</h2>
+	<br>----------------------
+	<br>photo:
+	<h2>PHOTO HERE</h2>
+	<br>----------------------
+	<br>description:
+	<h2>${signedUser.selfDescription}</h2>
+	<br>----------------------
 	<br>
-	<form action="createNewDiary" method="POST">
-	Create new diary:<br>
-	name of the diary<input type="text" name="newDiaryName" required autocomplete="off"><br> 
-	<input type="submit" value="create diary"><br>
+	
+	<form action="follow" method="POST">
+	<input type="submit" value="follow">
 	</form>
-	<a href="diaries"><button>cancel</button></button></a>
 </body>
 </html>

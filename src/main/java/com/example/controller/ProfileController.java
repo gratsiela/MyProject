@@ -62,6 +62,7 @@ public class ProfileController {
 		String lastName = request.getParameter("lastName");
 		String nickname = request.getParameter("nickname");
 		String description = request.getParameter("description");
+		System.out.println(description);
 		User signedUser = (User) session.getAttribute("signedUser");
 		updateUserProfile(signedUser, firstName, lastName, nickname, description);
 		return "Profile";
