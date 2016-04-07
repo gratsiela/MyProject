@@ -30,6 +30,11 @@ public class AuthorProfileController {
 		else{
 			model.addAttribute("followUnfollow", "follow");
 		}
+		if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
+			model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
+		}else{
+			model.addAttribute("typeCurrentNote", "readPublicNote");
+		}
 		session.setAttribute("author", author);
 		model.addAttribute("author",author);
 		return "AuthorProfile";

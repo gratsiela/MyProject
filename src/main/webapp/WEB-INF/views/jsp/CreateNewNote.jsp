@@ -5,6 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea",
+    plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste"
+    ],
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+});
+</script>
 </head>
 <body>
 <jsp:include page="MainButtons.jsp" />
@@ -13,7 +25,8 @@
 	Title:<br>
 	<input type="text" name="title"  required autocomplete="off" ><br>
 	Content:<br>
-	<input type="text" name="content"  required autocomplete="off" ><br>
+	<textarea name="content"  ></textarea>
+	
 	Status:<br>
 	<select name="status" required autocomplete="off" >
 	<option value="private">private</option>
@@ -25,4 +38,6 @@
 	<input type="submit" value="cancel";>
 	</form>
 </body>
+
+
 </html>
