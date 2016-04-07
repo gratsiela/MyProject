@@ -5,15 +5,14 @@ import java.util.TreeMap;
 public class Diary {
 
 	private String name;
+	private TreeMap<Long,Note> notes;
+	private long id;
 	private User author;
-	private TreeMap<String,Note> notes;
-	private Long id;
 	
-	public Diary(String name, User author, long id) {
-		this.name=name;
-		this.author=author;
-		notes=new TreeMap<String,Note>();
-		this.id=id;
+	public Diary(String name, long id, User author) {
+		setName(name);
+		setId(id);
+		setAuthor(author);
 	}
 
 	public String getName() {
@@ -34,25 +33,22 @@ public class Diary {
 		this.author = author;}
 	}
 	
-	public TreeMap<String,Note> getNotes() {
+	public TreeMap<Long,Note> getNotes() {
 		return notes;
 	}
 	
-	public void setNotes(TreeMap<String,Note> notes){
+	public void setNotes(TreeMap<Long,Note> notes){
 		if(notes!=null){
 			this.notes=notes;
 		}
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		if(id!=null){
 		this.id = id;}
-	}
-	
-	
-	
+	}	
 }

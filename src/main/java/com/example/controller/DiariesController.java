@@ -42,9 +42,9 @@ public class DiariesController {
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.GET)
 	public String diaryGET(HttpServletRequest request,Model model, HttpSession session) {
-		String currentDiaryName=request.getParameter("currentDiaryName");
+		Long currentDiaryID=Long.parseLong(request.getParameter("currentDiaryID"));
 		User signedUser=(User) session.getAttribute("signedUser");
-		Diary currentDiary=signedUser.getDiaries().get(currentDiaryName);
+		Diary currentDiary=signedUser.getDiaries().get(currentDiaryID);
 		fillCurrentDiary(currentDiary,model,session);
 		return "Diary";
 	}
@@ -70,7 +70,7 @@ public class DiariesController {
 	}
 	
 	private boolean diaryExists(User user, String diaryName){
-		TreeMap<String,Diary> diaries=user.getDiaries();
+		TreeMap<Long,Diary> diaries=user.getDiaries();
 		if(diaries.containsKey(diaryName)){
 			return true;
 		}
@@ -80,7 +80,7 @@ public class DiariesController {
 	private void fillCurrentDiary(Diary currentDiary, Model model,HttpSession session){
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeMap<String,Note> currentDiaryNotes=dao.getAllNotes(signedUser,currentDiary);
+		TreeMap<Long,Note> currentDiaryNotes=dao.getAllNotes(signedUser,currentDiary);
 		currentDiary.setNotes(currentDiaryNotes);
 		model.addAttribute("currentDiary", currentDiary);
 		session.setAttribute("currentDiary",currentDiary);

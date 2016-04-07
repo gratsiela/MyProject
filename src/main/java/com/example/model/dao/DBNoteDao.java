@@ -34,8 +34,8 @@ public class DBNoteDao {
 		return instance;
 	}
 	
-	public TreeMap<String,Note> getAllNotes(User user,Diary diary){
-		TreeMap<String,Note> notes= new TreeMap<String,Note>();
+	public TreeMap<Long,Note> getAllNotes(User user,Diary diary){
+		TreeMap<Long,Note> notes= new TreeMap<Long,Note>();
 		String query="SELECT note_id, title, content, date_time, status FROM diary.notes WHERE diary_id = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
@@ -47,8 +47,8 @@ public class DBNoteDao {
 			}
 			
 			while(rs.next()){
-				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"),rs.getLong("note_id"), user.getNickname());
-				notes.put(note.getTitle(), note);
+				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"),rs.getLong("note_id"), user);
+				notes.put(note.getId(), note);
 			}
 		}catch(SQLException e){
 			System.out.println("Problem with getAllNotes()!");
@@ -86,35 +86,41 @@ public class DBNoteDao {
 		return true;
 	}
 	
-	public TreeMap<Long,Note> getAllPublicNotes(User user){
+	public TreeMap<Long,Note> getAllPublicNotes(User signedUser){
 		TreeMap<Long,Note> allPublicNotes=new TreeMap<Long,Note>(new Comparator<Long>(){
-
+			
 			@Override
 			public int compare(Long arg0, Long arg1) {
 				return (arg1.compareTo(arg0));
 			}});
 		
-		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.status = ? AND users.user_email != ?;";
+		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.status = ? AND users.user_email != ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, "public");
-			ps.setString(2, user.getEmail());
+			ps.setString(2, signedUser.getEmail());
 			ResultSet rs=ps.executeQuery();
+			
 			if(rs==null){
 				return allPublicNotes;
 			}
+			
+			User otherUser=null;
 			while(rs.next()){
-				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), rs.getString("users.nickname"));
+				otherUser=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"),otherUser);
 				allPublicNotes.put(note.getId(), note);
 			}
 		}catch(SQLException e){
 			System.out.println("Problem with getAllPublicNotes()!");
+			e.getMessage();
 		}
 		return allPublicNotes;
 	}
 	
 	public Note getPublicNote(Long noteID){
-		String query =" SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.note_id = ?;";
+		String query =" SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.note_id = ?;";
+		User user=null;
 		Note note=null;
 		try(PreparedStatement ps= manager.getConnection().prepareStatement(query)){
 			ps.setLong(1,noteID);
@@ -125,7 +131,8 @@ public class DBNoteDao {
 			}
 			
 			while (rs.next()){
-				note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), rs.getString("nickname"));
+				user=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+				note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"),user);
 				return note;
 			}
 		}catch(SQLException e){
@@ -142,7 +149,7 @@ public class DBNoteDao {
 				return (arg1.compareTo(arg0));
 			}});
 		
-		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.nickname FROM diary.note JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (belejnik.user_email=users.user_email) WHERE note.status = ? AND users.user_email != ?;";
+		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.status = ? AND users.user_email != ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, "public");
@@ -152,11 +159,12 @@ public class DBNoteDao {
 				return followedUsersPublicNotes;
 			}
 			while(rs.next()){
-				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), rs.getString("users.nickname"));
+				User followedUser=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), followedUser);
 				followedUsersPublicNotes.put(note.getId(), note);
 			}
 		}catch(SQLException e){
-			System.out.println("Problem with getAllPublicNotes()!");
+			System.out.println("Problem with getFollowedUsersPublicNotes()!");
 		}
 		return followedUsersPublicNotes;
 	}

@@ -31,9 +31,9 @@
 </form>
 <c:forEach items="${currentDiary.notes}" var="entry">
 		<form action="note" method="GET">
-		${entry.key}
+		${entry.value.title}
 		<input type="submit" value="read">
-		<input type="hidden" value="${entry.key}" name="currentNoteTitle">
+		<input type="hidden" value="${entry.key}" name="currentNoteID">
 		<br>______________________________
 		</form>
 </c:forEach>

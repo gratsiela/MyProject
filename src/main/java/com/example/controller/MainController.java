@@ -28,7 +28,7 @@ public class MainController {
 	public String myDiaries(HttpSession session,Model model) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBDiaryDao dao=DBDiaryDao.getInstance();
-		TreeMap<String,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+		TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
 		signedUser.setDiaries(signedUserDiaries);
 		model.addAttribute("signedUser", signedUser);
 		return "Diaries";

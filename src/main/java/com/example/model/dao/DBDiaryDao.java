@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import org.neo4j.cypher.internal.compiler.v2_1.perty.docbuilders.simpleDocBuilder;
 
 import com.example.model.Diary;
+import com.example.model.Note;
 import com.example.model.User;
 import com.example.model.db.DBManager;
 
@@ -29,21 +30,21 @@ public class DBDiaryDao {
 		return instance;
 	}
 	
-	public TreeMap<String,Diary> getAllDiaries(User x){
-		TreeMap<String,Diary> diaries=new TreeMap<String,Diary>();
+	public TreeMap<Long,Diary> getAllDiaries(User user){
+		TreeMap<Long,Diary> diaries=new TreeMap<Long,Diary>();
 		String query="SELECT diary_id, name FROM diary.diaries where user_email = ?;";
 		
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
-			ps.setString(1, x.getEmail());
+			ps.setString(1, user.getEmail());
 			ResultSet rs=ps.executeQuery();
-			
 			if(rs==null){
+				System.out.println(3);
 				return diaries;
 			}
 			
 			while(rs.next()){
-				Diary diary= new Diary(rs.getString("name"), x, rs.getLong("diary_id"));
-				diaries.put(diary.getName(),diary);
+				Diary diary= new Diary(rs.getString("name"), rs.getLong("diary_id"), user);
+				diaries.put(diary.getId(),diary);
 			}
 		}
 		catch(SQLException e){

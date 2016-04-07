@@ -24,7 +24,7 @@
 <tr>
 		<form action="readPublicNote" method="GET">
 		<td>${entry.value.dateTime}</td>
-		<td>${entry.value.author}</td>
+		<td>${entry.value.author.nickname}</td>
 		<td>${entry.value.title}</td>
 		<td><input type="submit" value="read"><td>
 		<input type="hidden" value="${entry.key}" name="currentPublicNoteID">
