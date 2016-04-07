@@ -1,7 +1,9 @@
 package com.example.controller;
 
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -101,7 +104,7 @@ public class ProfileController {
 	        return "ChangePicture";
 	    }
 	 
-	    @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	/*    @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
 	    public String savePicture(@Valid FileBucket fileBucket,
 	            BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
 	 
@@ -123,7 +126,37 @@ public class ProfileController {
 	            model.addAttribute("fileName", fileName);
 	            return "success";
 	        }
-	    }
+	    }*/
+	 
+	 @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	   public String savePicture(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+		       //save file
+	      if (!file.isEmpty()) {
+				try {
+					byte[] bytes = file.getBytes();
+
+					// Creating the directory to store file
+					String path = req.getSession().getServletContext().getRealPath("/static/uploads/");
+					String title = (String) req.getSession().getAttribute("email");
+					File f = new File(path+File.separator+title+".png");
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(f));
+					stream.write(bytes);
+					stream.close();
+					 DBUserDao.getInstance().updateProfilePicture(title, f.getAbsolutePath());
+					 System.out.println("File saved");
+				} catch (Exception e) {
+					
+					System.out.println(e.getMessage());
+				}
+			} else {
+				System.out.println("Emplty file");
+			}
+		
+
+	      return "success";
+	   }
+
 	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
 	// EditProfile
 	// userat se preprashta na stranica Profile i tam shte se vizualizirat

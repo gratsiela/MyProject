@@ -15,7 +15,6 @@ import com.example.model.Note;
 import com.example.model.User;
 import com.example.model.dao.DBDiaryDao;
 import com.example.model.dao.DBNoteDao;
-
 @Controller
 public class MainController {
 

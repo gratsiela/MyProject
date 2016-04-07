@@ -36,7 +36,7 @@ public class DBUserDao{
 		boolean success = true;
 		String query = "INSERT INTO diary.users "
 				+ "(user_email,first_name,last_name,nickname,pass)"
-				+ "VALUES (?, ?, ?, ?, ?);";
+				+ "VALUES (?, ?, ?, ?, SHA1(?));";
 	
 		Connection con = manager.getInstance().getConnection();
 		
@@ -62,7 +62,9 @@ public class DBUserDao{
 		List<User> registeredUsers = new ArrayList<User>();
 		Connection con = manager.getConnection();
 		PreparedStatement prstmt = con.prepareStatement("SHOW TABLES LIKE 'users'");
+
 		// check if "user" table is there
+
 		ResultSet tables = prstmt.executeQuery();
 		if (tables.next()) {
 		  // Table exists
@@ -77,7 +79,9 @@ public class DBUserDao{
 				}
 				while(result.next()){
 					User u = new User(result.getString("first_name"), result.getString("last_name"),result.getString("nickname"),				
-							result.getString("user_email"), result.getString("pass"), result.getString("self_description"),result.getString("photo"));
+
+							result.getString("user_email"), result.getString("pass"),result.getString("self_description"), result.getString("photo"));
+
 						registeredUsers.add(u);
 					}
 				
@@ -163,7 +167,7 @@ public	boolean updateProfile(User x, String newFirstName,String newLastName, Str
 	}
 //update password
 public	boolean updatePassword(User x, String newPassword){
-	String query = "update diary.users set pass = ? where user_email = ?;";
+	String query = "update diary.users set pass = SHA1(?) where user_email = ?;";
 	try{
 		Connection con = manager.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
