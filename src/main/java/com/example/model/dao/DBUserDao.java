@@ -72,7 +72,6 @@ public class DBUserDao{
 				ResultSet result = st.executeQuery(query);
 				
 				if(result == null){
-					System.out.println("22222222222");
 					st.close();				
 					return (ArrayList<User>) registeredUsers;
 				}
@@ -175,7 +174,6 @@ public	boolean updatePassword(User x, String newPassword){
 		return true;
 	}catch(SQLException e){
 		System.err.println("Problem with the password update");
-		// con.rollback();
 		return false;
 	}
 }
@@ -198,6 +196,21 @@ public String getPassword(String email){
 		System.out.println("Problem with getting password");
 		return null;
 	}
+}
+
+public boolean follow(User signedUser, User author){
+	String query="INSERT INTO diary.friends (email1, email2) VALUES (?, ?);";
+	
+	Connection con= manager.getConnection();
+	
+	try(PreparedStatement ps= con.prepareStatement(query)){
+		ps.setString(1, signedUser.getEmail());
+		ps.setString(2, author.getEmail());
+		ps.executeUpdate();
+	}catch(SQLException e){
+		System.out.println("Problem with follow()!");
+	}
+	return true;
 }
 }
 

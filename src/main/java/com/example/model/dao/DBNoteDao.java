@@ -149,17 +149,19 @@ public class DBNoteDao {
 				return (arg1.compareTo(arg0));
 			}});
 		
-		String query="SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.status = ? AND users.user_email != ?;";
+		String query="SELECT note_id, title, content, date_time, status, users.user_email, first_name, last_name, nickname, pass, self_description, photo FROM diary.notes JOIN diary.diaries ON(notes.diary_id=diaries.diary_id) JOIN diary.users ON(diaries.user_email=users.user_email) JOIN diary.friends ON(users.user_email=friends.email2) WHERE notes.status= ? AND friends.email1= ?;";
 	
 		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
 			ps.setString(1, "public");
 			ps.setString(2, user.getEmail());
 			ResultSet rs=ps.executeQuery();
+			
 			if(rs==null){
 				return followedUsersPublicNotes;
 			}
+			
 			while(rs.next()){
-				User followedUser=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+				User followedUser=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
 				Note note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"), followedUser);
 				followedUsersPublicNotes.put(note.getId(), note);
 			}

@@ -35,10 +35,12 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/followedUsersPublicNotes",method = RequestMethod.GET)
-	public String goToFollowedUsersPublicNotes(Model model,HttpSession session) {
+	public String goToFollowedUsersPublicNotes(HttpSession session,Model model) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBNoteDao dao= DBNoteDao.getInstance();
 		TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+		session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
+		model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
 		return "FollowedUsersPublicNotes";
 	}
 	

@@ -10,13 +10,13 @@
 	<jsp:include page="MainButtons.jsp" />
 	<br>----------------------
 	<br> nickname:
-	<h2>${signedUser.nickname}</h2>
+	<h2>${author.nickname}</h2>
 	<br>----------------------
 	<br>photo:
 	<h2>PHOTO HERE</h2>
 	<br>----------------------
 	<br>description:
-	<h2>${signedUser.selfDescription}</h2>
+	<h2>${author.selfDescription}</h2>
 	<br>----------------------
 	<br>
 	

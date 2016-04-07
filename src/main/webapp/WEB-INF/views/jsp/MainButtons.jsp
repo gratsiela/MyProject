@@ -15,8 +15,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
-
-	
 	<nav class="navbar navbar-default">
   <div class="container-fluid navbarColor ">
     <div class="navbar-header">
@@ -25,7 +23,7 @@
     <ul class="nav navbar-nav">
       <li><a href="profile">profile</a></li>
       <li><a href="diaries">diaries</a></li>
-      <li><a href="followed">followed</a></li>
+      <li><a href="followedUsersPublicNotes">followed</a></li>
        <li><a href="allPublicNotes">all</a></li>
         <li><a href="signOut">sign out</a></li>
     </ul>
