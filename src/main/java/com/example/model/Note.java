@@ -5,24 +5,18 @@ import java.util.Date;
 public class Note {
 	private String title;
 	private String content;
-	private enum Status{Private, Public, Friends};//start with upper case because private and public are keywords
 	private String status;
 	private Date dateTime;
 	private Long id;
-	private String authorNickname;
+	private User author;
 	
-	public Note(String title, String content, String status) {// when create note
-setTitle(title);		
-setContent(content);
-		this.status = status;
-		this.dateTime = new Date();
-	}
-	
-	public Note(String title, String content, String status,  Date dateTime,Long id,String authorNickname){// when take note from the database
-		this(title, content, status);
+	public Note(String title, String content, String status,Date dateTime,Long id,User author){// when take note from the database
+		this.title=title;
+		this.content=content;
+		this.status=status;
 		this.dateTime=dateTime;
 		this.id = id;
-		this.authorNickname=authorNickname;
+		this.author=author;
 	}
 	
 	void setContent(String content){
@@ -74,11 +68,7 @@ setContent(content);
 		this.id = id;
 	}
 
-	public String getAuthor() {
-		return authorNickname;
+	public User getAuthor() {
+		return author;
 	}
-
-	
-	
-	
 }

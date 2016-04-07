@@ -24,7 +24,8 @@
 <br>
 		<c:forEach items="${signedUser.diaries}" var="entry">
 		<form action="diary" method="GET">
-		<input type="submit" value="${entry.key}" name="currentDiaryName">
+		<input type="submit" value="${entry.value.name}">
+		<input type="hidden" value="${entry.key}" name="currentDiaryID">
 		</form>
 </c:forEach>
 </body>

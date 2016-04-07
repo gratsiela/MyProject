@@ -11,16 +11,16 @@
 <br>---------------------------------
 	<form action="createNewNote" method="POST">
 	Title:<br>
-	<input type="text" name="title">
+	<input type="text" name="title"><br>
 	Content:<br>
-	<input type="text" name="content">
-	Status:
-	<select name="status" required>
-	<option value="private">private</opition>
-	<option value="public">public</opition>
+	<input type="text" name="content"><br>
+	Status:<br>
+	<select name="status">
+	<option value="private">private</option>
+	<option value="public">public</option>
 	</select><br>
 	<input type="submit" value="create note">
-	</form>
+	</form><br>
 	<form action="diary" method="POST">
 	<input type="submit" value="cancel";>
 	</form>

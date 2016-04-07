@@ -59,9 +59,12 @@ public class DBUserDao{
 	}
 
 	public ArrayList<User> getAllUsers() throws SQLException {
-		List<User> registeredUsers = new ArrayList();
+		List<User> registeredUsers = new ArrayList<User>();
 		Connection con = manager.getConnection();
 		PreparedStatement prstmt = con.prepareStatement("SHOW TABLES LIKE 'users'");
+
+		// check if "user" table is there
+
 		ResultSet tables = prstmt.executeQuery();
 		if (tables.next()) {
 		  // Table exists
@@ -71,18 +74,21 @@ public class DBUserDao{
 				ResultSet result = st.executeQuery(query);
 				
 				if(result == null){
+					System.out.println("22222222222");
 					st.close();				
 					return (ArrayList<User>) registeredUsers;
 				}
 				while(result.next()){
 					User u = new User(result.getString("first_name"), result.getString("last_name"),result.getString("nickname"),				
+
 							result.getString("user_email"), result.getString("pass"),result.getString("self_description"), result.getString("photo"));
+
 						registeredUsers.add(u);
 					}
 				
 				}catch(SQLException e){
 					e.printStackTrace();
-					System.out.println("Problem getUSers()!");
+					System.out.println("Problem getUsers()!");
 				}	
 		}
 		return (ArrayList<User>) registeredUsers;

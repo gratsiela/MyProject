@@ -1,6 +1,9 @@
 package com.example.controller;
 
+import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +17,10 @@ import com.example.model.dao.DBNoteDao;
 public class PublicNotesController {
 
 	@RequestMapping(value="/readPublicNote",method = RequestMethod.GET)
-	public String readPublicNote(HttpServletRequest request,Model model) {
+	public String readPublicNote(HttpServletRequest request,HttpSession session, Model model) {
 		Long currentPublicNoteID=Long.parseLong(request.getParameter("currentPublicNoteID"));
-		DBNoteDao dao=DBNoteDao.getInstance();
-		Note currentPublicNote=dao.getPublicNote(currentPublicNoteID);
+		TreeMap<Long,Note>allPublicNotes=(TreeMap<Long, Note>) session.getAttribute("allPublicNotes");
+		Note currentPublicNote=allPublicNotes.get(currentPublicNoteID);
 		model.addAttribute("currentPublicNote", currentPublicNote);
 		return "PublicNote";
 	}

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.Date;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,12 @@ public class NotesController {
 
 	@RequestMapping(value = "/createNewNote", method = RequestMethod.POST)
 	public String createNewNote(HttpServletRequest request, HttpSession session) {
+		User signedUser=(User) session.getAttribute("signedUser");
 		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 		String newNoteTitle=request.getParameter("title");
 		String newNoteContent=request.getParameter("content");
 		String newNoteStatus=request.getParameter("status");
-		Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus);
+		Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, new Date(),0L, signedUser);
 		if(!noteExists(currentDiary, newNote)){
 			DBNoteDao dao=DBNoteDao.getInstance();
 			dao.addNote(currentDiary, newNote);
@@ -41,9 +43,9 @@ public class NotesController {
 	
 	@RequestMapping(value = "/note", method = RequestMethod.GET)
 	public String note(HttpServletRequest request, Model model, HttpSession session) {
-		String currentNoteTitle=request.getParameter("currentNoteTitle");
+		Long currentNoteID=Long.parseLong(request.getParameter("currentNoteID"));
 		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-		Note currentNote=currentDiary.getNotes().get(currentNoteTitle);
+		Note currentNote=currentDiary.getNotes().get(currentNoteID);
 		model.addAttribute("currentNote",currentNote);
 		session.setAttribute("currentNote",currentNote);
 		return "Note";
@@ -63,8 +65,8 @@ public class NotesController {
 	}
 	
 	private boolean noteExists(Diary diary, Note note){
-		TreeMap<String,Note> notes=diary.getNotes();
-		if(notes.containsKey(note.getTitle())){
+		TreeMap<Long,Note> notes=diary.getNotes();
+		if(notes.containsKey(note.getId())){
 			return true;
 		}
 		return false;

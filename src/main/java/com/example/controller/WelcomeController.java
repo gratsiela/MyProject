@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.model.Diary;
 import com.example.model.PasswordSender;
 import com.example.model.User;
 import com.example.model.dao.DBUserDao;
@@ -45,7 +47,7 @@ public class WelcomeController {
 		String password=request.getParameter("password");
 		User user= signUpUser(firstName, lastName, nickname, email, password);
 		if(user!=null){
-	session.setAttribute("signedUser", user);
+		session.setAttribute("signedUser", user);
 		model.addAttribute("signedUser", user);
 		return "Profile";}
 		return "SignUp";
@@ -100,7 +102,7 @@ public class WelcomeController {
 			}
 		}
 		
-		user = new User(firstName, lastName, nickname ,email, password);
+		user = new User(firstName, lastName, nickname, email, password, "", "");
 		dao.addUser(user);
 
 		return user;

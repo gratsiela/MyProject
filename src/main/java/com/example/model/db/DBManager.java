@@ -81,7 +81,7 @@ public class DBManager {
 						"title VARCHAR(50) NOT NULL,"+
 						"content MEDIUMTEXT,"+
 						"date_time TIMESTAMP NOT NULL,"+
-						"status ENUM('Private', 'Public', 'Friends'),"+
+						"status ENUM('private', 'public'),"+
 						"diary_id BIGINT,"+
 						"FOREIGN KEY(diary_id) REFERENCES diary.diaries(diary_id) ON DELETE CASCADE ON UPDATE CASCADE);";
 				stmt.executeUpdate(sql);

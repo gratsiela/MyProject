@@ -15,7 +15,6 @@ import com.example.model.Note;
 import com.example.model.User;
 import com.example.model.dao.DBDiaryDao;
 import com.example.model.dao.DBNoteDao;
-
 @Controller
 public class MainController {
 
@@ -28,7 +27,7 @@ public class MainController {
 	public String myDiaries(HttpSession session,Model model) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBDiaryDao dao=DBDiaryDao.getInstance();
-		TreeMap<String,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+		TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
 		signedUser.setDiaries(signedUserDiaries);
 		model.addAttribute("signedUser", signedUser);
 		return "Diaries";
@@ -48,6 +47,7 @@ public class MainController {
 		DBNoteDao dao=DBNoteDao.getInstance();
 		TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
 		model.addAttribute("allPublicNotes",allPublicNotes);
+		session.setAttribute("allPublicNotes",allPublicNotes);
 		return "AllPublicNotes";
 	}
 	

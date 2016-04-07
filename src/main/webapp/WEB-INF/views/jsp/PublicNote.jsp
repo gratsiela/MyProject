@@ -13,7 +13,7 @@
 ${currentPublicNote.dateTime}
 <p>${currentPublicNote.content}</p>
 <br><br>
-Author: ${currentPublicNote.author}
+Author: ${currentPublicNote.author.nickname}
 <br>---------------------------------<br>
 <form action="authorProfile" method="GET">
 <input type="submit" value="see author profile">

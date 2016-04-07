@@ -15,7 +15,7 @@ Are you sure you want to delete this note?<br>
 </form>
 <form action="note" method="GET">
 <input type="submit" value="no">
-<input type="hidden" value="${currentNote.title}" name="currentNoteTitle">
+<input type="hidden" value="${currentNote.id}" name="currentNoteID">
 </form>
 </body>
 </html>

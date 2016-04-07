@@ -15,7 +15,7 @@ Are you sure you want to delete this diary?<br>
 </form>
 <form action="diary" method="GET">
 <input type="submit" value="no">
-<input type="hidden" value="${currentDiary.name}" name="currentDiaryName">
+<input type="hidden" value="${currentDiary.id}" name="currentDiaryID">
 </form>
 </body>
 </html>
