@@ -22,6 +22,5 @@
 	<br>
 	------------------------<br>
 	<a href="index"><button>cancel</button></a>
-	
 </body>
 </html>

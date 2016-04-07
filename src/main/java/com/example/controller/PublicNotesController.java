@@ -35,22 +35,4 @@ public class PublicNotesController {
 		model.addAttribute("currentPublicNote", currentPublicNote);
 		return "PublicNote";
 	}
-	
-	@RequestMapping(value="/authorProfile",method = RequestMethod.GET)
-	public String authorProfile(HttpSession session, Model model) {
-		Note currentPublicNote=(Note) session.getAttribute("currentPublicNote");
-		User author=currentPublicNote.getAuthor();
-		session.setAttribute("author", author);
-		model.addAttribute("author",author);
-		return "AuthorProfile";
-	}
-	
-	@RequestMapping(value="/follow",method = RequestMethod.POST)
-	public String follow(HttpSession session) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		User author=(User) session.getAttribute("author");
-		DBUserDao dao=DBUserDao.getInstance();
-		dao.follow(signedUser, author);
-		return "redirect:authorProfile";
-	}
 }

@@ -216,5 +216,20 @@ public boolean follow(User signedUser, User author){
 	}
 	return true;
 }
+
+public boolean unfollow(User signedUser, User author){
+	String query="DELETE FROM diary.friends WHERE email1= ? and email2= ?;";
+	
+	Connection con= manager.getConnection();
+	
+	try(PreparedStatement ps= con.prepareStatement(query)){
+		ps.setString(1, signedUser.getEmail());
+		ps.setString(2, author.getEmail());
+		ps.executeUpdate();
+	}catch(SQLException e){
+		System.out.println("Problem with unfollow()!");
+	}
+	return true;
+}
 }
 

@@ -27,6 +27,9 @@
 				autocomplete="off" id="confirmPassword" /><br>
 		<input type="submit" id="submit" value="sign up">
 	</form>
+	<br>
+	------------------------<br>
+	<a href="index"><button>cancel</button></a>
 </body>
 <script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

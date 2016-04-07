@@ -11,11 +11,11 @@
 <br>---------------------------------
 	<form action="createNewNote" method="POST">
 	Title:<br>
-	<input type="text" name="title"><br>
+	<input type="text" name="title"  required autocomplete="off" ><br>
 	Content:<br>
-	<input type="text" name="content"><br>
+	<input type="text" name="content"  required autocomplete="off" ><br>
 	Status:<br>
-	<select name="status">
+	<select name="status" required autocomplete="off" >
 	<option value="private">private</option>
 	<option value="public">public</option>
 	</select><br>

@@ -10,7 +10,7 @@
 Forgotten Password?<br><br>
 Enter your email address and your password will be send to it:<br>
 <form action="sendForgottenPassword" method="POST">
-email<input type="email" name="email"><br>
+email<input type="email" name="email"  required autocomplete="off" ><br>
 <input type="submit" value="send password">
 </form>
 <br>------------------------<br>
