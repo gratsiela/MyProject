@@ -24,6 +24,23 @@
 	crossorigin="anonymous"></script>
 </head>
 <body>
+
+	<jsp:include page="MainButtons.jsp" />
+	<br> Hello, ${signedUser.firstName} ${signedUser.lastName} !
+	<br>----------------------
+	<br> nickname:
+	<h2>${signedUser.nickname}</h2>
+	<br>----------------------
+	<br>photo:
+	<h2>PHOTO HERE</h2>
+	<img alt = "image" src="<c:url value = ${signedUser.photoURL}/>"/>
+	<br>----------------------
+	<br>description:
+	<h2>${signedUser.selfDescription}</h2>
+	<br>----------------------
+	<br>
+		<a href="editProfile"><button>edit profile</button></a>
+
 	<div class="container-fluid">
 		<jsp:include page="MainButtons.jsp" />
 		<div class="container">
@@ -54,5 +71,6 @@
 			</div>
 		</div>
 		</div>
+
 </body>
 </html>
