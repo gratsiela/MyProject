@@ -118,28 +118,28 @@ public class DBNoteDao {
 		return allPublicNotes;
 	}
 	
-	public Note getPublicNote(Long noteID){
-		String query =" SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.note_id = ?;";
-		User user=null;
-		Note note=null;
-		try(PreparedStatement ps= manager.getConnection().prepareStatement(query)){
-			ps.setLong(1,noteID);
-			ResultSet rs=ps.executeQuery();
-			
-			if(rs==null){
-				return note;
-			}
-			
-			while (rs.next()){
-				user=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
-				note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"),user);
-				return note;
-			}
-		}catch(SQLException e){
-			System.out.println("Problem with getPublicNote()!");
-		}
-		return note;
-	}
+//	public Note getPublicNote(Long noteID){
+//		String query =" SELECT notes.note_id, notes.title, notes.content, notes.date_time, notes.status, users.user_email, users.first_name, users.last_name, users.nickname, users.pass, users.self_description, users.photo FROM diary.notes JOIN  diary.diaries ON (notes.diary_id=diaries.diary_id) JOIN diary.users ON (diaries.user_email=users.user_email) WHERE notes.note_id = ?;";
+//		User user=null;
+//		Note note=null;
+//		try(PreparedStatement ps= manager.getConnection().prepareStatement(query)){
+//			ps.setLong(1,noteID);
+//			ResultSet rs=ps.executeQuery();
+//			
+//			if(rs==null){
+//				return note;
+//			}
+//			
+//			while (rs.next()){
+//				user=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+//				note=new Note(rs.getString("title"), rs.getString("content"), rs.getString("status"), rs.getDate("date_time"), rs.getLong("note_id"),user);
+//				return note;
+//			}
+//		}catch(SQLException e){
+//			System.out.println("Problem with getPublicNote()!");
+//		}
+//		return note;
+//	}
 	
 	public TreeMap<Long,Note> getFollowedUsersPublicNotes(User user){
 		TreeMap<Long,Note> followedUsersPublicNotes=new TreeMap<Long,Note>(new Comparator<Long>(){

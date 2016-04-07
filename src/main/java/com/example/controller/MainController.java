@@ -48,6 +48,7 @@ public class MainController {
 		DBNoteDao dao=DBNoteDao.getInstance();
 		TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
 		model.addAttribute("allPublicNotes",allPublicNotes);
+		session.setAttribute("allPublicNotes",allPublicNotes);
 		return "AllPublicNotes";
 	}
 	
