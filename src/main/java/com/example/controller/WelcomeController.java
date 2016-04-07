@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +55,8 @@ public class WelcomeController {
 	public String signIn(HttpServletRequest request,HttpSession session, Model model) {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		User user= signInUser(email, password);
+		String hashPass = DigestUtils.shaHex(password);
+		User user= signInUser(email, hashPass);
 		if(user!=null){
 			session.setAttribute("signedUser", user);
 			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata

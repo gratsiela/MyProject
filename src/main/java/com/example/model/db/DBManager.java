@@ -14,8 +14,8 @@ public class DBManager {
 	public static final String DB_NAME = "diary";
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	private static final String DB_USER = "root";
-	private static final String DB_PASS = "*Gugche8";
-//	private static final String DB_PASS = "559642";
+//	private static final String DB_PASS = "*Gugche8";
+	private static final String DB_PASS = "559642";
 	private Connection connection;
 
 	private DBManager() {
@@ -52,13 +52,13 @@ public class DBManager {
 						"first_name VARCHAR(50) NOT NULL,"+
 						"last_name VARCHAR(50) NOT NULL,"+					
 						"nickname VARCHAR(50) NOT NULL,"+
-						"pass VARCHAR(30) NOT NULL,"+
+						"pass VARCHAR(40) NOT NULL,"+
 						"self_description TEXT,"+
 						"photo TEXT);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created table user in given database...");
 			}
-	//		connection.commit();
+	
 			//Create diaries
 			prstmt = connection.prepareStatement("SHOW TABLES LIKE 'diaries'");
 			tables = prstmt.executeQuery();
@@ -71,7 +71,7 @@ public class DBManager {
 				stmt.executeUpdate(sql);
 				System.out.println("Created table diaries in given database...");
 			}
-//			connection.commit();
+
 			//Create notes
 			prstmt = connection.prepareStatement("SHOW TABLES LIKE 'notes'");
 			tables = prstmt.executeQuery();
@@ -87,7 +87,7 @@ public class DBManager {
 				stmt.executeUpdate(sql);
 				System.out.println("Created table notes in given database...");
 			}
-//			connection.commit();
+
 			//Create friendsTable
 			prstmt = connection.prepareStatement("SHOW TABLES LIKE 'friends'");
 			tables = prstmt.executeQuery();
