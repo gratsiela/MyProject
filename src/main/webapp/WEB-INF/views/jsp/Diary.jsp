@@ -37,5 +37,9 @@
 		<br>______________________________
 		</form>
 </c:forEach>
+<br>---------------------------------<br>
+<form action="diaries" method="get">
+<input type="submit" value="back">
+</form>
 </body>
 </html>

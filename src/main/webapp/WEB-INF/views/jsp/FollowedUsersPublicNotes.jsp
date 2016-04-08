@@ -13,7 +13,7 @@
 <table border="1">
 <c:forEach items="${followedUsersPublicNotes}" var="entry">
 <tr>
-		<form action="readPublicNote" method="GET">
+		<form action="readFollowedUserPublicNote" method="GET">
 		<td>${entry.value.dateTime}</td>
 		<td>${entry.value.author.nickname}</td>
 		<td>${entry.value.title}</td>

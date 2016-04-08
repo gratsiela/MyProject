@@ -20,11 +20,15 @@
 	<br>description:
 	<h2>${author.selfDescription}</h2>
 	<br>----------------------
-	<br>
 	
+	<br>
 	<form action="${followUnfollow}" method="POST">
 	<input type="submit" value="${followUnfollow}">
 	</form>
+	<br>---------------------------------<br>
+<form action="${typeCurrentNote}" method="get">
+<input type="submit" value="back">
+</form>
 </body>
 
 </html>

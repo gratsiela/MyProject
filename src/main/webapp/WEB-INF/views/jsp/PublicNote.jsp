@@ -18,5 +18,9 @@ Author: ${currentPublicNote.author.nickname}
 <form action="authorProfile" method="GET">
 <input type="submit" value="see author profile">
 </form>
+<br>---------------------------------<br>
+<form action="${subpage}" method="get">
+<input type="submit" value="back">
+</form>
 </body>
 </html>

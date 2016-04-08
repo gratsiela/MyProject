@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,9 +72,10 @@ public class DiariesController {
 	
 	private boolean diaryExists(User user, String diaryName){
 		TreeMap<Long,Diary> diaries=user.getDiaries();
-		if(diaries.containsKey(diaryName)){
+		for(Entry<Long,Diary> entry:diaries.entrySet()){
+		if(entry.getValue().getName().equals(diaryName)){
 			return true;
-		}
+		}}
 		return false;
 	}
 	

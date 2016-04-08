@@ -15,5 +15,10 @@
 <h2>${currentNote.title}</h2>
 ${currentNote.dateTime}
 <p>${currentNote.content}</p>
+
+<br>---------------------------------<br>
+<form action="diary" method="post">
+<input type="submit" value="back">
+</form>
 </body>
 </html>
