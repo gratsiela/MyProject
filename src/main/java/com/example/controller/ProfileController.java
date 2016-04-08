@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
@@ -136,7 +137,7 @@ public class ProfileController {
 					byte[] bytes = file.getBytes();
 
 					// Creating the directory to store file
-					String path = req.getSession().getServletContext().getRealPath("/static/uploads/");
+					String path = req.getSession().getServletContext().getRealPath("/uploads/");
 					String title = (String) req.getSession().getAttribute("email");
 					File f = new File(path+File.separator+title+".png");
 					BufferedOutputStream stream = new BufferedOutputStream(
@@ -174,7 +175,8 @@ public class ProfileController {
 
 	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
 		DBUserDao dao = DBUserDao.getInstance();
-		if (!signedUser.getPassword().equals(oldPassword)) {
+		String hashOldPass = DigestUtils.shaHex(oldPassword);
+		if (!signedUser.getPassword().equals(hashOldPass)) {
 			return false;
 		}
 		if (!dao.updatePassword(signedUser, newPassword)) {

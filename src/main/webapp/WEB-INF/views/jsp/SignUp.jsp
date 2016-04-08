@@ -25,7 +25,8 @@
 		confirm password 
 		<input type="password" name="confirmPassword" required
 				autocomplete="off" id="confirmPassword" /><br>
-		<input type="submit" id="submit" value="sign up">
+		<input type="submit" id="submit" value="sign up" >
+		<h7>${pswdMessage}</h7>
 	</form>
 	<br>
 	------------------------<br>

@@ -45,11 +45,18 @@ public class WelcomeController {
 		String nickname=request.getParameter("nickname");
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		User user= signUpUser(firstName, lastName, nickname, email, password);
-		if(user!=null){
-		session.setAttribute("signedUser", user);
-		model.addAttribute("signedUser", user);
-		return "Profile";}
+		if(passwordValidation(password)){
+			User user= signUpUser(firstName, lastName, nickname, email, password);
+			if(user!=null){
+				session.setAttribute("signedUser", user);
+				model.addAttribute("signedUser", user);
+				return "Profile";
+			}
+		}
+		else{
+			model.addAttribute("pswdMessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and a digit");
+			return "SignUp";
+		}
 		return "SignUp";
 	}
 	
@@ -58,7 +65,7 @@ public class WelcomeController {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		String hashPass = DigestUtils.shaHex(password);
-		User user= signInUser(email, hashPass);
+		User user= signInUser(email, hashPass, model);
 		if(user!=null){
 			session.setAttribute("signedUser", user);
 			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
@@ -108,12 +115,15 @@ public class WelcomeController {
 		return user;
 	}
 	
-	private User signInUser(String email, String password){
+	private User signInUser(String email, String password, Model model){
 		User user=null;
 		try {
 			for(User u:DBUserDao.getInstance().getAllUsers()){
 				if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
 					user=u;
+				}
+				else{
+					model.addAttribute("errorMessage", "Wrong username ot password");
 				}
 			}
 		} catch (SQLException e) {
@@ -121,4 +131,12 @@ public class WelcomeController {
 		}
 		return user;
 	}
+	
+		private boolean passwordValidation(String password){
+		    String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{5,30}";
+		    if(password.matches(pattern)){
+		    	return true;
+		    }
+		    return false;
+		  }
 }

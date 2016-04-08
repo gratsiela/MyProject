@@ -54,6 +54,8 @@
 
 					<p>Photo:</p>
 					<h2>PHOTO HERE</h2>
+					<h7>${signedUser.photoURL}</h7>
+					<img alt="image"  src="<c:url value="uploads/${signedUser.email}.png"/>">
 					<img alt="image" src="${signedUser.photoURL}"> 
 					<p>description:</p>
 					<div class='col-md-8 col-md-offset-2'>

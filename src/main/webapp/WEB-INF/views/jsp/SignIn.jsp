@@ -16,6 +16,7 @@
 			password 
 		<input type="password" name="password" required autocomplete="off" /><br>
 		<input type="submit" value="sign in">
+		<h7>${errorMessage}</h7>
 	</form><br>
 	------------------------<br>
 	<a href="forgottenPassword">Forgotten password?</a>
