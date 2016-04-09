@@ -30,7 +30,12 @@ public class PublicNotesController {
 		model.addAttribute("currentPublicNote", currentPublicNote);
 		session.setAttribute("subpage", "allPublicNotes");
 		model.addAttribute("subpage", "allPublicNotes");}
-		return "PublicNote";
+		if(session.isNew()){
+			return "PublicNote";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value="/readFollowedUserPublicNote",method = RequestMethod.GET)
@@ -44,6 +49,9 @@ public class PublicNotesController {
 		model.addAttribute("currentPublicNote", currentPublicNote);
 		session.setAttribute("subpage", "followedUsersPublicNotes");
 		model.addAttribute("subpage", "followedUsersPublicNotes");}
-		return "PublicNote";
+		if(session.isNew()){
+			return "PublicNote";
+		}
+		return "SignIn";
 	}
 }

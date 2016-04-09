@@ -37,7 +37,12 @@ public class AuthorProfileController {
 		}
 		session.setAttribute("author", author);
 		model.addAttribute("author",author);
-		return "AuthorProfile";
+		if(session.isNew()){
+			return "AuthorProfile";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value="/follow",method = RequestMethod.POST)
@@ -46,7 +51,12 @@ public class AuthorProfileController {
 		User author=(User) session.getAttribute("author");
 		DBUserDao dao=DBUserDao.getInstance();
 		dao.follow(signedUser, author);
-		return "redirect:authorProfile";
+		if(session.isNew()){
+			return "redirect:authorProfile";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value="/unfollow",method = RequestMethod.POST)
@@ -55,6 +65,11 @@ public class AuthorProfileController {
 		User author=(User) session.getAttribute("author");
 		DBUserDao dao=DBUserDao.getInstance();
 		dao.unfollow(signedUser, author);
-		return "redirect:authorProfile";
+		if(session.isNew()){
+			return "redirect:authorProfile";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 }

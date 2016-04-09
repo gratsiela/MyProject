@@ -33,7 +33,7 @@
 	<br>----------------------
 	<br>photo:
 	<h2>PHOTO HERE</h2>
-	<img alt="image"  src="<c:url value="/static/uploads/${signedUser.email}.png"/>">
+	<img alt="image"  src="<c:url value="<%=request.getContextPath()%>/uploads/krisi@krisi.png"/>">
 	<br>----------------------
 	<br>description:
 	<h2>${signedUser.selfDescription}</h2>

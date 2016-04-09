@@ -30,7 +30,12 @@ public class MainController {
 		TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
 		signedUser.setDiaries(signedUserDiaries);
 		model.addAttribute("signedUser", signedUser);
-		return "Diaries";
+		if(session.isNew()){
+			return "Diaries";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value="/followedUsersPublicNotes",method = RequestMethod.GET)
@@ -40,7 +45,12 @@ public class MainController {
 		TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
 		session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
 		model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
-		return "FollowedUsersPublicNotes";
+		if(session.isNew()){
+			return "FollowedUsersPublicNotes";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/allPublicNotes", method = RequestMethod.GET)
@@ -50,7 +60,12 @@ public class MainController {
 		TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
 		model.addAttribute("allPublicNotes",allPublicNotes);
 		session.setAttribute("allPublicNotes",allPublicNotes);
-		return "AllPublicNotes";
+		if(session.isNew()){
+			return "AllPublicNotes";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value="/signOut",method = RequestMethod.GET)

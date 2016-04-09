@@ -69,7 +69,12 @@ public class ProfileController {
 		System.out.println(description);
 		User signedUser = (User) session.getAttribute("signedUser");
 		updateUserProfile(signedUser, firstName, lastName, nickname, description);
-		return "Profile";
+		if(session.isNew()){
+			return "Profile";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 
 	@RequestMapping(value = "/editPassword", method = RequestMethod.GET)

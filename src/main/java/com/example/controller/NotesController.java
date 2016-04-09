@@ -38,7 +38,12 @@ public class NotesController {
 			DBNoteDao dao=DBNoteDao.getInstance();
 			dao.addNote(currentDiary, newNote);
 		}
-		return "forward:diary";
+		if(session.isNew()){
+			return "forward:diary";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/note", method = RequestMethod.GET)
@@ -48,7 +53,12 @@ public class NotesController {
 		Note currentNote=currentDiary.getNotes().get(currentNoteID);
 		model.addAttribute("currentNote",currentNote);
 		session.setAttribute("currentNote",currentNote);
-		return "Note";
+		if(session.isNew()){
+			return "Note";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/deleteNote", method = RequestMethod.GET)
@@ -61,7 +71,12 @@ public class NotesController {
 		Note currentNote=(Note) session.getAttribute("currentNote");
 		DBNoteDao dao= DBNoteDao.getInstance();
 		dao.deleteNote(currentNote);
-		return "forward:diary";
+		if(session.isNew()){
+			return "forward:diary";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	private boolean noteExists(Diary diary, Note note){

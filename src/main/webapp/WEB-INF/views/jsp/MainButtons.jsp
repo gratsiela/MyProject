@@ -25,7 +25,7 @@
       <li><a href="diaries">diaries</a></li>
       <li><a href="followedUsersPublicNotes">followed</a></li>
        <li><a href="allPublicNotes">all</a></li>
-        <li><a href="signOut">sign out</a></li>
+        <li><a href="logOut">sign out</a></li>
     </ul>
   </div>
 </nav>

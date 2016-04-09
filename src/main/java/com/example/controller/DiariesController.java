@@ -38,7 +38,12 @@ public class DiariesController {
 		if(!diaryExists(signedUser,newDiaryName)){
 		DBDiaryDao dao=DBDiaryDao.getInstance();
 		dao.addDiary(signedUser, newDiaryName);}
-        return "redirect:/diaries";
+		if(session.isNew()){
+			return "redirect:/diaries";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.GET)
@@ -47,14 +52,24 @@ public class DiariesController {
 		User signedUser=(User) session.getAttribute("signedUser");
 		Diary currentDiary=signedUser.getDiaries().get(currentDiaryID);
 		fillCurrentDiary(currentDiary,model,session);
-		return "Diary";
+		if(session.isNew()){
+			return "Diary";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/diary", method = RequestMethod.POST)
 	public String diaryPOST(HttpServletRequest request,Model model, HttpSession session) {
 		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 		fillCurrentDiary(currentDiary,model,session);
-		return "Diary";
+		if(session.isNew()){
+			return "Diary";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	@RequestMapping(value = "/deleteDiary", method = RequestMethod.GET)
@@ -67,7 +82,12 @@ public class DiariesController {
 		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 		DBDiaryDao dao=DBDiaryDao.getInstance();
 		dao.deleteDiary(currentDiary.getId());
-		return "redirect:diaries";
+		if(session.isNew()){
+			return "redirect:diaries";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 	
 	private boolean diaryExists(User user, String diaryName){

@@ -37,7 +37,7 @@ public class WelcomeController {
 		return "SignIn";
 	}
 	
-	// TODO DA KRIPTIRAME PAROLATA
+	
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
 	public String signUp(HttpServletRequest request,HttpSession session,Model model) {
 		String firstName=request.getParameter("firstName");
@@ -70,7 +70,8 @@ public class WelcomeController {
 			session.setAttribute("signedUser", user);
 			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
 			model.addAttribute("signedUser", user);
-			return "Profile";}
+			return "Profile";
+			}
 		return "SignIn";
 	}
 	
@@ -86,6 +87,17 @@ public class WelcomeController {
 			return "SignIn";
 		}
 		return "ForgottenPassword";
+	}
+	
+	@RequestMapping(value = "/logOut", method = RequestMethod.GET)
+	public String logOut(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if(session != null){
+		    session.invalidate();
+		 
+		    System.out.println("User logged out");
+		}
+		return "Welcome";
 	}
 	
 	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
