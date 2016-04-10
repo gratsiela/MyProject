@@ -21,7 +21,7 @@ Enter your email address and your password will be send to it!
 <br>
 </center>
 
-      <form action="signIn" method="post" class="form form--login">
+      <form action="sendForgottenPassword" method="post" class="form form--login">
 
  		<div class="form__field">
           <label for="login__username"><span class="hidden">Email</span></label>

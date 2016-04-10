@@ -194,13 +194,13 @@ public	boolean updateProfile(User x, String newFirstName,String newLastName, Str
 		}
 	}
 //update password
-public	boolean updatePassword(User x, String newPassword){
+public	boolean updatePassword(String email, String newPassword){
 	String query = "update diary.users set pass = SHA1(?) where user_email = ?;";
 	try{
 		Connection con = manager.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, newPassword);
-		stmt.setString(2, x.getEmail());
+		stmt.setString(2, email);
 		stmt.executeUpdate();
 		stmt.close();
 		return true;

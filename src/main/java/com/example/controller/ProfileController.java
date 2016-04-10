@@ -235,7 +235,7 @@ public class ProfileController {
 		if (!signedUser.getPassword().equals(hashOldPass)) {
 			return false;
 		}
-		if (!dao.updatePassword(signedUser, newPassword)) {
+		if (!dao.updatePassword(signedUser.getEmail(), newPassword)) {
 			signedUser.setPassword(newPassword);
 			return false;
 		}

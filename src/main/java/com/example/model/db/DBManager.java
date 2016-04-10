@@ -14,8 +14,8 @@ public class DBManager {
 	public static final String DB_NAME = "diary";
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	private static final String DB_USER = "root";
-	private static final String DB_PASS = "*Gugche8";
-//	private static final String DB_PASS = "559642";
+//	private static final String DB_PASS = "*Gugche8";
+	private static final String DB_PASS = "559642";
 	private Connection connection;
 
 	private DBManager() {
