@@ -7,20 +7,50 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="MainButtons.jsp" />
-<br>---------------------------------<br>
-<h2>${currentPublicNote.title}</h2>
-${currentPublicNote.dateTime}
-<p>${currentPublicNote.content}</p>
-<br><br>
-Author: ${currentPublicNote.author.nickname}
-<br>---------------------------------<br>
-<form action="authorProfile" method="GET">
-<input type="submit" value="see author profile">
-</form>
-<br>---------------------------------<br>
-<form action="${subpage}" method="get">
-<input type="submit" value="back">
-</form>
+<div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
+		  <div class="content_container">
+		  </div><!--close content_container-->
+		  
+          <div class="content_container">
+		  		<center>
+		  		<h1>${currentPublicNote.title}</h1>
+		  		<br>
+				<h6>${currentPublicNote.dateTime}</h6>
+				<br>
+				<p>${currentPublicNote.content}</p>
+				<br>
+				<h6>${currentPublicNote.author.nickname}</h6>
+				</center>
+		  </div><!--close content_container-->  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+  <div id="footer">
+    <div id="footer_container">
+	  <div class="footer_container_box">
+		<form action="${subpage}" method="get">
+		<input type="submit" class="submitButtonStyle" value="BACK">
+		</form>
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_box">
+	    <form action="authorProfile" method="GET">
+		<input type="submit" class="submitButtonStyle" value="AUTHOR">
+		</form>
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_boxl">
+	  </div><!--close footer_container_box1-->      
+	 </div>
+  </div><!--close footer-->  
+	
 </body>
 </html>

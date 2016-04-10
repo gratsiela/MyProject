@@ -7,13 +7,35 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="MainButtons.jsp" />
-	<br>
+	<div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
+
+  		   <center>
+ 		   <h1 style="text-decoration:underline">New diary</h1>
+   		   </center>
+
+<center>
 	<form action="createNewDiary" method="POST">
-	Create new diary:<br>
-	name of the diary<input type="text" name="newDiaryName" required autocomplete="off"><br> 
-	<input type="submit" value="create diary"><br>
+	<br><br>
+	<h5>Title</h5>
+	<input type="text" name="newDiaryName" style="width:300px; height:30px; font-size:20px; text-align:center" required autocomplete="off">
+	<br><br>
+	<input type="submit" class="submitButtonStyle" value="SAVE"><br>
 	</form>
-	<a href="diaries"><button>cancel</button></button></a>
+	<br>
+	<a href="diaries"><button class="cancelButtonStyle">CANCEL</button></a>
+</center>
+	  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+	
 </body>
 </html>

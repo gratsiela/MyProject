@@ -5,15 +5,38 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+  <link rel="stylesheet" href="css/styleSignInUp.css">
 </head>
 <body>
-Forgotten Password?<br><br>
-Enter your email address and your password will be send to it:<br>
-<form action="sendForgottenPassword" method="POST">
-email<input type="email" name="email"  required autocomplete="off" ><br>
-<input type="submit" value="send password">
-</form>
-<br>------------------------<br>
-<a href="signIn"><button>cancel</button></a>
+<body class="align">
+
+  <div class="site__container">
+
+    <div class="grid__container">
+    
+<center>
+<h1 style="text-decoration:underline;">Forgotten Password?</h1>
+Enter your email address and your password will be send to it!
+<br>
+<br>
+</center>
+
+      <form action="signIn" method="post" class="form form--login">
+
+ 		<div class="form__field">
+          <label for="login__username"><span class="hidden">Email</span></label>
+          <input type="email" name="email" class="form__input" placeholder="Email" required autocomplete="off" >
+        </div>
+
+        <div class="form__field">
+          <input type="submit" name="commit" value="SEND">
+        </div>
+
+      </form>
+      <br>
+      <p class="text--center"> <a href="signIn">CANCEL</a></p>
+    </div>
+
+  </div>
 </body>
 </html>

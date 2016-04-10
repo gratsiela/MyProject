@@ -5,56 +5,52 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style>
-body{    background-color: #f6f6ee;}
-</style>
 </head>
 <body>
-	<jsp:include page="MainButtons.jsp" />
-	<br> Hello, ${signedUser.firstName} ${signedUser.lastName} !
-	<br>----------------------
-	<br> nickname:
-	<h2>${signedUser.nickname}</h2>
-	<br>----------------------
-	<br>photo:
-	<h2>PHOTO HERE</h2>
-	<img alt="image"  src="<c:url value="/static/uploads/${signedUser.email}.png"/>">
-	<br>----------------------
-	<br>description:
-	<h2>${signedUser.selfDescription}</h2>
-	<br>----------------------
-	<br>
-		<a href="editProfile"><button>edit profile</button></a>
-		
-	<div class="container-fluid">
-		<jsp:include page="MainButtons.jsp" />
-		<div class="container">
-			<div class='row'>
-				<div class='col-md-12'>
-					<h2>Hello, ${signedUser.firstName} ${signedUser.lastName}!</h2>
-				</div>
-				
-				<div class='col-md-8 col-md-offset-2 text-center'>
-					<h2> ${signedUser.nickname}</h2>
+	 <div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
 
-					<p>Photo:</p>
-					<h2>PHOTO HERE</h2>
-					<img alt="image" src="${signedUser.photoURL}"> 
-					<p>description:</p>
-					<div class='col-md-8 col-md-offset-2'>
-						<h4>${signedUser.selfDescription}</h4>
-					</div>
-					
-				</div>
-				<div class='col-md-2'></div>
-			</div>
-			<div class='row'>
-			<div class='col-md-offset-10 col-md-2'>
-			  <a href="editProfile" style="float:right;"><button class='button' >edit
-							profile</button></a>
-			</div>
-			</div>
-		</div>
-		</div>
+
+		  <div class="content_container">
+		  	<h1>Hello, ${signedUser.firstName} ${signedUser.lastName} !</h1>
+		  </div><!--close content_container-->
+
+<center>		  
+          <div class="content_container">
+          <h1 style="text-decoration:underline">Your profile</h1>
+          <br>
+		  		<br><h5>Nickname</h5>
+				<h1>${signedUser.nickname}</h1>
+				
+				<br><br>
+				<h5>Description</h5>
+				<p><h1>${signedUser.selfDescription}</h1><p>
+		  </div><!--close content_container-->
+</center>	 
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+ <div id="footer">
+    <div id="footer_container">
+	  <div class="footer_container_box">
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_box">
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_boxl">
+		  <a href="editProfile"><button class="submitButtonStyle">EDIT</button></a>
+	  </div><!--close footer_container_box1-->      
+	 </div>
+  </div><!--close footer-->  
+	
 </body>
 </html>

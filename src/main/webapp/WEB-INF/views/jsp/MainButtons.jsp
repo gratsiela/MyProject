@@ -5,38 +5,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<style>
-ul{
-lyst-style-type:none;
-margin:0;
-padding:0;
-overflow:hidden;
-background-color: #333;
-}
-li{
-float:left;
-}
-li a{
-display:block;
-color:white;
-text-align:center;
-padding:14px 16px;
-text-decoration:none;
-}
-li a:hover{
-background-color: #111;
-}
-</style>
-
+  <title>ARaynorDesign Template</title>
+  <meta name="description" content="free website template" />
+  <meta name="keywords" content="enter your keywords here" />
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/image_slide.js"></script>
 </head>
-<body>
-
-<ul>
-      <li><a href="profile">profile </a></li>
-      <li><a href="diaries">diaries </a></li>
-      <li><a href="followedUsersPublicNotes">followed </a></li>
-      <li><a href="allPublicNotes">all </a></li>
-      <li><a href="signOut">sign out</a></li>
-</ul>
+<body style="height:1500px">
+<div id="header_container">
+      <div id="header">
+	    <div id="banner">
+	      <div id="welcome">
+	        <h1>TagLibro</h1>
+	      </div><!--close welcome-->
+	      <div id="welcome_slogan">
+	        <h1></h1>
+	      </div><!--close welcome_slogan-->
+	      <div id="menubar">
+            <ul id="menu">
+              <li><a href="profile">Your profile</a></li>
+              <li><a href="diaries">Your diaries</a></li>
+              <li><a href="followedUsersPublicNotes">FOLLOWED</a></li>
+              <li><a href="allPublicNotes">ALL</a></li>
+              <li><a href="signOut">Sign out</a></li>
+            </ul>
+          </div><!--close menubar-->
+	    </div><!--close banner-->
+      </div><!--close header-->
+	</div><!--close header_container-->
 </body>
 </html>

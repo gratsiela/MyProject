@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
@@ -24,6 +25,7 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -77,12 +79,18 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
-	public String savePassword(HttpServletRequest request, HttpSession session) {
+	public String savePassword(HttpServletRequest request, HttpSession session, Model model) {
 		User signedUser = (User) session.getAttribute("signedUser");
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
-		if (!updatePassword(signedUser, oldPassword, newPassword))
-			return "EditPassword";
+		if(WelcomeController.passwordValidation(newPassword)){
+			if (!updatePassword(signedUser, oldPassword, newPassword)){
+				model.addAttribute("changePSWDmessage", "Wrong password!");
+				return "EditPassword";}
+		}
+		else{
+			model.addAttribute("changePSWDmessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
+			return "EditPassword";}		
 		return "EditProfile";
 	}
 	
@@ -136,7 +144,7 @@ public class ProfileController {
 					byte[] bytes = file.getBytes();
 
 					// Creating the directory to store file
-					String path = req.getSession().getServletContext().getRealPath("/static/uploads/");
+					String path = req.getSession().getServletContext().getRealPath("/uploads/");
 					String title = (String) req.getSession().getAttribute("email");
 					File f = new File(path+File.separator+title+".png");
 					BufferedOutputStream stream = new BufferedOutputStream(
@@ -174,7 +182,8 @@ public class ProfileController {
 
 	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
 		DBUserDao dao = DBUserDao.getInstance();
-		if (!signedUser.getPassword().equals(oldPassword)) {
+		String hashOldPass = DigestUtils.shaHex(oldPassword);
+		if (!signedUser.getPassword().equals(hashOldPass)) {
 			return false;
 		}
 		if (!dao.updatePassword(signedUser, newPassword)) {

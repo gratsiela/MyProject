@@ -9,26 +9,53 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="MainButtons.jsp" />
-	<br>----------------------
-	<br> nickname:
-	<h2>${author.nickname}</h2>
-	<br>----------------------
-	<br>photo:
-	<h2>PHOTO HERE</h2>
-	<br>----------------------
-	<br>description:
-	<h2>${author.selfDescription}</h2>
-	<br>----------------------
-	
-	<br>
-	<form action="${followUnfollow}" method="POST">
-	<input type="submit" value="${followUnfollow}">
-	</form>
-	<br>---------------------------------<br>
-<form action="${typeCurrentNote}" method="get">
-<input type="submit" value="back">
-</form>
+ <div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
+
+
+		   <center>
+ 		   <h1 style="text-decoration:underline">Author profile</h1>
+   		   </center>
+
+<center>		  
+		  		<br>
+		  		<h5>Nickname</h5>
+				<h1>${author.nickname}</h1>
+				
+				<br><br>
+				<h5>Description</h5>
+				<p><h1>${author.selfDescription}</h1><p>
+</center>	 
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+ <div id="footer">
+    <div id="footer_container">
+	  <div class="footer_container_box">
+		<form action="${typeCurrentNote}" method="get">
+		<input type="submit" class="submitButtonStyle" value="BACK">
+		</form>
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_box">
+	    	<form action="${followUnfollow}" method="POST">
+			<input type="submit" class="submitButtonStyle" value="${followUnfollow}">
+			</form>
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_boxl">
+	  </div><!--close footer_container_box1-->      
+	 </div>
+  </div><!--close footer-->  
+  
 </body>
 
 </html>

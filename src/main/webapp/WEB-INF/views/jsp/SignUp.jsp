@@ -7,28 +7,68 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+        <link rel="stylesheet" href="css/styleSignInUp.css">
 </head>
 <body>
-	<form action="signUp" method="POST">
-		first name 
-		<input type="text" name="firstName" required autocomplete="off" /><br>
-		last name 
-		<input type="text" name="lastName" required autocomplete="off" /><br>
-		nickname 
-		<input type="text" name="nickname" required autocomplete="off" /><br>
-		email  
-		<input type="email" name="email" required autocomplete="off" /><br>
-		password 
-		<input type="password" name="password" required autocomplete="off"
-				id="password" /><br>
-		confirm password 
-		<input type="password" name="confirmPassword" required
-				autocomplete="off" id="confirmPassword" /><br>
-		<input type="submit" id="submit" value="sign up">
-	</form>
-	<br>
-	------------------------<br>
-	<a href="index"><button>cancel</button></a>
+<body>
+
+    <body class="align">
+
+  <div class="site__container">
+
+    <div class="grid__container">
+
+      <form action="signUp" method="post" class="form form--login">
+
+        <div class="form__field">
+          <label for="login__username"><span class="hidden">First name</span></label>
+          <input type="text" name="firstName" class="form__input" placeholder="First name" required autocomplete="off" >
+        </div>
+        
+        <div class="form__field">
+          <label for="login__username"><span class="hidden">Last name</span></label>
+          <input type="text" name="lastName" class="form__input" placeholder="Last name" required autocomplete="off" >
+        </div>
+        
+        <div class="form__field">
+          <label for="login__username"><span class="hidden">Nickname</span></label>
+          <input type="text" name="nickname" class="form__input" placeholder="Nickname" required autocomplete="off" >
+        </div>
+        
+        <div class="form__field">
+          <label for="login__username"><span class="hidden">Email</span></label>
+          <input type="email" name="email" class="form__input" placeholder="Email" required autocomplete="off" >
+        </div>
+        
+        <div class="form__field">
+          <label for="login__password"><span class="hidden">Password</span></label>
+          <input id="password" type="password" name="password" class="form__input" placeholder="Password" required autocomplete="off" >
+        </div>
+
+		<div class="form__field">
+          <label for="login__password"><span class="hidden">Confirm password</span></label>
+          <input id="confrimPassword" type="password" name="confirmPassword" class="form__input" placeholder="Confirm password" required autocomplete="off" >
+        </div>
+
+        <div class="form__field">
+          <input type="submit" value="Sign Up">
+        </div>
+
+      </form>
+      <br>
+      		<h7>${pswdMessage}</h7>
+      <br>
+      <p class="text--center"> <a href="index">CANCEL</a></p>
+    </div>
+
+  </div>
+
+</body>
+    
+    
+    
+    
+    
 </body>
 <script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

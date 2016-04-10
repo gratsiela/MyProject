@@ -6,23 +6,81 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<style>
+table {
+    width: 80%;
+}
+
+th, td {
+    text-align: left;
+    padding: 5px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+</style>
 </head>
 <body>
-<jsp:include page="MainButtons.jsp" />
-<br>---------------------------------<br>
-<table border="1">
+
+<div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
+
+ 		   <center>
+ 		   <h1 style="text-decoration:underline">All public notes of followed users</h1>
+   		   </center>
+
+<center>
+<table>
+		<col width="50">
+  		<col width="100">
+  		<col width="300">
+ 		<col width="50">
 <c:forEach items="${followedUsersPublicNotes}" var="entry">
 <tr>
 		<form action="readFollowedUserPublicNote" method="GET">
-		<td>${entry.value.dateTime}</td>
-		<td>${entry.value.author.nickname}</td>
+		<td><center><h6>${entry.value.dateTime}<h6></center></td>
+		<td><center>${entry.value.author.nickname}<center></td>
 		<td>${entry.value.title}</td>
-		<td><input type="submit" value="read"><td>
+		<td><center><input type="submit" class="smallCancelButtonStyle" value="read"></center></td>
 		<input type="hidden" value="${entry.key}" name="currentPublicNoteID">
 		<input type="hidden" value="followedUsers" name="authors">
 		</form>
 </tr>
 </c:forEach>
 </table>
+</center>
+
+      <div class="footer_container_box">	  
+		  	<div class="readmore">
+		</div><!--close readmore-->
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_box">
+	    <div class="readmore">
+		</div><!--close readmore-->
+	  </div><!--close footer_container_box-->
+      <div class="footer_container_boxl">
+		
+	    <div class="readmore">
+		</div><!--close readmore-->	  
+	  </div><!--close footer_container_box1-->    
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+  <div id="footer">
+    <div id="footer_container">
+	  <div class="footer_container_box">
+	  </div> 
+	  <br style="clear:both"/>
+	  <br />
+    </div>
+  </div><!--close footer--> 
 </body>
 </html>

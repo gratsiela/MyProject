@@ -25,10 +25,10 @@ public class AuthorProfileController {
 		DBNoteDao dao=DBNoteDao.getInstance();
 		TreeMap<Long,Note>followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
 		if(followedUsersPublicNotes.containsKey(currentPublicNote.getId())){
-			model.addAttribute("followUnfollow", "unfollow");
+			model.addAttribute("followUnfollow", "UNFOLLOW");
 		}
 		else{
-			model.addAttribute("followUnfollow", "follow");
+			model.addAttribute("followUnfollow", "FOLLOW");
 		}
 		if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
 			model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
@@ -40,7 +40,7 @@ public class AuthorProfileController {
 		return "AuthorProfile";
 	}
 	
-	@RequestMapping(value="/follow",method = RequestMethod.POST)
+	@RequestMapping(value="/FOLLOW",method = RequestMethod.POST)
 	public String follow(HttpSession session) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		User author=(User) session.getAttribute("author");
@@ -49,7 +49,7 @@ public class AuthorProfileController {
 		return "redirect:authorProfile";
 	}
 	
-	@RequestMapping(value="/unfollow",method = RequestMethod.POST)
+	@RequestMapping(value="/UNFOLLOW",method = RequestMethod.POST)
 	public String unfollow(HttpSession session) {
 		User signedUser=(User) session.getAttribute("signedUser");
 		User author=(User) session.getAttribute("author");

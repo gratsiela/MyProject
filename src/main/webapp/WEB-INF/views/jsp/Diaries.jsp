@@ -6,18 +6,51 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+  <link rel="stylesheet" href="css/styleSignInUp.css">
 </head>
 <body>
-<jsp:include page="MainButtons.jsp" />
-<br>
-<a href="createNewDiary"><button>create new diary</button></a>
-<br>
-<br>
-		<c:forEach items="${signedUser.diaries}" var="entry">
-		<form action="diary" method="GET">
-		<input type="submit" value="${entry.value.name}">
-		<input type="hidden" value="${entry.key}" name="currentDiaryID">
+		
+ <div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content" style="width:920px;">	 	 
+	  <div id="content">
+        <div class="content_item">
+		  
+		  <center>
+ 		   <h1 style="text-decoration:underline; padding-right: 60px;">Your diaries</h1>
+   		   </center>
+   		   
+<c:forEach items="${signedUser.diaries}" var="entry">
+		  <div class="content_container">
+		  	<form action="diary" method="GET" class="form form--login">
+		  	<div class="form__field">
+            <input type="submit" value="${entry.value.name}">
+       		</div>
+			<input type="hidden" value="${entry.key}" name="currentDiaryID">
 		</form>
+		  </div><!--close content_container-->
 </c:forEach>
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+<div id="footer">
+    <div id="footer_container">
+	  <div class="footer_container_box">
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_box">
+      		  <a href="createNewDiary"><button class="submitButtonStyle">NEW</button></a>
+	  </div><!--close footer_container_box-->
+	  
+      <div class="footer_container_boxl">
+	  </div><!--close footer_container_box1-->      
+	 </div>
+  </div><!--close footer-->  
+
 </body>
 </html>

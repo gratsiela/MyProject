@@ -19,25 +19,48 @@ tinymce.init({
 </script>
 </head>
 <body>
-<jsp:include page="MainButtons.jsp" />
-<br>---------------------------------
-	<form action="createNewNote" method="POST">
-	Title:<br>
-	<input type="text" name="title"  required autocomplete="off" ><br>
-	Content:<br>
-	<textarea name="content"  ></textarea>
 	
-	Status:<br>
-	<select name="status" required autocomplete="off" >
+<div id="main">
+  	<jsp:include page="MainButtons.jsp" />
+    
+	<div id="site_content">	 	 
+	  <div id="content">
+        <div class="content_item">
+
+		   <center>
+ 		   <h1 style="text-decoration:underline">New note</h1>
+   		   </center>
+
+<center>
+<form action="createNewNote" method="POST">
+	<br><br>
+	<h5>Title</h5>
+	<input type="text" name="title" style="width:400px; height:30px; font-size:20px; text-align:center;"  required autocomplete="off" >
+	<br><br>
+	<textarea rows="20" name="content"  ></textarea>
+	<br>
+	<h5>Status</h5>
+	<select name="status" style="font-size:20px" required autocomplete="off" >
 	<option value="private">private</option>
 	<option value="public">public</option>
-	</select><br>
-	<input type="submit" value="create note">
+	</select><br><br><br><br>
+	<input type="submit" class="submitButtonStyle" value="SAVE">
 	</form><br>
 	<form action="diary" method="POST">
-	<input type="submit" value="cancel";>
+	<input type="submit" class="cancelButtonStyle" value="CANCEL">
 	</form>
+	
+</center>
+	</div><!--close content_item-->
+      </div><!--close content-->
+    
+	</div><!--close site_content-->
+  </div><!--close main-->
+  
+   <div id="footer">
+    <div id="footer_container">
+	  
+	 </div>
+  </div><!--close footer--> 
 </body>
-
-
 </html>
