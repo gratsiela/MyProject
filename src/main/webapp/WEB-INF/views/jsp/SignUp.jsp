@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="css/styleSignInUp.css">
 </head>
 <body>
-<body>
 
     <body class="align">
 
@@ -22,22 +21,22 @@
 
         <div class="form__field">
           <label for="login__username"><span class="hidden">First name</span></label>
-          <input type="text" name="firstName" class="form__input" placeholder="First name" required autocomplete="off" >
+          <input type="text" value="${fname}" name="firstName" class="form__input" placeholder="First name" required autocomplete="off" >
         </div>
         
         <div class="form__field">
           <label for="login__username"><span class="hidden">Last name</span></label>
-          <input type="text" name="lastName" class="form__input" placeholder="Last name" required autocomplete="off" >
+          <input type="text" value="${lname}" name="lastName" class="form__input" placeholder="Last name" required autocomplete="off" >
         </div>
         
         <div class="form__field">
           <label for="login__username"><span class="hidden">Nickname</span></label>
-          <input type="text" name="nickname" class="form__input" placeholder="Nickname" required autocomplete="off" >
+          <input type="text" value="${nickname}" name="nickname" class="form__input" placeholder="Nickname" required autocomplete="off" >
         </div>
         
         <div class="form__field">
           <label for="login__username"><span class="hidden">Email</span></label>
-          <input type="email" name="email" class="form__input" placeholder="Email" required autocomplete="off" >
+          <input type="email" value="${email}" name="email" class="form__input" placeholder="Email" required autocomplete="off" >
         </div>
         
         <div class="form__field">
@@ -56,19 +55,13 @@
 
       </form>
       <br>
-      		<h7>${pswdMessage}</h7>
+      <center> <h7>${pswdMessage}</h7> </center>
       <br>
       <p class="text--center"> <a href="index">CANCEL</a></p>
     </div>
 
   </div>
 
-</body>
-    
-    
-    
-    
-    
 </body>
 <script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

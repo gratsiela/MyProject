@@ -58,7 +58,11 @@ tr:nth-child(even){background-color: #f2f2f2}
     
 	</div><!--close site_content-->
   </div><!--close main-->
-   
+  
+   <div id="footer">
+    <div id="footer_container">
+    </div>
+  </div><!--close footer-->  
    
 </body>
 </html>

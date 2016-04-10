@@ -14,7 +14,6 @@
 	  <div id="content">
         <div class="content_item">
 
-
 		  <div class="content_container">
 		  	<h1>Hello, ${signedUser.firstName} ${signedUser.lastName} !</h1>
 		  </div><!--close content_container-->

@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-  <title>ARaynorDesign Template</title>
   <meta name="description" content="free website template" />
   <meta name="keywords" content="enter your keywords here" />
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
@@ -18,7 +17,7 @@
       <div id="header">
 	    <div id="banner">
 	      <div id="welcome">
-	        <h1>TagLibro</h1>
+	        <h1 style="color:#5c8a8a;">TagLibro</h1>
 	      </div><!--close welcome-->
 	      <div id="welcome_slogan">
 	        <h1></h1>

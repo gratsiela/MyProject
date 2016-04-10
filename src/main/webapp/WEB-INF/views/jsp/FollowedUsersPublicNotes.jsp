@@ -76,10 +76,6 @@ tr:nth-child(even){background-color: #f2f2f2}
   
   <div id="footer">
     <div id="footer_container">
-	  <div class="footer_container_box">
-	  </div> 
-	  <br style="clear:both"/>
-	  <br />
     </div>
   </div><!--close footer--> 
 </body>

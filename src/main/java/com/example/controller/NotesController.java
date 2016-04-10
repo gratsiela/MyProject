@@ -28,40 +28,60 @@ public class NotesController {
 
 	@RequestMapping(value = "/createNewNote", method = RequestMethod.POST)
 	public String createNewNote(HttpServletRequest request, HttpSession session) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-		String newNoteTitle=request.getParameter("title");
-		String newNoteContent=request.getParameter("content");
-		String newNoteStatus=request.getParameter("status");
-		Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, new Date(),0L, signedUser);
-		if(!noteExists(currentDiary, newNote)){
-			DBNoteDao dao=DBNoteDao.getInstance();
-			dao.addNote(currentDiary, newNote);
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
+			String newNoteTitle=request.getParameter("title");
+			String newNoteContent=request.getParameter("content");
+			String newNoteStatus=request.getParameter("status");
+			Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, new Date(),0L, signedUser);
+			if(!noteExists(currentDiary, newNote)){
+				DBNoteDao dao=DBNoteDao.getInstance();
+				dao.addNote(currentDiary, newNote);
+			}
+			return "forward:diary";
 		}
-		return "forward:diary";
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value = "/note", method = RequestMethod.GET)
 	public String note(HttpServletRequest request, Model model, HttpSession session) {
-		Long currentNoteID=Long.parseLong(request.getParameter("currentNoteID"));
-		Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-		Note currentNote=currentDiary.getNotes().get(currentNoteID);
-		model.addAttribute("currentNote",currentNote);
-		session.setAttribute("currentNote",currentNote);
-		return "Note";
+		if(session.getAttribute("signedUser") != null){
+			Long currentNoteID=Long.parseLong(request.getParameter("currentNoteID"));
+			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
+			Note currentNote=currentDiary.getNotes().get(currentNoteID);
+			model.addAttribute("currentNote",currentNote);
+			session.setAttribute("currentNote",currentNote);
+			return "Note";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value = "/deleteNote", method = RequestMethod.GET)
-	public String goToDeleteNote() {
-		return "DeleteNote";
+	public String goToDeleteNote(HttpSession session) {
+		if(session.getAttribute("signedUser") != null){
+			return "DeleteNote";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value = "/deleteNote", method = RequestMethod.POST)
 	public String goToDeleteDiary(HttpServletRequest request,HttpSession session) {
-		Note currentNote=(Note) session.getAttribute("currentNote");
-		DBNoteDao dao= DBNoteDao.getInstance();
-		dao.deleteNote(currentNote);
-		return "forward:diary";
+		if(session.getAttribute("signedUser") != null){
+			Note currentNote=(Note) session.getAttribute("currentNote");
+			DBNoteDao dao= DBNoteDao.getInstance();
+			dao.deleteNote(currentNote);
+			return "forward:diary";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	private boolean noteExists(Diary diary, Note note){

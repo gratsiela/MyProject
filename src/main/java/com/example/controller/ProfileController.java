@@ -57,29 +57,42 @@ public class ProfileController {
     }
     
 	@RequestMapping(value = "/editProfile", method = RequestMethod.GET)
-	public String editProfile() {
-		return "EditProfile";
+	public String editProfile(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			return "EditProfile";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 
 	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
 	public String saveProfile(HttpServletRequest request, HttpSession session) {
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String nickname = request.getParameter("nickname");
-		String description = request.getParameter("description");
-		System.out.println(description);
-		User signedUser = (User) session.getAttribute("signedUser");
-		updateUserProfile(signedUser, firstName, lastName, nickname, description);
-		return "Profile";
+		if(session.getAttribute("signedUser") != null){
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String nickname = request.getParameter("nickname");
+			String description = request.getParameter("description");
+			User signedUser = (User) session.getAttribute("signedUser");
+			updateUserProfile(signedUser, firstName, lastName, nickname, description);
+			return "Profile";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 
 	@RequestMapping(value = "/editPassword", method = RequestMethod.GET)
-	public String editPassword() {
-		return "EditPassword";
+	public String editPassword(HttpSession session) {
+		if(session.getAttribute("signedUser")!= null)
+			return "EditPassword";
+		return "Welcome";
 	}
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
 	public String savePassword(HttpServletRequest request, HttpSession session, Model model) {
+		if(session.getAttribute("signedUser") != null){
 		User signedUser = (User) session.getAttribute("signedUser");
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
@@ -91,12 +104,16 @@ public class ProfileController {
 		else{
 			model.addAttribute("changePSWDmessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
 			return "EditPassword";}		
-		return "EditProfile";
+		}
+		return "Welcome";
 	}
 	
 	@RequestMapping(value = "/changePicture", method = RequestMethod.GET)
-	public String changePicture() {
-		return "ChangePicture";
+	public String changePicture(HttpSession session) {
+		if(session.getAttribute("signedUser")!=null){
+			return "ChangePicture";
+		}
+		return "Welcome";
 	}
 	
 /*	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
@@ -136,7 +153,7 @@ public class ProfileController {
 	        }
 	    }*/
 	 
-	 @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+/*	 @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
 	   public String savePicture(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
 		       //save file
 	      if (!file.isEmpty()) {
@@ -144,9 +161,9 @@ public class ProfileController {
 					byte[] bytes = file.getBytes();
 
 					// Creating the directory to store file
-					String path = req.getSession().getServletContext().getRealPath("/uploads/");
+					String path = req.getSession().getServletContext().getRealPath("/resources/");
 					String title = (String) req.getSession().getAttribute("email");
-					File f = new File(path+File.separator+title+".png");
+					File f = new File(path+File.separator+title+".jpg");
 					BufferedOutputStream stream = new BufferedOutputStream(
 							new FileOutputStream(f));
 					stream.write(bytes);
@@ -163,8 +180,40 @@ public class ProfileController {
 		
 
 	      return "success";
-	   }
-
+	   }*/
+	
+	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	   public String savePicture(Model model, HttpServletRequest request) throws IOException, ServletException {
+		Part picture=request.getPart("file");
+    	String description=request.getParameter("description");
+    	String email = (String) request.getSession().getAttribute("email");
+    	User user=(User) request.getSession().getAttribute("loggedUser");
+    	if(picture==null){
+    		model.addAttribute("errorMessage", "Upload fail");
+    		return "ChangePicture";
+    	}
+    	else if(DBUserDao.getInstance().uploadPicture(picture, email)){
+    		return "success";
+    	}
+    	else{
+    		model.addAttribute("errorMessage", "Upload fail");
+    		return "ChangePicture";
+    	}
+	}
+	
+	@RequestMapping(value = "/showPicture", method = RequestMethod.GET)
+	public String getPicture(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String email = (String)request.getAttribute("email");
+		String photo = DBUserDao.getProfilePicture(email);
+		if(photo!=null)
+			System.out.println("Picture load");
+		User u = (User) request.getSession().getAttribute("loggedUser");
+		u.setPhoto(photo);
+	//	request.setAttribute("picture", photo);
+		return "Profile";
+	}
+	
+	
 	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
 	// EditProfile
 	// userat se preprashta na stranica Profile i tam shte se vizualizirat

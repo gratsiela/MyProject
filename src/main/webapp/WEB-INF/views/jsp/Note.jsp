@@ -14,22 +14,19 @@
     
 	<div id="site_content">	 	 
 	  <div id="content">
+	  
+	  		  		  	<center>
+	  
         <div class="content_item">
-		  <div class="content_container">
-		  </div><!--close content_container-->
-		  
-          <div class="content_container">
-		  		<center>
 		  		<h1>${currentNote.title}</h1>
 		  		<br>
 				<h6>${currentNote.dateTime}</h6>
 				<br>
 				<p>${currentNote.content}</p>
-				</center>
-		  </div><!--close content_container-->  			  
 		</div><!--close content_item-->
+				  		</center>
+		
       </div><!--close content-->
-    
 	</div><!--close site_content-->
   </div><!--close main-->
   
@@ -42,7 +39,6 @@
 	  </div><!--close footer_container_box-->
 	  
       <div class="footer_container_box">
-	
 	  </div><!--close footer_container_box-->
 	  
       <div class="footer_container_boxl">

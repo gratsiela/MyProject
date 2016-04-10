@@ -10,7 +10,7 @@ public class User {
 	private String email;
 	private String password;
 	private String selfDescription;
-	private String photoURL;
+	private String photo;
 	private TreeMap <Long, Diary> diaries;
 	
 	public User(String firstName, String lastName, String nickname, String email, String password, String description, String photo){//use this constructor when want to visualize profile
@@ -20,7 +20,7 @@ public class User {
 		setEmail(email);
 		setPassword(password);		
 		setSelfDescription(description);
-		setPhotoURL(photo);
+		setPhoto(photo);
 	}
 
 	public String getFirstName() {
@@ -53,13 +53,13 @@ public class User {
 		return this.selfDescription;
 	}
 
-	public void setPhotoURL(String photo){
+	public void setPhoto(String photo){
 		if(photo!=null){
-			this.photoURL = photo;}
+			this.photo = photo;}
 	}
 	
-	public String getPhotoURL(){
-		return this.photoURL;
+	public String getPhoto(){
+		return this.photo;
 	}
 	public void setFirstName(String firstName) {
 		if(firstName!=null){

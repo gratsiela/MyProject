@@ -19,42 +19,57 @@ public class AuthorProfileController {
 
 	@RequestMapping(value="/authorProfile",method = RequestMethod.GET)
 	public String authorProfile(HttpSession session, Model model) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		Note currentPublicNote=(Note) session.getAttribute("currentPublicNote");
-		User author=currentPublicNote.getAuthor();
-		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeMap<Long,Note>followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
-		if(followedUsersPublicNotes.containsKey(currentPublicNote.getId())){
-			model.addAttribute("followUnfollow", "UNFOLLOW");
+		if(session.getAttribute("signedUser")!= null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			Note currentPublicNote=(Note) session.getAttribute("currentPublicNote");
+			User author=currentPublicNote.getAuthor();
+			DBNoteDao dao=DBNoteDao.getInstance();
+			TreeMap<Long,Note>followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+			if(followedUsersPublicNotes.containsKey(currentPublicNote.getId())){
+				model.addAttribute("followUnfollow", "UNFOLLOW");
+			}
+			else{
+				model.addAttribute("followUnfollow", "FOLLOW");
+			}
+			if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
+				model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
+			}else{
+				model.addAttribute("typeCurrentNote", "readPublicNote");
+			}
+			session.setAttribute("author", author);
+			model.addAttribute("author",author);
+			return "AuthorProfile";
 		}
 		else{
-			model.addAttribute("followUnfollow", "FOLLOW");
+			return "Welcome";
 		}
-		if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
-			model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
-		}else{
-			model.addAttribute("typeCurrentNote", "readPublicNote");
-		}
-		session.setAttribute("author", author);
-		model.addAttribute("author",author);
-		return "AuthorProfile";
 	}
 	
 	@RequestMapping(value="/FOLLOW",method = RequestMethod.POST)
 	public String follow(HttpSession session) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		User author=(User) session.getAttribute("author");
-		DBUserDao dao=DBUserDao.getInstance();
-		dao.follow(signedUser, author);
-		return "redirect:authorProfile";
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			User author=(User) session.getAttribute("author");
+			DBUserDao dao=DBUserDao.getInstance();
+			dao.follow(signedUser, author);
+			return "redirect:authorProfile";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value="/UNFOLLOW",method = RequestMethod.POST)
 	public String unfollow(HttpSession session) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		User author=(User) session.getAttribute("author");
-		DBUserDao dao=DBUserDao.getInstance();
-		dao.unfollow(signedUser, author);
-		return "redirect:authorProfile";
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			User author=(User) session.getAttribute("author");
+			DBUserDao dao=DBUserDao.getInstance();
+			dao.unfollow(signedUser, author);
+			return "redirect:authorProfile";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 }

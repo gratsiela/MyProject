@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -19,42 +20,71 @@ import com.example.model.dao.DBNoteDao;
 public class MainController {
 
 	@RequestMapping(value="/profile",method = RequestMethod.GET)
-	public String myProfile() {
-		return "Profile";
+	public String myProfile(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			return "Profile";
+		}
+		return "Welcome";
 	}
 	
 	@RequestMapping(value="/diaries",method = RequestMethod.GET)
-	public String myDiaries(HttpSession session,Model model) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		DBDiaryDao dao=DBDiaryDao.getInstance();
-		TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
-		signedUser.setDiaries(signedUserDiaries);
-		model.addAttribute("signedUser", signedUser);
-		return "Diaries";
+	public String myDiaries(HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			System.out.println("session existed");
+			User signedUser=(User) session.getAttribute("signedUser");
+			DBDiaryDao dao=DBDiaryDao.getInstance();
+			TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+			signedUser.setDiaries(signedUserDiaries);
+			model.addAttribute("signedUser", signedUser);
+		
+			return "Diaries";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value="/followedUsersPublicNotes",method = RequestMethod.GET)
-	public String goToFollowedUsersPublicNotes(HttpSession session,Model model) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		DBNoteDao dao= DBNoteDao.getInstance();
-		TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
-		session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
-		model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
-		return "FollowedUsersPublicNotes";
+	public String goToFollowedUsersPublicNotes(HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			DBNoteDao dao= DBNoteDao.getInstance();
+			TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+			session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
+			model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
+			return "FollowedUsersPublicNotes";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value = "/allPublicNotes", method = RequestMethod.GET)
-	public String goToAllPublicNotes(Model model, HttpSession session) {
-		User signedUser=(User) session.getAttribute("signedUser");
-		DBNoteDao dao=DBNoteDao.getInstance();
-		TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
-		model.addAttribute("allPublicNotes",allPublicNotes);
-		session.setAttribute("allPublicNotes",allPublicNotes);
-		return "AllPublicNotes";
+	public String goToAllPublicNotes(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			DBNoteDao dao=DBNoteDao.getInstance();
+			TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
+			model.addAttribute("allPublicNotes",allPublicNotes);
+			session.setAttribute("allPublicNotes",allPublicNotes);
+			return "AllPublicNotes";
+		}
+		else{
+			return "Welcome";
+		}
 	}
 	
 	@RequestMapping(value="/signOut",method = RequestMethod.GET)
-	public String signOut() {
-		return "Welcome";
+	public String signOut(HttpServletRequest request, HttpSession session){
+			if(session != null){
+			    session.invalidate();
+			    System.out.println("User logged out");
+			}
+			return "Welcome";
 	}
+		
 }
