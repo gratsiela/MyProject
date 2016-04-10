@@ -21,16 +21,16 @@ public class PublicNotesController {
 
 	@RequestMapping(value="/readPublicNote",method = RequestMethod.GET)
 	public String readPublicNote(HttpServletRequest request,HttpSession session, Model model) {
-		Long currentPublicNoteID;
-		if(request.getParameter("currentPublicNoteID")!=null){
-		currentPublicNoteID=Long.parseLong(request.getParameter("currentPublicNoteID"));
-		TreeMap<Long,Note> notes=(TreeMap<Long, Note>) session.getAttribute("allPublicNotes");
-		Note currentPublicNote=notes.get(currentPublicNoteID);
-		session.setAttribute("currentPublicNote", currentPublicNote);
-		model.addAttribute("currentPublicNote", currentPublicNote);
-		session.setAttribute("subpage", "allPublicNotes");
-		model.addAttribute("subpage", "allPublicNotes");}
-		if(session.isNew()){
+		if(session.getAttribute("signedUser") != null){
+			Long currentPublicNoteID;
+			if(request.getParameter("currentPublicNoteID")!=null){
+			currentPublicNoteID=Long.parseLong(request.getParameter("currentPublicNoteID"));
+			TreeMap<Long,Note> notes=(TreeMap<Long, Note>) session.getAttribute("allPublicNotes");
+			Note currentPublicNote=notes.get(currentPublicNoteID);
+			session.setAttribute("currentPublicNote", currentPublicNote);
+			model.addAttribute("currentPublicNote", currentPublicNote);
+			session.setAttribute("subpage", "allPublicNotes");
+			model.addAttribute("subpage", "allPublicNotes");}
 			return "PublicNote";
 		}
 		else{
@@ -40,16 +40,16 @@ public class PublicNotesController {
 	
 	@RequestMapping(value="/readFollowedUserPublicNote",method = RequestMethod.GET)
 	public String readFollowedUserPublicNote(HttpServletRequest request,HttpSession session, Model model) {
-		Long currentPublicNoteID;
-		if(request.getParameter("currentPublicNoteID")!=null){
-		currentPublicNoteID=Long.parseLong(request.getParameter("currentPublicNoteID"));
-		TreeMap<Long,Note> notes=(TreeMap<Long, Note>) session.getAttribute("followedUsersPublicNotes");
-		Note currentPublicNote=notes.get(currentPublicNoteID);
-		session.setAttribute("currentPublicNote", currentPublicNote);
-		model.addAttribute("currentPublicNote", currentPublicNote);
-		session.setAttribute("subpage", "followedUsersPublicNotes");
-		model.addAttribute("subpage", "followedUsersPublicNotes");}
-		if(session.isNew()){
+		if(session.getAttribute("signedUser") != null){
+			Long currentPublicNoteID;
+			if(request.getParameter("currentPublicNoteID")!=null){
+			currentPublicNoteID=Long.parseLong(request.getParameter("currentPublicNoteID"));
+			TreeMap<Long,Note> notes=(TreeMap<Long, Note>) session.getAttribute("followedUsersPublicNotes");
+			Note currentPublicNote=notes.get(currentPublicNoteID);
+			session.setAttribute("currentPublicNote", currentPublicNote);
+			model.addAttribute("currentPublicNote", currentPublicNote);
+			session.setAttribute("subpage", "followedUsersPublicNotes");
+			model.addAttribute("subpage", "followedUsersPublicNotes");}
 			return "PublicNote";
 		}
 		return "SignIn";

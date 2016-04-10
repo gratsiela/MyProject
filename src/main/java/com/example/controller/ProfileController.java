@@ -25,6 +25,7 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -56,21 +57,27 @@ public class ProfileController {
     }
     
 	@RequestMapping(value = "/editProfile", method = RequestMethod.GET)
-	public String editProfile() {
-		return "EditProfile";
+	public String editProfile(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("signedUser") != null){
+			return "EditProfile";
+		}
+		else{
+			return "SignIn";
+		}
 	}
 
 	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
 	public String saveProfile(HttpServletRequest request, HttpSession session) {
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String nickname = request.getParameter("nickname");
-		String description = request.getParameter("description");
-		System.out.println(description);
-		User signedUser = (User) session.getAttribute("signedUser");
-		updateUserProfile(signedUser, firstName, lastName, nickname, description);
-		if(session.isNew()){
-			return "Profile";
+		if(session.getAttribute("signedUser") != null){
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String nickname = request.getParameter("nickname");
+			String description = request.getParameter("description");
+			System.out.println(description);
+			User signedUser = (User) session.getAttribute("signedUser");
+			updateUserProfile(signedUser, firstName, lastName, nickname, description);
+			return "showPicture";
 		}
 		else{
 			return "SignIn";
@@ -78,8 +85,10 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/editPassword", method = RequestMethod.GET)
-	public String editPassword() {
-		return "EditPassword";
+	public String editPassword(HttpSession session) {
+		if(session.getAttribute("signedUser")!= null)
+			return "EditPassword";
+		return "SignIn";
 	}
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
@@ -93,8 +102,11 @@ public class ProfileController {
 	}
 	
 	@RequestMapping(value = "/changePicture", method = RequestMethod.GET)
-	public String changePicture() {
-		return "ChangePicture";
+	public String changePicture(HttpSession session) {
+		if(session.getAttribute("signedUser")!=null){
+			return "ChangePicture";
+		}
+		return "SignIn";
 	}
 	
 /*	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
@@ -134,7 +146,7 @@ public class ProfileController {
 	        }
 	    }*/
 	 
-	 @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+/*	 @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
 	   public String savePicture(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
 		       //save file
 	      if (!file.isEmpty()) {
@@ -142,9 +154,9 @@ public class ProfileController {
 					byte[] bytes = file.getBytes();
 
 					// Creating the directory to store file
-					String path = req.getSession().getServletContext().getRealPath("/uploads/");
+					String path = req.getSession().getServletContext().getRealPath("/resources/");
 					String title = (String) req.getSession().getAttribute("email");
-					File f = new File(path+File.separator+title+".png");
+					File f = new File(path+File.separator+title+".jpg");
 					BufferedOutputStream stream = new BufferedOutputStream(
 							new FileOutputStream(f));
 					stream.write(bytes);
@@ -161,8 +173,40 @@ public class ProfileController {
 		
 
 	      return "success";
-	   }
-
+	   }*/
+	
+	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	   public String savePicture(Model model, HttpServletRequest request) throws IOException, ServletException {
+		Part picture=request.getPart("file");
+    	String description=request.getParameter("description");
+    	String email = (String) request.getSession().getAttribute("email");
+    	User user=(User) request.getSession().getAttribute("loggedUser");
+    	if(picture==null){
+    		model.addAttribute("errorMessage", "Upload fail");
+    		return "ChangePicture";
+    	}
+    	else if(DBUserDao.getInstance().uploadPicture(picture, email)){
+    		return "success";
+    	}
+    	else{
+    		model.addAttribute("errorMessage", "Upload fail");
+    		return "ChangePicture";
+    	}
+	}
+	
+	@RequestMapping(value = "/showPicture", method = RequestMethod.GET)
+	public String getPicture(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String email = (String)request.getAttribute("email");
+		String photo = DBUserDao.getProfilePicture(email);
+		if(photo!=null)
+			System.out.println("Picture load");
+		User u = (User) request.getSession().getAttribute("loggedUser");
+		u.setPhoto(photo);
+	//	request.setAttribute("picture", photo);
+		return "Profile";
+	}
+	
+	
 	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
 	// EditProfile
 	// userat se preprashta na stranica Profile i tam shte se vizualizirat

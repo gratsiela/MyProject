@@ -33,22 +33,23 @@ public class DBDiaryDao {
 	public TreeMap<Long,Diary> getAllDiaries(User user){
 		TreeMap<Long,Diary> diaries=new TreeMap<Long,Diary>();
 		String query="SELECT diary_id, name FROM diary.diaries where user_email = ?;";
-		
-		try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
-			ps.setString(1, user.getEmail());
-			ResultSet rs=ps.executeQuery();
-			if(rs==null){
-				System.out.println(3);
-				return diaries;
+		if(user != null){
+			try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+				ps.setString(1, user.getEmail());
+				ResultSet rs=ps.executeQuery();
+				if(rs==null){
+					System.out.println(3);
+					return diaries;
+				}
+				
+				while(rs.next()){
+					Diary diary= new Diary(rs.getString("name"), rs.getLong("diary_id"), user);
+					diaries.put(diary.getId(),diary);
+				}
 			}
-			
-			while(rs.next()){
-				Diary diary= new Diary(rs.getString("name"), rs.getLong("diary_id"), user);
-				diaries.put(diary.getId(),diary);
+			catch(SQLException e){
+				System.out.println("Problem with getAllDiaries()!");
 			}
-		}
-		catch(SQLException e){
-			System.out.println("Problem with getAllDiaries()!");
 		}
 		return diaries;
 	}

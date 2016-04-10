@@ -54,7 +54,7 @@ public class DBManager {
 						"nickname VARCHAR(50) NOT NULL,"+
 						"pass VARCHAR(40) NOT NULL,"+
 						"self_description TEXT,"+
-						"photo TEXT);";
+						"photo Blob);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created table user in given database...");
 			}

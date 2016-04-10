@@ -12,13 +12,13 @@
 <body>
 	<form action="signUp" method="POST">
 		first name 
-		<input type="text" name="firstName" required autocomplete="off" /><br>
+		<input type="text" value="${fname}" name="firstName" required autocomplete="off" /><br>
 		last name 
-		<input type="text" name="lastName" required autocomplete="off" /><br>
+		<input type="text" value="${lname}" name="lastName" required autocomplete="off" /><br>
 		nickname 
-		<input type="text" name="nickname" required autocomplete="off" /><br>
+		<input type="text" value="${nickname}" name="nickname" required autocomplete="off" /><br>
 		email  
-		<input type="email" name="email" required autocomplete="off" /><br>
+		<input type="email" value="${email}" name="email" required autocomplete="off" /><br>
 		password 
 		<input type="password" name="password" required autocomplete="off"
 				id="password" /><br>
@@ -27,6 +27,7 @@
 				autocomplete="off" id="confirmPassword" /><br>
 		<input type="submit" id="submit" value="sign up" >
 		<h7>${pswdMessage}</h7>
+		<h7>${emailMessage}</h7>
 	</form>
 	<br>
 	------------------------<br>

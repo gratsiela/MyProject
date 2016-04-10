@@ -54,9 +54,10 @@
 
 					<p>Photo:</p>
 					<h2>PHOTO HERE</h2>
-					<h7>${signedUser.photoURL}</h7>
-					<img alt="image"  src="<c:url value="uploads/${signedUser.email}.png"/>">
-					<img alt="image" src="${signedUser.photoURL}"> 
+					<h7>${signedUser.photo}</h7>
+					<img alt="image"  src="<%= request.getContextPath()%>/resources/${signedUser.email}.jpg"/>
+				
+					
 					<p>description:</p>
 					<div class='col-md-8 col-md-offset-2'>
 						<h4>${signedUser.selfDescription}</h4>

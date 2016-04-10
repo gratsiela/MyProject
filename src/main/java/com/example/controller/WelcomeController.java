@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -39,16 +40,22 @@ public class WelcomeController {
 	
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)
-	public String signUp(HttpServletRequest request,HttpSession session,Model model) {
+	public String signUp(HttpServletRequest request,Model model) {
 		String firstName=request.getParameter("firstName");
+		model.addAttribute("fname",firstName);
 		String lastName=request.getParameter("lastName");
+		model.addAttribute("lname",lastName);
 		String nickname=request.getParameter("nickname");
+		model.addAttribute("nickname",nickname);
 		String email=request.getParameter("email");
+		model.addAttribute("email",email);
 		String password=request.getParameter("password");
 		if(passwordValidation(password)){
-			User user= signUpUser(firstName, lastName, nickname, email, password);
+			User user= signUpUser(model, firstName, lastName, nickname, email, password);
 			if(user!=null){
+				HttpSession session = request.getSession(true);
 				session.setAttribute("signedUser", user);
+				session.setAttribute("email", user.getEmail());
 				model.addAttribute("signedUser", user);
 				return "Profile";
 			}
@@ -61,12 +68,13 @@ public class WelcomeController {
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)
-	public String signIn(HttpServletRequest request,HttpSession session, Model model) {
+	public String signIn(HttpServletRequest request, Model model) {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		String hashPass = DigestUtils.shaHex(password);
 		User user= signInUser(email, hashPass, model);
 		if(user!=null){
+			HttpSession session = request.getSession(true);
 			session.setAttribute("signedUser", user);
 			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
 			model.addAttribute("signedUser", user);
@@ -89,18 +97,7 @@ public class WelcomeController {
 		return "ForgottenPassword";
 	}
 	
-	@RequestMapping(value = "/logOut", method = RequestMethod.GET)
-	public String logOut(HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		if(session != null){
-		    session.invalidate();
-		 
-		    System.out.println("User logged out");
-		}
-		return "Welcome";
-	}
-	
-	private User signUpUser(String firstName, String lastName,String nickname, String email, String password) {
+	private User signUpUser(Model model,String firstName, String lastName,String nickname, String email, String password) {
 		DBUserDao dao = DBUserDao.getInstance();
 		List<User> users = null;
 		try {
@@ -115,7 +112,7 @@ public class WelcomeController {
 		if (!users.isEmpty()) {
 			for (User u : users) {
 				if (u.getEmail().equals(email)) {
-					System.out.println("User with this email exists!");
+					model.addAttribute("emailMessage", "User with this email exists!");
 					return user;
 				}
 			}
@@ -129,18 +126,27 @@ public class WelcomeController {
 	
 	private User signInUser(String email, String password, Model model){
 		User user=null;
+		
 		try {
-			for(User u:DBUserDao.getInstance().getAllUsers()){
-				if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
-					user=u;
-				}
-				else{
-					model.addAttribute("errorMessage", "Wrong username ot password");
+			ArrayList<User> users = DBUserDao.getInstance().getAllUsers();
+			if(users.isEmpty()){
+				System.out.println("empty");
+				model.addAttribute("errorMessage", "User does not exist, go to sign up");
+			}
+			else{
+				for(User u:users){
+					if(u.getEmail().equals(email)&& u.getPassword().equals(password)){
+						user=u;
+					}
+					else{
+						model.addAttribute("errorMessage", "Wrong username or password");
+					}
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return user;
 	}
 	
