@@ -1,0 +1,9 @@
+CREATE TABLE diary.users(
+user_email VARCHAR(50) PRIMARY KEY,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+nickname VARCHAR(50) NOT NULL,
+pass VARCHAR(30) NOT NULL,
+self_description TEXT,
+photo BLOB
+);

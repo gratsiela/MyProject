@@ -137,21 +137,7 @@ public class ProfileController {
 			model.addAttribute("changePSWDmessage", "Opps, something went wrong, please try again");
 			return false;
 		}
-
-		if(session.getAttribute("signedUser") != null){
-		User signedUser = (User) session.getAttribute("signedUser");
-		String oldPassword = request.getParameter("oldPassword");
-		String newPassword = request.getParameter("newPassword");
-		if(WelcomeController.passwordValidation(newPassword)){
-			if (!updatePassword(signedUser, oldPassword, newPassword)){
-				model.addAttribute("changePSWDmessage", "Wrong password!");
-				return "EditPassword";}
-		}
-		else{
-			model.addAttribute("changePSWDmessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
-			return "EditPassword";}		
-		}
-		return "Welcome";
+		return true;
 
 	}
 	

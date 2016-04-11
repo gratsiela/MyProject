@@ -1,0 +1,6 @@
+CREATE TABLE diary.diaries(
+diary_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+user_email VARCHAR(50),
+FOREIGN KEY(user_email) REFERENCES diary.users(user_email) ON DELETE CASCADE ON UPDATE CASCADE
+);

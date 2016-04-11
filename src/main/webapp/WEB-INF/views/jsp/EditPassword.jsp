@@ -52,10 +52,6 @@
       <br>
       <p class="text--center"> <a href="profile"><button class="cancelButtonStyle">CANCEL</button></a></p>
 
-      <br>
-      <p class="text--center"> <a href="editProfile"><button class="cancelButtonStyle">CANCEL</button></a></p>
-
-       
       </div>
 
   </div>
