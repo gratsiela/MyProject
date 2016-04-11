@@ -46,10 +46,14 @@
 	  </div><!--close footer_container_box-->
 	  
       <div class="footer_container_boxl">
+
 		  <a href="editProfile"><button class="submitButtonStyle">EDIT PROFILE</button></a>
 		  <br>
 		  <br>
 		  <a href="editPassword"><button class="submitButtonStyle">EDIT PASSWORD</button></a>
+
+		  <a href="editProfile"><button class="submitButtonStyle">EDIT</button></a>
+
 	  </div><!--close footer_container_box1-->      
 	 </div>
   </div><!--close footer-->  
