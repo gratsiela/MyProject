@@ -92,20 +92,52 @@ public class ProfileController {
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
 	public String savePassword(HttpServletRequest request, HttpSession session, Model model) {
-		if(session.getAttribute("signedUser") != null){
-		User signedUser = (User) session.getAttribute("signedUser");
-		String oldPassword = request.getParameter("oldPassword");
-		String newPassword = request.getParameter("newPassword");
-		if(WelcomeController.passwordValidation(newPassword)){
-			if (!updatePassword(signedUser, oldPassword, newPassword)){
-				model.addAttribute("changePSWDmessage", "Wrong password!");
-				return "EditPassword";}
-		}
-		else{
-			model.addAttribute("changePSWDmessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
-			return "EditPassword";}		
+		if (session.getAttribute("signedUser") != null) {
+			User signedUser = (User) session.getAttribute("signedUser");
+			String oldPassword = request.getParameter("oldPassword");
+			String newPassword = request.getParameter("newPassword");
+			String confirmedPassword = request.getParameter("confirmNewPassword");
+			if (!oldPassword.equals(newPassword)) {
+				if(newPassword.equals(confirmedPassword)){
+				if (WelcomeController.passwordValidation(newPassword)) {
+					if (!updatePassword(signedUser, oldPassword, newPassword, model)) {
+						// model.addAttribute("changePSWDmessage", "Wrong
+						// password!");
+						return "EditPassword";
+					}
+				} else {
+					model.addAttribute("changePSWDmessage",
+							"The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
+					return "EditPassword";
+				}
+				}
+				else{
+					model.addAttribute("changePSWDmessage", "Confirmed password does not match with the new password!");
+					return "EditPassword";
+				}
+			} else {
+				model.addAttribute("changePSWDmessage", "The new password must be different from the old one");
+				return "EditPassword";
+			}
+			model.addAttribute("changePSWDmessage", "Your password was successfully changed");
+			return "EditPassword";
 		}
 		return "Welcome";
+	}
+	
+	private boolean updatePassword(User signedUser, String oldPassword, String newPassword, Model model) {
+		DBUserDao dao = DBUserDao.getInstance();
+		String hashOldPass = DigestUtils.shaHex(oldPassword);
+		if (!signedUser.getPassword().equals(hashOldPass)) {
+			model.addAttribute("changePSWDmessage", "Wrong old password");
+			return false;
+		}
+		if (!dao.updatePassword(signedUser.getEmail(), newPassword)) {
+			signedUser.setPassword(newPassword);
+			model.addAttribute("changePSWDmessage", "Opps, something went wrong, please try again");
+			return false;
+		}
+		return true;
 	}
 	
 	@RequestMapping(value = "/changePicture", method = RequestMethod.GET)
@@ -227,18 +259,5 @@ public class ProfileController {
 			signedUser.setNickname(newNickname);
 			signedUser.setSelfDescription(newDescription);
 		}
-	}
-
-	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
-		DBUserDao dao = DBUserDao.getInstance();
-		String hashOldPass = DigestUtils.shaHex(oldPassword);
-		if (!signedUser.getPassword().equals(hashOldPass)) {
-			return false;
-		}
-		if (!dao.updatePassword(signedUser.getEmail(), newPassword)) {
-			signedUser.setPassword(newPassword);
-			return false;
-		}
-		return true;
 	}
 }

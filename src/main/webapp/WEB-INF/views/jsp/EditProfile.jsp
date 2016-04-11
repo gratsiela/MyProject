@@ -62,8 +62,6 @@ border-top-left-radius: 0;color:inherit;'>
       
       <p class="text--center"> <a href="profile"><button class="cancelButtonStyle">CANCEL</button></a></p>
        
-      <br>
-      <p class="text--center"> <a href="editPassword"><button class="submitButtonStyle">PASSWORD</button></a></p>
     </div>
 
   </div> 

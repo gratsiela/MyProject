@@ -46,8 +46,11 @@
 
       </form>
       
+      <center>
       <br>
-      <p class="text--center"> <a href="editProfile"><button class="cancelButtonStyle">CANCEL</button></a></p>
+      ${changePSWDmessage}
+      <br>
+      <p class="text--center"> <a href="profile"><button class="cancelButtonStyle">CANCEL</button></a></p>
        
       </div>
 
@@ -69,7 +72,7 @@
   </div><!--close footer--> 
 
 </body>
-<script type="text/javascript"
+<!--  <script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -88,5 +91,5 @@
 				return true;
 			});
 		});
-	</script>
+	</script> -->
 </html>
