@@ -149,19 +149,71 @@ public class ProfileController {
 		return "Welcome";
 	}
 	
-/*	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+
+	
+	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+	   public String savePicture(Model model, HttpServletRequest request) throws IOException, ServletException {
+		Part picture=request.getPart("file");
+  //  	String description=request.getParameter("description");
+    	String email = (String) request.getSession().getAttribute("email");
+    	User user=(User) request.getSession().getAttribute("loggedUser");
+    	if(picture==null){
+    		model.addAttribute("errorMessage", " Cannot Upload fail");
+    		return "ChangePicture";
+    	}
+    	else if(DBUserDao.getInstance().uploadPicture(picture, email)){
+    		return "success";
+    	}
+    	else{
+    		model.addAttribute("errorMessage", "Cannot Upload fail");
+    		return "ChangePicture";
+    	}
+	}
+	
+
+	
+	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
+	// EditProfile
+	// userat se preprashta na stranica Profile i tam shte se vizualizirat
+	// promenenite i ne promenenite
+	private void updateUserProfile(User signedUser, String newFirstName, String newLastName, String newNickname,
+			String newDescription) {
+		DBUserDao dao = DBUserDao.getInstance();
+		if(dao.updateProfile(signedUser, newFirstName, newLastName, newNickname, newDescription)){
+			signedUser.setFirstName(newFirstName);
+			signedUser.setLastName(newLastName);
+			signedUser.setNickname(newNickname);
+			signedUser.setSelfDescription(newDescription);
+		}
+	}
+
+
+	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
+		DBUserDao dao = DBUserDao.getInstance();
+		String hashOldPass = DigestUtils.shaHex(oldPassword);
+		if (!signedUser.getPassword().equals(hashOldPass)) {
+			return false;
+		}
+		if (!dao.updatePassword(signedUser.getEmail(), newPassword)) {
+			signedUser.setPassword(newPassword);
+			return false;
+		}
+		return true;
+	}
+	
+	/*	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
 	public @ResponseBody String savePicture(){  
 		return "SavedPicture";
 	}  
 	*/
 	
-	 @RequestMapping(value = "/singleUpload", method = RequestMethod.GET)
+/*	 @RequestMapping(value = "/singleUpload", method = RequestMethod.GET)
 	    public String getSingleUploadPage(ModelMap model) {
-	        FileBucket fileModel = new FileBucket();
-	        model.addAttribute("fileBucket", fileModel);
+	     //   FileBucket fileModel = new FileBucket();
+	     //   model.addAttribute("fileBucket", fileModel);
 	        return "ChangePicture";
 	    }
-	 
+	 */
 	/*    @RequestMapping(value = "/savePicture", method = RequestMethod.POST)
 	    public String savePicture(@Valid FileBucket fileBucket,
 	            BindingResult result, ModelMap model, HttpServletRequest request) throws IOException {
@@ -215,65 +267,18 @@ public class ProfileController {
 	      return "success";
 	   }*/
 	
-	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
-	   public String savePicture(Model model, HttpServletRequest request) throws IOException, ServletException {
-		Part picture=request.getPart("file");
-    	String description=request.getParameter("description");
-    	String email = (String) request.getSession().getAttribute("email");
-    	User user=(User) request.getSession().getAttribute("loggedUser");
-    	if(picture==null){
-    		model.addAttribute("errorMessage", "Upload fail");
-    		return "ChangePicture";
-    	}
-    	else if(DBUserDao.getInstance().uploadPicture(picture, email)){
-    		return "success";
-    	}
-    	else{
-    		model.addAttribute("errorMessage", "Upload fail");
-    		return "ChangePicture";
-    	}
-	}
-	
-	@RequestMapping(value = "/showPicture", method = RequestMethod.GET)
+	/*	@RequestMapping(value = "/showPicture", method = RequestMethod.GET)
 	public String getPicture(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String email = (String)request.getAttribute("email");
 		String photo = DBUserDao.getProfilePicture(email);
 		if(photo!=null)
 			System.out.println("Picture load");
-		User u = (User) request.getSession().getAttribute("loggedUser");
-		u.setPhoto(photo);
+		User user = (User) request.getSession().getAttribute("loggedUser");
+		user.setPhoto(photo);
+		request.setAttribute("user", user);
 	//	request.setAttribute("picture", photo);
 		return "Profile";
 	}
-	
-	
-	// ne vrashtam saobshtenie dali vs updates sa minali uspeshno, zashtoto sled
-	// EditProfile
-	// userat se preprashta na stranica Profile i tam shte se vizualizirat
-	// promenenite i ne promenenite
-	private void updateUserProfile(User signedUser, String newFirstName, String newLastName, String newNickname,
-			String newDescription) {
-		DBUserDao dao = DBUserDao.getInstance();
-		if(dao.updateProfile(signedUser, newFirstName, newLastName, newNickname, newDescription)){
-			signedUser.setFirstName(newFirstName);
-			signedUser.setLastName(newLastName);
-			signedUser.setNickname(newNickname);
-			signedUser.setSelfDescription(newDescription);
-		}
-	}
-
-
-	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
-		DBUserDao dao = DBUserDao.getInstance();
-		String hashOldPass = DigestUtils.shaHex(oldPassword);
-		if (!signedUser.getPassword().equals(hashOldPass)) {
-			return false;
-		}
-		if (!dao.updatePassword(signedUser.getEmail(), newPassword)) {
-			signedUser.setPassword(newPassword);
-			return false;
-		}
-		return true;
-	}
+	*/
 
 }

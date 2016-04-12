@@ -9,9 +9,11 @@
     <link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet" type="text/css"></link>
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet" type="text/css"></link>
 </head>
-<form action="savePicture" method="POST" modelAttribute="fileBucket" enctype="multipart/form-data">
+<form action="savePicture" method="POST" enctype="multipart/form-data">
 <input type="file" name="file" required autocomplete="off"/><br>
 <input type="submit" value="save"><br>
 </form>
 <a href="editProfile"><button>cancel</button></a>
+<br>
+${errorMessage}
 </html>

@@ -16,13 +16,19 @@ import com.example.model.Note;
 import com.example.model.User;
 import com.example.model.dao.DBDiaryDao;
 import com.example.model.dao.DBNoteDao;
+import com.example.model.dao.DBUserDao;
 @Controller
 public class MainController {
 
 	@RequestMapping(value="/profile",method = RequestMethod.GET)
 	public String myProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("signedUser") != null){
+		User user =(User)session.getAttribute("signedUser"); 
+		String email = (String) session.getAttribute("email");
+		if(user != null){
+			String photo = DBUserDao.getProfilePicture(email);
+			user.setPhoto(photo);
+			request.setAttribute("user", user);
 			return "Profile";
 		}
 		return "Welcome";

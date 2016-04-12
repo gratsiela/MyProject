@@ -55,7 +55,8 @@ public class User {
 
 	public void setPhoto(String photo){
 		if(photo!=null){
-			this.photo = photo;}
+			this.photo = photo;
+		}
 	}
 	
 	public String getPhoto(){

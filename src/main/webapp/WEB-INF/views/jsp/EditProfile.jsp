@@ -54,10 +54,12 @@ border-top-left-radius: 0;color:inherit;'>
 
         <div class="form__field">
           <input type="submit" value="Save">
+          
         </div>
-
+			
       </form>
-      
+      <br>
+          <p class="text--center"> <a href="changePicture"><button class="submitButtonStyle">Upload Picture</button></a>
       <br>
       
       <p class="text--center"> <a href="profile"><button class="cancelButtonStyle">CANCEL</button></a></p>

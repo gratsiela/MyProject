@@ -1,6 +1,8 @@
 package com.example.model.dao;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +19,7 @@ import javax.servlet.http.Part;
 import javax.sql.rowset.serial.SQLOutputImpl;
 import com.example.model.User;
 import com.example.model.db.DBManager;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class DBUserDao{
 	 
@@ -98,7 +101,7 @@ public class DBUserDao{
 	//upload profilePicture method()
 	
 	//update profilePicture method()
-	public	boolean updateProfilePicture(String userEmail, String location){
+/*	public	boolean updateProfilePicture(String userEmail, String location){
 		String query = "update diary.users set photo = ? where user_email = ?;";
 		Connection con = manager.getConnection();
 		try(PreparedStatement stmt = con.prepareStatement(query)){
@@ -121,7 +124,7 @@ public class DBUserDao{
 			return false;
 		}
 		
-	}
+	}*/
 	
 	public static boolean uploadPicture(Part picture,String email) {
 		Connection connection = DBManager.getInstance().getConnection();
@@ -161,14 +164,18 @@ public class DBUserDao{
 			ResultSet rs=stmt.executeQuery();
 			while(rs.next()){
 				Blob b = rs.getBlob("photo");
-				byte[] bdata = b.getBytes(1, (int)b.length());
-				//blob = Base64.encode(bdata);
-				blob = java.util.Base64.getEncoder().encodeToString(bdata);
-				
+				if(b!=null){
+					byte[] bdata = b.getBytes(1, (int)b.length());
+					blob = Base64.encode(bdata);
+				}
+				//blob = java.util.Base64.getEncoder().encodeToString(bdata);
+				;
 			}
 		}catch(SQLException e){
 			System.out.println("Problem with getting picture");
+		
 		}
+		System.out.println("Picture loaded");
 		return blob;
 	}
 		

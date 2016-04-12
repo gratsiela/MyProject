@@ -26,14 +26,9 @@
             <ul id="menu">
               <li><a href="profile">Your profile</a></li>
               <li><a href="diaries">Your diaries</a></li>
-
               <li><a href="followedUsersPublicNotes">Followed</a></li>
               <li><a href="allPublicNotes">All</a></li>
-
-              <li><a href="followedUsersPublicNotes">FOLLOWED</a></li>
-              <li><a href="allPublicNotes">ALL</a></li>
-
-              <li><a href="signOut">Sign out</a></li>
+			  <li><a href="signOut">Sign out</a></li>
             </ul>
           </div><!--close menubar-->
 	    </div><!--close banner-->

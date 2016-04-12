@@ -1,11 +1,14 @@
 package com.example.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -57,6 +60,8 @@ public class WelcomeController {
 				session.setAttribute("signedUser", user);
 				session.setAttribute("email", user.getEmail());
 				model.addAttribute("signedUser", user);
+				String photo = DBUserDao.getProfilePicture(email);
+				
 				return "Profile";
 			}
 		}
@@ -66,6 +71,23 @@ public class WelcomeController {
 		}
 		return "SignUp";
 	}
+	
+/*	@RequestMapping(value="/signIn",method = RequestMethod.POST)
+	public String signIn(HttpServletRequest request, Model model) {
+		String email=request.getParameter("email");
+		String password=request.getParameter("password");
+		String hashPass = DigestUtils.shaHex(password);
+		User user= signInUser(email, hashPass, model);
+		if(user!=null){
+			HttpSession session = request.getSession(true);
+			session.setAttribute("signedUser", user);
+			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
+			model.addAttribute("signedUser", user);
+			return "Profile";
+			}
+		return "SignIn";
+	}
+	*/
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)
 	public String signIn(HttpServletRequest request, Model model) {
@@ -78,7 +100,13 @@ public class WelcomeController {
 			session.setAttribute("signedUser", user);
 			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
 			model.addAttribute("signedUser", user);
-			return "Profile";
+			String photo = DBUserDao.getProfilePicture(email);
+			if(photo!=null){
+				System.out.println("Picture load");
+				user.setPhoto(photo);
+				request.setAttribute("user", user);
+			}
+				return "Profile";
 			}
 		return "SignIn";
 	}

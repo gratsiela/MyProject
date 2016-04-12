@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import com.example.model.dao.DBUserDao;
 public class AuthorProfileController {
 
 	@RequestMapping(value="/authorProfile",method = RequestMethod.GET)
-	public String authorProfile(HttpSession session, Model model) {
+	public String authorProfile(HttpSession session, Model model, HttpServletRequest request) {
 		if(session.getAttribute("signedUser")!= null){
 			User signedUser=(User) session.getAttribute("signedUser");
 			Note currentPublicNote=(Note) session.getAttribute("currentPublicNote");
@@ -38,6 +39,12 @@ public class AuthorProfileController {
 			}
 			session.setAttribute("author", author);
 			model.addAttribute("author",author);
+			String photo = DBUserDao.getProfilePicture(author.getEmail());
+			if(photo!=null){
+				System.out.println("Picture load");
+				author.setPhoto(photo);
+				request.setAttribute("author", author);
+			}
 			return "AuthorProfile";
 		}
 		else{

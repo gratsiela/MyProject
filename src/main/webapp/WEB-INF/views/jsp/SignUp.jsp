@@ -56,6 +56,7 @@
       </form>
       <br>
       <center> <h7>${pswdMessage}</h7> </center>
+      <center> <h7>${emailMessage}</h7> </center>
       <br>
       <p class="text--center"> <a href="index">CANCEL</a></p>
     </div>
