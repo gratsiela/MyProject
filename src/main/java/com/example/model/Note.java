@@ -19,7 +19,7 @@ public class Note {
 		this.author=author;
 	}
 	
-	void setContent(String content){
+	public void setContent(String content){
 		if(content!=null){
 			this.content = content;
 		}

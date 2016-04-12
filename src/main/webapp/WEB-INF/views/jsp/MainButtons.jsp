@@ -28,6 +28,7 @@
               <li><a href="diaries">Your diaries</a></li>
               <li><a href="followedUsersPublicNotes">Followed</a></li>
               <li><a href="allPublicNotes">All</a></li>
+              <li><a href="search">Search</a></li>
 			  <li><a href="signOut">Sign out</a></li>
             </ul>
           </div><!--close menubar-->

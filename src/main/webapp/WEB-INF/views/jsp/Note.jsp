@@ -23,6 +23,8 @@
 				<h6>${currentNote.dateTime}</h6>
 				<br>
 				<p>${currentNote.content}</p>
+				<br>
+				<h6>${currentNote.status}</h6>
 		</div><!--close content_item-->
 				  		</center>
 		
@@ -39,6 +41,9 @@
 	  </div><!--close footer_container_box-->
 	  
       <div class="footer_container_box">
+      <form action="editNote" method="GET">
+		<input type="submit" class="submitButtonStyle" value="EDIT NOTE">
+		</form>
 	  </div><!--close footer_container_box-->
 	  
       <div class="footer_container_boxl">

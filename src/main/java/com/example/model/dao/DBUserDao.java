@@ -98,33 +98,7 @@ public class DBUserDao{
 		return (ArrayList<User>) registeredUsers;
 	}
 	
-	//upload profilePicture method()
 	
-	//update profilePicture method()
-/*	public	boolean updateProfilePicture(String userEmail, String location){
-		String query = "update diary.users set photo = ? where user_email = ?;";
-		Connection con = manager.getConnection();
-		try(PreparedStatement stmt = con.prepareStatement(query)){
-			stmt.setString(1, location);
-			stmt.setString(2, userEmail);
-			stmt.executeUpdate();
-		
-			stmt.close();
-		
-			return true;	
-		}catch(SQLException e) {
-			System.out.println("Picture uploading failed!");
-
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return false;
-		}
-		
-	}*/
 	
 	public static boolean uploadPicture(Part picture,String email) throws ClassNotFoundException, SQLException {
 		Connection connection = DBManager.getInstance().getConnection();
@@ -265,5 +239,79 @@ public boolean unfollow(User signedUser, User author){
 	}
 	return true;
 }
+
+public User getUser(String email) {
+	String query="SELECT user_email,first_name,last_name,nickname,pass, self_description, photo FROM diary.users WHERE user_email = ?;";
+	User user=null;;
+	
+	try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+		ps.setString(1, email);
+		ResultSet rs=ps.executeQuery();
+
+		if(rs==null){
+			return user;
+		}
+		
+		rs.next();
+		user=new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("nickname"), rs.getString("user_email"), rs.getString("pass"), rs.getString("self_description"), rs.getString("photo"));
+		
+		
+	}catch(SQLException e){
+		System.out.println("Problem with getUser()!");
+	}
+	
+	return user;
+}
+
+public boolean checkFollowing(User signedUser, User author) {
+	String query = "SELECT email1 FROM friends WHERE email1 = ? and email2 = ?;";
+	
+	try(PreparedStatement ps=manager.getConnection().prepareStatement(query)){
+		ps.setString(1, signedUser.getEmail());
+		ps.setString(2, author.getEmail());
+		ResultSet rs=ps.executeQuery();
+		
+		if(!rs.next()){
+			System.out.println("false");
+			return false;
+		}
+		System.out.println("true");
+		return true;
+	}
+	catch(SQLException e){
+		System.out.println("Problem with checkFollowing()?");
+	}
+	
+	return false;
+}
+
+
+//upload profilePicture method()
+
+	//update profilePicture method()
+/*	public	boolean updateProfilePicture(String userEmail, String location){
+		String query = "update diary.users set photo = ? where user_email = ?;";
+		Connection con = manager.getConnection();
+		try(PreparedStatement stmt = con.prepareStatement(query)){
+			stmt.setString(1, location);
+			stmt.setString(2, userEmail);
+			stmt.executeUpdate();
+		
+			stmt.close();
+		
+			return true;	
+		}catch(SQLException e) {
+			System.out.println("Picture uploading failed!");
+
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+		
+	}*/
 }
 

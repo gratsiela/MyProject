@@ -29,7 +29,7 @@ public class WelcomeController {
 	@RequestMapping(value="/index",method = RequestMethod.GET)
 	public String welcome() {
 		return "Welcome";
-		//return "ErrorPage";
+		
 	}	
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.GET)

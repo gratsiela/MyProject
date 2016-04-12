@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>TagLibro</title>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
@@ -29,19 +29,19 @@ tinymce.init({
         <div class="content_item">
 
 		   <center>
- 		   <h1 style="text-decoration:underline">New note</h1>
+ 		   <h1 style="text-decoration:underline">Edit note</h1>
    		   </center>
 
 <center>
-<form action="createNewNote" method="POST">
+<form action="editNote" method="POST">
 	<br><br>
 	<h5>Title</h5>
-	<input type="text" name="title" style="width:400px; height:30px; font-size:20px; text-align:center;"  required autocomplete="off" >
+	<input type="text" name="title" value="${currentNote.title}" style="width:400px; height:30px; font-size:20px; text-align:center;"  required autocomplete="off" >
 	<br><br>
-	<textarea rows="20" name="content"  ></textarea>
+	<textarea rows="20" name="content">${currentNote.content}</textarea>
 	<br>
 	<h5>Date</h5>
-	<input id="datepicker" type="text" name="date" required autocomplete="off">
+	<input id="datepicker" type="text" name="date" required>
 	<br><br>
 	<h5>Status</h5>
 	<select name="status" style="font-size:20px" required autocomplete="off" >
@@ -50,7 +50,7 @@ tinymce.init({
 	</select><br><br><br><br>
 	<input type="submit" class="submitButtonStyle" value="SAVE">
 	</form><br>
-	<form action="diary" method="POST">
+	<form action="note" method="GET">
 	<input type="submit" class="cancelButtonStyle" value="CANCEL">
 	</form>
 	

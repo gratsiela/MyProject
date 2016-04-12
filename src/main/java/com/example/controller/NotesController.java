@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TreeMap;
 
@@ -34,8 +36,10 @@ public class NotesController {
 			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
 			String newNoteTitle=request.getParameter("title");
 			String newNoteContent=request.getParameter("content");
+			String newNoteDateString = request.getParameter("date");
+			Date newNoteDate = parseToDate(newNoteDateString);
 			String newNoteStatus=request.getParameter("status");
-			Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, new Date(),0L, signedUser);
+			Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, newNoteDate,0L, signedUser);
 			if(!noteExists(currentDiary, newNote)){
 				DBNoteDao dao;
 				try {
@@ -55,12 +59,30 @@ public class NotesController {
 		}
 	}
 	
+	private Date parseToDate(String dateString){
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date=null;
+		
+		try {
+			 date= formatter.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
 	@RequestMapping(value = "/note", method = RequestMethod.GET)
 	public String note(HttpServletRequest request, Model model, HttpSession session) {
 		if(session.getAttribute("signedUser") != null){
+			Note currentNote = null;
+			if(request.getParameter("currentNoteID")!=null){
 			Long currentNoteID=Long.parseLong(request.getParameter("currentNoteID"));
 			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-			Note currentNote=currentDiary.getNotes().get(currentNoteID);
+			currentNote=currentDiary.getNotes().get(currentNoteID);
+			}
+			else{
+				currentNote = (Note) session.getAttribute("currentNote");
+			}
 			model.addAttribute("currentNote",currentNote);
 			session.setAttribute("currentNote",currentNote);
 			return "Note";
@@ -69,6 +91,45 @@ public class NotesController {
 			return "Welcome";
 		}
 	}
+	
+	@RequestMapping(value = "/editNote", method = RequestMethod.GET)
+	public String goToEditNote(HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("signedUser") != null){
+			return "EditNote";
+		}
+			return "Welcome";
+	}
+	
+	@RequestMapping(value = "/editNote", method = RequestMethod.POST)
+	public String editNote(HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("signedUser") != null){
+			User signedUser=(User) session.getAttribute("signedUser");
+			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
+			String editNoteTitle=request.getParameter("title");
+			String editNoteContent=request.getParameter("content");
+			String editNoteDateString=request.getParameter("date");
+			Date editNoteDate=parseToDate(editNoteDateString);
+			String editNoteStatus=request.getParameter("status");
+			Note currentNote=(Note) session.getAttribute("currentNote");
+			try{
+			DBNoteDao dao=DBNoteDao.getInstance();
+			if(dao.editNote(currentNote, editNoteTitle, editNoteContent, editNoteDate, editNoteStatus)){
+				currentNote.setTitle(editNoteTitle);
+				currentNote.setContent(editNoteContent);
+				currentNote.setDateTime(editNoteDate);
+				currentNote.setStatus(editNoteStatus);
+			}
+			return "redirect:note";
+			}
+			catch(ClassNotFoundException | SQLException e){
+				return "ErrorPage";
+			}
+		}
+		else{
+			return "Welcome";
+		}
+	}
+
 	
 	@RequestMapping(value = "/deleteNote", method = RequestMethod.GET)
 	public String goToDeleteNote(HttpSession session) {

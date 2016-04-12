@@ -40,14 +40,18 @@ tr:nth-child(even){background-color: #f2f2f2}
  		<col width="50">
 <c:forEach items="${followedUsersPublicNotes}" var="entry">
 <tr>
-		<form action="readFollowedUserPublicNote" method="GET">
-		<td><center><h6>${entry.value.dateTime}<h6></center></td>
-		<td><center>${entry.value.author.nickname}<center></td>
+		<td><center><h6>${entry.value.dateTime}</h6></center></td>
+	
+		<td><center><form action="authorProfile" method="POST"><input type="submit" class="smallCancelButtonStyle" value="${entry.value.author.nickname}">
+		<input type="hidden" value="${entry.value.author.email}" name="currentPublicAuthorEmail">
+		</form></center></td>
+		
 		<td>${entry.value.title}</td>
-		<td><center><input type="submit" class="smallCancelButtonStyle" value="read"></center></td>
+		<td><center><form action="readPublicNote" method="GET">
+		<input type="submit" class="smallCancelButtonStyle" value="read">
 		<input type="hidden" value="${entry.key}" name="currentPublicNoteID">
 		<input type="hidden" value="followedUsers" name="authors">
-		</form>
+		</form></center></td>
 </tr>
 </c:forEach>
 </table>

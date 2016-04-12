@@ -47,7 +47,7 @@ import com.example.util.FileValidator;
 @Controller
 public class ProfileController {
 
-	static int numForFilename = 1;
+/*	static int numForFilename = 1;
 	
 	@Autowired
     FileValidator fileValidator;
@@ -56,7 +56,7 @@ public class ProfileController {
     protected void initBinderFileBucket(WebDataBinder binder) {
         binder.setValidator(fileValidator);
     }
-    
+    */
 	@RequestMapping(value = "/editProfile", method = RequestMethod.GET)
 	public String editProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession();

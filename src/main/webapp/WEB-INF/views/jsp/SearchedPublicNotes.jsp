@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>TagLibro</title>
 <style>
 table {
     width: 80%;
@@ -29,7 +29,8 @@ tr:nth-child(even){background-color: #f2f2f2}
         <div class="content_item">
         
          <center>
- 		   <h1 style="text-decoration:underline">All public notes</h1>
+ 		   <h1 style="text-decoration:underline">Results from search</h1>
+ 		   <h6>${searchedWords}</h6>
    		   </center>
 
 <center>
@@ -38,7 +39,7 @@ tr:nth-child(even){background-color: #f2f2f2}
   		<col width="100">
   		<col width="300">
  		<col width="50">
-<c:forEach items="${allPublicNotes}" var="entry">
+<c:forEach items="${searchedPublicNotes}" var="entry">
 <tr>
 		<td><center><h6>${entry.value.dateTime}</h6></center></td>
 		

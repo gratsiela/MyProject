@@ -82,7 +82,7 @@ public class DBManager {
 						"note_id BIGINT AUTO_INCREMENT PRIMARY KEY,"+
 						"title VARCHAR(50) NOT NULL,"+
 						"content MEDIUMTEXT,"+
-						"date_time TIMESTAMP NOT NULL,"+
+						"date_time DATE NOT NULL,"+
 						"status ENUM('private', 'public'),"+
 						"diary_id BIGINT,"+
 						"FOREIGN KEY(diary_id) REFERENCES diary.diaries(diary_id) ON DELETE CASCADE ON UPDATE CASCADE);";

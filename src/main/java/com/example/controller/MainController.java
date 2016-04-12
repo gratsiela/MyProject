@@ -53,9 +53,6 @@ public class MainController {
 				e.printStackTrace();
 				return "ErrorPage";
 			}
-			
-		
-			
 		}
 		else{
 			return "Welcome";
@@ -97,6 +94,8 @@ public class MainController {
 				TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
 				model.addAttribute("allPublicNotes",allPublicNotes);
 				session.setAttribute("allPublicNotes",allPublicNotes);
+				session.setAttribute("typeCurrentBack", "allPublicNotes");
+
 				return "AllPublicNotes";
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -109,6 +108,16 @@ public class MainController {
 			return "Welcome";
 		}
 	}
+	
+	@RequestMapping(value="/search",method = RequestMethod.GET)
+	public String goToSearch(HttpSession session){
+			if(session.getAttribute("signedUser")!=null){
+			return 	"Search";
+			}else{
+				return "Welcome";
+			}
+	}
+
 	
 	@RequestMapping(value="/signOut",method = RequestMethod.GET)
 	public String signOut(HttpServletRequest request, HttpSession session){
