@@ -18,7 +18,7 @@ public class DBManager {
 	private static final String DB_PASS = "559642";
 	private Connection connection;
 
-	private DBManager() {
+	private DBManager() throws ClassNotFoundException, SQLException {
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
@@ -27,8 +27,10 @@ public class DBManager {
 			System.out.println("Connected!");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Problem with driver loading!");
+			throw e;
 		} catch (SQLException e) {
 			System.out.println("Problem with connection!");
+			throw e;
 		}
 		
 		createDB();
@@ -118,7 +120,7 @@ public class DBManager {
 		}
 	}
 
-	public static synchronized DBManager getInstance() {
+	public static synchronized DBManager getInstance() throws ClassNotFoundException, SQLException {
 		if (uniqueInstance == null)
 			uniqueInstance = new DBManager();
 		return uniqueInstance;

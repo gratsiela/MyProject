@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.TreeMap;
 
@@ -36,8 +37,16 @@ public class NotesController {
 			String newNoteStatus=request.getParameter("status");
 			Note newNote=new Note(newNoteTitle, newNoteContent, newNoteStatus, new Date(),0L, signedUser);
 			if(!noteExists(currentDiary, newNote)){
-				DBNoteDao dao=DBNoteDao.getInstance();
-				dao.addNote(currentDiary, newNote);
+				DBNoteDao dao;
+				try {
+					dao = DBNoteDao.getInstance();
+					dao.addNote(currentDiary, newNote);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return "ErrorPage";
+				}
+				
 			}
 			return "forward:diary";
 		}
@@ -75,8 +84,16 @@ public class NotesController {
 	public String goToDeleteDiary(HttpServletRequest request,HttpSession session) {
 		if(session.getAttribute("signedUser") != null){
 			Note currentNote=(Note) session.getAttribute("currentNote");
-			DBNoteDao dao= DBNoteDao.getInstance();
-			dao.deleteNote(currentNote);
+			DBNoteDao dao;
+			try {
+				dao = DBNoteDao.getInstance();
+				dao.deleteNote(currentNote);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 			return "forward:diary";
 		}
 		else{

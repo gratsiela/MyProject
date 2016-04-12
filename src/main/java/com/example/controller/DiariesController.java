@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -37,8 +38,16 @@ public class DiariesController {
 			User signedUser=(User) session.getAttribute("signedUser");
 			String newDiaryName=request.getParameter("newDiaryName");
 			if(!diaryExists(signedUser,newDiaryName)){
-			DBDiaryDao dao=DBDiaryDao.getInstance();
-			dao.addDiary(signedUser, newDiaryName);}
+				DBDiaryDao dao;
+				try {
+					dao = DBDiaryDao.getInstance();
+					dao.addDiary(signedUser, newDiaryName);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					return "ErrorPage";
+				}
+				
+			}
 			return "redirect:/diaries";
 		}
 		else{
@@ -52,8 +61,15 @@ public class DiariesController {
 			Long currentDiaryID=Long.parseLong(request.getParameter("currentDiaryID"));
 			User signedUser=(User) session.getAttribute("signedUser");
 			Diary currentDiary=signedUser.getDiaries().get(currentDiaryID);
-			fillCurrentDiary(currentDiary,model,session);
-			return "Diary";
+			try {
+				fillCurrentDiary(currentDiary,model,session);
+				return "Diary";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		}
 		else{
 			return "Welcome";
@@ -64,8 +80,15 @@ public class DiariesController {
 	public String diaryPOST(HttpServletRequest request,Model model, HttpSession session) {
 		if(session.getAttribute("signedUser") != null){
 			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-			fillCurrentDiary(currentDiary,model,session);
-			return "Diary";
+			try {
+				fillCurrentDiary(currentDiary,model,session);
+				return "Diary";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		}
 		else{
 			return "Welcome";
@@ -86,9 +109,17 @@ public class DiariesController {
 	public String deleteDiary(HttpSession session) {
 		if(session.getAttribute("signedUser") != null){
 			Diary currentDiary=(Diary) session.getAttribute("currentDiary");
-			DBDiaryDao dao=DBDiaryDao.getInstance();
-			dao.deleteDiary(currentDiary.getId());
-			return "redirect:diaries";
+			DBDiaryDao dao;
+			try {
+				dao = DBDiaryDao.getInstance();
+				dao.deleteDiary(currentDiary.getId());
+				return "redirect:diaries";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+		
 		}
 		else{
 			return "Welcome";
@@ -104,7 +135,7 @@ public class DiariesController {
 		return false;
 	}
 	
-	private void fillCurrentDiary(Diary currentDiary, Model model,HttpSession session){
+	private void fillCurrentDiary(Diary currentDiary, Model model,HttpSession session) throws ClassNotFoundException, SQLException{
 		User signedUser=(User) session.getAttribute("signedUser");
 		DBNoteDao dao=DBNoteDao.getInstance();
 		TreeMap<Long,Note> currentDiaryNotes=dao.getAllNotes(signedUser,currentDiary);

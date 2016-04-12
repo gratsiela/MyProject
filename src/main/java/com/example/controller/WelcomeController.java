@@ -29,6 +29,7 @@ public class WelcomeController {
 	@RequestMapping(value="/index",method = RequestMethod.GET)
 	public String welcome() {
 		return "Welcome";
+		//return "ErrorPage";
 	}	
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.GET)
@@ -54,16 +55,21 @@ public class WelcomeController {
 		model.addAttribute("email",email);
 		String password=request.getParameter("password");
 		if(passwordValidation(password)){
-			User user= signUpUser(model, firstName, lastName, nickname, email, password);
-			if(user!=null){
-				HttpSession session = request.getSession(true);
-				session.setAttribute("signedUser", user);
-				session.setAttribute("email", user.getEmail());
-				model.addAttribute("signedUser", user);
-				String photo = DBUserDao.getProfilePicture(email);
-				
-				return "Profile";
+			try{
+				User user= signUpUser(model, firstName, lastName, nickname, email, password);
+				if(user!=null){
+					HttpSession session = request.getSession(true);
+					session.setAttribute("signedUser", user);
+					session.setAttribute("email", user.getEmail());
+					model.addAttribute("signedUser", user);
+					String photo = DBUserDao.getProfilePicture(email);
+					
+					return "Profile";
+				}
 			}
+			catch(SQLException | ClassNotFoundException e){
+				return "ErrorPage";
+			} 
 		}
 		else{
 			model.addAttribute("pswdMessage", "The password must be between 5 and 30 symbols and must contains at least one upper case, one lower case and one digit!");
@@ -94,20 +100,26 @@ public class WelcomeController {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		String hashPass = DigestUtils.shaHex(password);
-		User user= signInUser(email, hashPass, model);
-		if(user!=null){
-			HttpSession session = request.getSession(true);
-			session.setAttribute("signedUser", user);
-			session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
-			model.addAttribute("signedUser", user);
-			String photo = DBUserDao.getProfilePicture(email);
-			if(photo!=null){
-				System.out.println("Picture load");
-				user.setPhoto(photo);
-				request.setAttribute("user", user);
-			}
-				return "Profile";
-			}
+		User user;
+		try {
+			user = signInUser(email, hashPass, model);
+			if(user!=null){
+				HttpSession session = request.getSession(true);
+				session.setAttribute("signedUser", user);
+				session.setAttribute("email", user.getEmail());//za da go vzema za ime na snimkata
+				model.addAttribute("signedUser", user);
+				String photo = DBUserDao.getProfilePicture(email);
+				if(photo!=null){
+					System.out.println("Picture load");
+					user.setPhoto(photo);
+					request.setAttribute("user", user);
+				}
+					return "Profile";
+				}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return "ErrorPage";
+		}
 		return "SignIn";
 	}
 	
@@ -119,20 +131,25 @@ public class WelcomeController {
 	@RequestMapping(value="/sendForgottenPassword",method = RequestMethod.POST)
 	public String sendForgottenPassword(HttpServletRequest request) {
 		String email=request.getParameter("email");
-		if(PasswordSender.sendPassword(email)){
-			return "SignIn";
+		try {
+			if(PasswordSender.sendPassword(email)){
+				return "SignIn";
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return "ErrorPage";
 		}
 		return "ForgottenPassword";
 	}
 	
-	private User signUpUser(Model model,String firstName, String lastName,String nickname, String email, String password) {
+	private User signUpUser(Model model,String firstName, String lastName,String nickname, String email, String password) throws ClassNotFoundException, SQLException {
 		DBUserDao dao = DBUserDao.getInstance();
 		List<User> users = null;
 		try {
 			users = dao.getAllUsers();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw e;
 		}
 
 		User user=null;
@@ -152,7 +169,7 @@ public class WelcomeController {
 		return user;
 	}
 	
-	private User signInUser(String email, String password, Model model){
+	private User signInUser(String email, String password, Model model) throws SQLException, ClassNotFoundException{
 		User user=null;
 		
 		try {
@@ -173,6 +190,7 @@ public class WelcomeController {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw e;
 		}
 		
 		return user;

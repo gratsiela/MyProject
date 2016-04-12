@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,7 +76,11 @@ public class ProfileController {
 			String nickname = request.getParameter("nickname");
 			String description = request.getParameter("description");
 			User signedUser = (User) session.getAttribute("signedUser");
-			updateUserProfile(signedUser, firstName, lastName, nickname, description);
+			try {
+				updateUserProfile(signedUser, firstName, lastName, nickname, description);
+			} catch (ClassNotFoundException | SQLException e) {
+				return "ErrorPage";
+			}
 			return "Profile";
 		}
 		else{
@@ -100,10 +105,15 @@ public class ProfileController {
 			if (!oldPassword.equals(newPassword)) {
 				if(newPassword.equals(confirmedPassword)){
 				if (WelcomeController.passwordValidation(newPassword)) {
-					if (!updatePassword(signedUser, oldPassword, newPassword, model)) {
-						// model.addAttribute("changePSWDmessage", "Wrong
-						// password!");
-						return "EditPassword";
+					try {
+						if (!updatePassword(signedUser, oldPassword, newPassword, model)) {
+							// model.addAttribute("changePSWDmessage", "Wrong
+							// password!");
+							return "EditPassword";
+						}
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+						return "ErrorPage";
 					}
 				} else {
 					model.addAttribute("changePSWDmessage",
@@ -125,7 +135,7 @@ public class ProfileController {
 		return "Welcome";
 	}
 	
-	private boolean updatePassword(User signedUser, String oldPassword, String newPassword, Model model) {
+	private boolean updatePassword(User signedUser, String oldPassword, String newPassword, Model model) throws ClassNotFoundException, SQLException {
 		DBUserDao dao = DBUserDao.getInstance();
 		String hashOldPass = DigestUtils.shaHex(oldPassword);
 		if (!signedUser.getPassword().equals(hashOldPass)) {
@@ -160,14 +170,19 @@ public class ProfileController {
     	if(picture==null){
     		model.addAttribute("errorMessage", " Cannot Upload fail");
     		return "ChangePicture";
-    	}
-    	else if(DBUserDao.getInstance().uploadPicture(picture, email)){
-    		return "success";
-    	}
-    	else{
-    		model.addAttribute("errorMessage", "Cannot Upload fail");
-    		return "ChangePicture";
-    	}
+    	} else
+			try {
+				if(DBUserDao.getInstance().uploadPicture(picture, email)){
+					return "success";
+				}
+				else{
+					model.addAttribute("errorMessage", "Cannot Upload fail");
+					return "ChangePicture";
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				return "ErrorPage";
+			}
 	}
 	
 
@@ -177,7 +192,7 @@ public class ProfileController {
 	// userat se preprashta na stranica Profile i tam shte se vizualizirat
 	// promenenite i ne promenenite
 	private void updateUserProfile(User signedUser, String newFirstName, String newLastName, String newNickname,
-			String newDescription) {
+			String newDescription) throws ClassNotFoundException, SQLException {
 		DBUserDao dao = DBUserDao.getInstance();
 		if(dao.updateProfile(signedUser, newFirstName, newLastName, newNickname, newDescription)){
 			signedUser.setFirstName(newFirstName);
@@ -188,7 +203,7 @@ public class ProfileController {
 	}
 
 
-	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) {
+	private boolean updatePassword(User signedUser, String oldPassword, String newPassword) throws ClassNotFoundException, SQLException {
 		DBUserDao dao = DBUserDao.getInstance();
 		String hashOldPass = DigestUtils.shaHex(oldPassword);
 		if (!signedUser.getPassword().equals(hashOldPass)) {

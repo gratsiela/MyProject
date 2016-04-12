@@ -20,11 +20,11 @@ public class DBDiaryDao {
 	private static DBDiaryDao instance;
 	private DBManager manager;
 	
-	private DBDiaryDao(){
+	private DBDiaryDao() throws ClassNotFoundException, SQLException{
 		manager=DBManager.getInstance();
 	}
 	
-	public static DBDiaryDao getInstance(){
+	public static DBDiaryDao getInstance() throws ClassNotFoundException, SQLException{
 		if(instance == null)
 			instance = new DBDiaryDao();
 		return instance;

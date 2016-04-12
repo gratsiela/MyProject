@@ -26,17 +26,17 @@ public class DBUserDao{
 	private static DBUserDao instance;
 	private static DBManager manager;
 	
-	private DBUserDao(){
+	private DBUserDao() throws ClassNotFoundException, SQLException{
 		manager = DBManager.getInstance();
 	}
 	
-	public static DBUserDao getInstance(){
+	public static DBUserDao getInstance() throws ClassNotFoundException, SQLException{
 		if(instance == null)
 			instance = new DBUserDao();
 		return instance;
 	}
 
-	public boolean addUser(User x){
+	public boolean addUser(User x) throws ClassNotFoundException, SQLException{
 		boolean success = true;
 		String query = "INSERT INTO diary.users "
 				+ "(user_email,first_name,last_name,nickname,pass)"
@@ -126,7 +126,7 @@ public class DBUserDao{
 		
 	}*/
 	
-	public static boolean uploadPicture(Part picture,String email) {
+	public static boolean uploadPicture(Part picture,String email) throws ClassNotFoundException, SQLException {
 		Connection connection = DBManager.getInstance().getConnection();
 		String sql = "UPDATE diary.users SET photo = ? WHERE user_email = ?;";
 		InputStream inputStream=null;

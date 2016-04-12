@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.sql.SQLException;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -40,12 +41,21 @@ public class MainController {
 		if(session.getAttribute("signedUser") != null){
 			System.out.println("session existed");
 			User signedUser=(User) session.getAttribute("signedUser");
-			DBDiaryDao dao=DBDiaryDao.getInstance();
-			TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
-			signedUser.setDiaries(signedUserDiaries);
-			model.addAttribute("signedUser", signedUser);
+			DBDiaryDao dao;
+			try {
+				dao = DBDiaryDao.getInstance();
+				TreeMap<Long,Diary> signedUserDiaries=dao.getAllDiaries(signedUser);
+				signedUser.setDiaries(signedUserDiaries);
+				model.addAttribute("signedUser", signedUser);
+				return "Diaries";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		
-			return "Diaries";
+			
 		}
 		else{
 			return "Welcome";
@@ -57,11 +67,19 @@ public class MainController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("signedUser") != null){
 			User signedUser=(User) session.getAttribute("signedUser");
-			DBNoteDao dao= DBNoteDao.getInstance();
-			TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
-			session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
-			model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
-			return "FollowedUsersPublicNotes";
+			DBNoteDao dao;
+			try {
+				dao = DBNoteDao.getInstance();
+				TreeMap<Long,Note> followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+				session.setAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
+				model.addAttribute("followedUsersPublicNotes", followedUsersPublicNotes);
+				return "FollowedUsersPublicNotes";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		}
 		else{
 			return "Welcome";
@@ -73,11 +91,19 @@ public class MainController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("signedUser") != null){
 			User signedUser=(User) session.getAttribute("signedUser");
-			DBNoteDao dao=DBNoteDao.getInstance();
-			TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
-			model.addAttribute("allPublicNotes",allPublicNotes);
-			session.setAttribute("allPublicNotes",allPublicNotes);
-			return "AllPublicNotes";
+			DBNoteDao dao;
+			try {
+				dao = DBNoteDao.getInstance();
+				TreeMap<Long,Note>allPublicNotes=dao.getAllPublicNotes(signedUser);
+				model.addAttribute("allPublicNotes",allPublicNotes);
+				session.setAttribute("allPublicNotes",allPublicNotes);
+				return "AllPublicNotes";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		}
 		else{
 			return "Welcome";

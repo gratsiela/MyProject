@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.sql.SQLException;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,28 +25,36 @@ public class AuthorProfileController {
 			User signedUser=(User) session.getAttribute("signedUser");
 			Note currentPublicNote=(Note) session.getAttribute("currentPublicNote");
 			User author=currentPublicNote.getAuthor();
-			DBNoteDao dao=DBNoteDao.getInstance();
-			TreeMap<Long,Note>followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
-			if(followedUsersPublicNotes.containsKey(currentPublicNote.getId())){
-				model.addAttribute("followUnfollow", "UNFOLLOW");
+			DBNoteDao dao;
+			try {
+				dao = DBNoteDao.getInstance();
+			
+				TreeMap<Long,Note>followedUsersPublicNotes=dao.getFollowedUsersPublicNotes(signedUser);
+				if(followedUsersPublicNotes.containsKey(currentPublicNote.getId())){
+					model.addAttribute("followUnfollow", "UNFOLLOW");
+				}
+				else{
+					model.addAttribute("followUnfollow", "FOLLOW");
+				}
+				if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
+					model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
+				}else{
+					model.addAttribute("typeCurrentNote", "readPublicNote");
+				}
+				session.setAttribute("author", author);
+				model.addAttribute("author",author);
+				String photo = DBUserDao.getProfilePicture(author.getEmail());
+				if(photo!=null){
+					System.out.println("Picture load");
+					author.setPhoto(photo);
+					request.setAttribute("author", author);
+				}
+				return "AuthorProfile";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
 			}
-			else{
-				model.addAttribute("followUnfollow", "FOLLOW");
-			}
-			if(session.getAttribute("subpage").equals("followedUsersPublicNotes")){
-				model.addAttribute("typeCurrentNote", "readFollowedUserPublicNote");
-			}else{
-				model.addAttribute("typeCurrentNote", "readPublicNote");
-			}
-			session.setAttribute("author", author);
-			model.addAttribute("author",author);
-			String photo = DBUserDao.getProfilePicture(author.getEmail());
-			if(photo!=null){
-				System.out.println("Picture load");
-				author.setPhoto(photo);
-				request.setAttribute("author", author);
-			}
-			return "AuthorProfile";
 		}
 		else{
 			return "Welcome";
@@ -57,9 +66,17 @@ public class AuthorProfileController {
 		if(session.getAttribute("signedUser") != null){
 			User signedUser=(User) session.getAttribute("signedUser");
 			User author=(User) session.getAttribute("author");
-			DBUserDao dao=DBUserDao.getInstance();
-			dao.follow(signedUser, author);
-			return "redirect:authorProfile";
+			DBUserDao dao;
+			try {
+				dao = DBUserDao.getInstance();
+				dao.follow(signedUser, author);
+				return "redirect:authorProfile";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+			
 		}
 		else{
 			return "Welcome";
@@ -71,9 +88,17 @@ public class AuthorProfileController {
 		if(session.getAttribute("signedUser") != null){
 			User signedUser=(User) session.getAttribute("signedUser");
 			User author=(User) session.getAttribute("author");
-			DBUserDao dao=DBUserDao.getInstance();
-			dao.unfollow(signedUser, author);
-			return "redirect:authorProfile";
+			DBUserDao dao;
+			try {
+				dao = DBUserDao.getInstance();
+				dao.unfollow(signedUser, author);
+				return "redirect:authorProfile";
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "ErrorPage";
+			}
+		
 		}
 		else{
 			return "Welcome";

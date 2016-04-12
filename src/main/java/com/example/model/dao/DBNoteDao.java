@@ -24,11 +24,11 @@ public class DBNoteDao {
 	private static DBNoteDao instance;
 	private DBManager manager;
 	
-	private DBNoteDao(){
+	private DBNoteDao() throws ClassNotFoundException, SQLException{
 		manager=DBManager.getInstance();
 	}
 	
-	public static DBNoteDao getInstance(){
+	public static DBNoteDao getInstance() throws ClassNotFoundException, SQLException{
 		if(instance == null)
 			instance = new DBNoteDao();
 		return instance;

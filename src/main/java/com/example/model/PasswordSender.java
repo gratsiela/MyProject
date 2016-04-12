@@ -2,6 +2,7 @@ package com.example.model;
 
 
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -27,7 +28,7 @@ public class PasswordSender {
 	    private static final String ALPHA   = "abcdefghijklmnopqrstuvwxyz";
 	    private static final String NUM     = "0123456789";
 
-		public static boolean sendPassword(String email){
+		public static boolean sendPassword(String email) throws ClassNotFoundException, SQLException{
 			String messageBody;
 			DBUserDao dao=DBUserDao.getInstance();
 			String newPassword = String.valueOf(generatePswd());
